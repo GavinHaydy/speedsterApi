@@ -3,10 +3,17 @@
 
 package types
 
+type LoginReq struct {
+	Account  string `json:"account"`
+	Password string `json:"password,omitempty"`
+}
+
 type Request struct {
 	Name string `path:"name,options=you|me"`
 }
 
 type Response struct {
-	Message string `json:"message"`
+	Code int         `json:"code"`
+	Msg  string      `json:"msg,omitempty"`
+	Data interface{} `json:"data,omitempty"` // .api 中使用 any 对应 Go 的 interface{} 或 泛型 T
 }

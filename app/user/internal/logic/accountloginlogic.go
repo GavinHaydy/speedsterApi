@@ -6,31 +6,33 @@ package logic
 import (
 	"context"
 	"fmt"
+	"user/internal/types"
 
 	"user/internal/svc"
-	"user/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UserLogic struct {
+type AccountLoginLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserLogic {
-	return &UserLogic{
+func NewAccountLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AccountLoginLogic {
+	return &AccountLoginLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *UserLogic) User(req *types.Request) (resp *types.Response, err error) {
+func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, error) {
 	// todo: add your logic here and delete this line
-
+	//logx.Debug(l.ctx)
+	//return nil
 	return &types.Response{
-		Msg: fmt.Sprintf("Hello %s, welcome to go-zero!", req.Name),
+		Msg: fmt.Sprintf("account:%s,password:%s", req.Account, req.Password),
 	}, nil
+
 }

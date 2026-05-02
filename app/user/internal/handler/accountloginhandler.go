@@ -6,29 +6,29 @@ package handler
 import (
 	"net/http"
 	"speedsterApi/common/response"
+	"user/internal/types"
 
 	"user/internal/logic"
 	"user/internal/svc"
-	"user/internal/types"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func UserHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func AccountLoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.Request
+		var req types.LoginReq
+		// 1. go-zero 自动将请求的 JSON 解析到 req 结构体中
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			httpx.Error(w, err)
 			return
 		}
-
-		l := logic.NewUserLogic(r.Context(), svcCtx)
-		resp, err := l.User(&req)
+		
+		l := logic.NewAccountLoginLogic(r.Context(), svcCtx)
+		x, err := l.AccountLogin(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			//httpx.OkJsonCtx(r.Context(), w, resp)
-			response.SuccessWithMsg(w, resp.Msg)
+			response.SuccessWithMsg(w, x.Msg)
 		}
 	}
 }
