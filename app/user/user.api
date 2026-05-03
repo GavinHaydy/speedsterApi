@@ -1,5 +1,13 @@
 syntax = "v1"
 
+info (
+	title:   "User Server"
+	desc:    "User apis"
+	author:  "type author here"
+	email:   ""
+	version: "0.0.1"
+)
+
 import (
 	"../../common/response/types.api"
 )
@@ -16,10 +24,16 @@ type LoginReq {
 //type Response {
 // Message string `json:"message"`
 //}
+@server (
+	tags:   "User-Server"
+	prefix: /user
+)
 service user-api {
+	@doc "测试接口"
 	@handler UserHandler
 	get /from/:name (Request) returns (Response)
 
+	@doc "登录"
 	@handler AccountLogin
 	post /login (LoginReq) returns (Response)
 }

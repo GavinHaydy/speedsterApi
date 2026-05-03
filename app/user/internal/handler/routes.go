@@ -15,15 +15,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 测试接口
 				Method:  http.MethodGet,
 				Path:    "/from/:name",
 				Handler: UserHandler(serverCtx),
 			},
 			{
+				// 登录
 				Method:  http.MethodPost,
 				Path:    "/login",
 				Handler: AccountLoginHandler(serverCtx),
 			},
 		},
+		rest.WithPrefix("/user"),
 	)
 }
