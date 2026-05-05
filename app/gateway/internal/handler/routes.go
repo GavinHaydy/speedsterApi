@@ -16,7 +16,7 @@ type RouteConfig struct {
 }
 
 var routes = []RouteConfig{
-	{Path: "/user/", Target: "http://user-service:8888"},
+	{Path: "/user/", Target: "http://localhost:8888"},
 	{Path: "/order/", Target: "http://order-service:8080"},
 	{Path: "/product/", Target: "http://product-service:8080"},
 }
@@ -26,21 +26,56 @@ func RegisterRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 	// 修改点：将 ctx 传递给 RegisterDocRoutes
 	RegisterDocRoutes(engine, ctx)
 
-	// 业务路由转发逻辑保持不变...
+	//业务路由转发逻辑保持不变...
 	for _, route := range routes {
-		path := route.Path + "*"
+		path := route.Path + "/:path"
+		path2 := route.Path + "/:path/:path"
+
 		target, _ := url.Parse(route.Target)
 		proxy := httputil.NewSingleHostReverseProxy(target)
 
-		engine.AddRoute(rest.Route{
-			Method:  http.MethodGet,
-			Path:    path,
-			Handler: proxyHandler(proxy),
+		engine.AddRoutes([]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    path,
+				Handler: proxyHandler(proxy),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    path2,
+				Handler: proxyHandler(proxy),
+			},
 		})
-		engine.AddRoute(rest.Route{
-			Method:  http.MethodPost,
-			Path:    path,
-			Handler: proxyHandler(proxy),
+
+		engine.AddRoutes([]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    path,
+				Handler: proxyHandler(proxy),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    path2,
+				Handler: proxyHandler(proxy)},
+		})
+		engine.AddRoutes([]rest.Route{
+			{Method: http.MethodPut,
+				Path:    path,
+				Handler: proxyHandler(proxy)}, {
+				Method:  http.MethodPut,
+				Path:    path2,
+				Handler: proxyHandler(proxy),
+			},
+		})
+		engine.AddRoutes([]rest.Route{
+			{Method: http.MethodDelete,
+				Path:    path,
+				Handler: proxyHandler(proxy)},
+			{
+				Method:  http.MethodDelete,
+				Path:    path2,
+				Handler: proxyHandler(proxy),
+			},
 		})
 	}
 }
@@ -108,7 +143,12 @@ func proxyTo(target string) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadGateway)
 			return
 		}
-		defer resp.Body.Close()
+		defer func(Body io.ReadCloser) {
+			err := Body.Close()
+			if err != nil {
+
+			}
+		}(resp.Body)
 		w.Header().Set("Content-Type", "application/json")
 		io.Copy(w, resp.Body)
 	}
