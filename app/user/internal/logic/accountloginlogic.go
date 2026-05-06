@@ -11,6 +11,7 @@ import (
 	"user/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"speedsterApi/common/utils"
 )
 
 type AccountLoginLogic struct {
@@ -31,8 +32,15 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 	// todo: add your logic here and delete this line
 	//logx.Debug(l.ctx)
 	//return nil
+	pw := utils.AesEncrypt(req.Password, l.svcCtx.Config.AesSecretKey)
+
+	user, err := l.svcCtx.SysUserModel.FindByAccountAndPW(l.ctx, req.Account, pw)
+	if err != nil {
+		return &types.Response{Msg: err.Error()}, nil
+	}
+
 	return &types.Response{
-		Msg: fmt.Sprintf("account:%s,password:%s", req.Account, req.Password),
+		Msg: fmt.Sprintf("user: %s,account:%s,password:%s", user, req.Account, req.Password),
 	}, nil
 
 }
