@@ -22,13 +22,13 @@ func AccountLoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.Error(w, err)
 			return
 		}
-		
+
 		l := logic.NewAccountLoginLogic(r.Context(), svcCtx)
-		x, err := l.AccountLogin(&req)
+		result, err := l.AccountLogin(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			response.SuccessWithMsg(w, x.Msg)
+			response.SuccessWithData(w, result.Data)
 		}
 	}
 }

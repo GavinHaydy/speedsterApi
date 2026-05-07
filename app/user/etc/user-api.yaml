@@ -3,5 +3,12 @@ Host: 0.0.0.0
 Port: 8888
 AesSecretKey: SpeedsterIsBest!
 DB:
-  Driver: pgx
   DSN: postgres://name:password@127.0.0.1:5432/postgres?sslmode=disable
+Redis:
+  Host: 127.0.0.1:6379
+  Pass: ""
+  Type: node
+JWT:
+  issuer: asfdasfasdfasfd
+  secret: sdfaswerwrwerwerwer
+  expiration: 60

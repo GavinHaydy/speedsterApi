@@ -8,11 +8,13 @@ import (
 	"user/model"
 
 	"github.com/zeromicro/go-zero/core/stores/postgres"
+	"github.com/zeromicro/go-zero/core/stores/redis"
 )
 
 type ServiceContext struct {
 	Config       config.Config
 	SysUserModel model.SysUserModel
+	Redis        redis.Redis
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -22,5 +24,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config:       c,
 		SysUserModel: model.NewSysUserModel(conn),
+		Redis:        *redis.MustNewRedis(c.Redis),
 	}
 }
