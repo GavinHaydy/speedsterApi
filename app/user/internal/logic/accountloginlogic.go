@@ -46,7 +46,7 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 	var resultToken string
 	var resultTime time.Time
 
-	sysToken, err := rdb.Get(fmt.Sprintf("token_%v", userInfo.Phone.String))
+	sysToken, err := rdb.Get(fmt.Sprintf("user_token_%v", userInfo.Phone.String))
 
 	logx.Infof("sysToken:%v, err: %v", sysToken, err)
 	if err != nil || sysToken == "" {
@@ -74,7 +74,7 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 
 	exp := utils.DateTime(resultTime)
 
-	err = rdb.Setex(fmt.Sprintf("token_%v", userInfo.Phone.String), resultToken, l.svcCtx.Config.JWT.Expire)
+	err = rdb.Setex(fmt.Sprintf("user_token_%v", userInfo.Phone.String), resultToken, l.svcCtx.Config.JWT.Expire)
 	if err != nil {
 		return &types.Response{Msg: err.Error()}, err
 	}
