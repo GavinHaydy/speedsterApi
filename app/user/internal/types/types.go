@@ -17,3 +17,7 @@ type Response struct {
 	Msg  string      `json:"msg,omitempty"`
 	Data interface{} `json:"data,omitempty"` // .api 中使用 any 对应 Go 的 interface{} 或 泛型 T
 }
+
+type Rsp struct {
+	Data interface{}
+}

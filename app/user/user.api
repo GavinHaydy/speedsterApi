@@ -21,9 +21,14 @@ type LoginReq {
 	Password string `json:"password,omitempty"`
 }
 
-//type Response {
-// Message string `json:"message"`
-//}
+type LogoutReq {
+	Token string `json:"token"`
+}
+
+type Rsp {
+	Data interface{}
+}
+
 @server (
 	tags:   "User-Server"
 	prefix: /user
@@ -36,5 +41,17 @@ service user-api {
 	@doc "登录"
 	@handler AccountLogin
 	post /login (LoginReq) returns (Response)
+}
+
+@server (
+	tags:       "User-Server"
+	prefix:     /user
+	jwt:        Auth
+	middleware: RedisJwtMiddleware
+)
+service user-api {
+	@doc "退出登录"
+	@handler AccountLogout
+	delete /logout returns (Rsp)
 }
 

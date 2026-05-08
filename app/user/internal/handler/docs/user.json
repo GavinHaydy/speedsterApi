@@ -119,9 +119,35 @@
           }
         }
       }
+    },
+    "/user/logout": {
+      "delete": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "User-Server"
+        ],
+        "summary": "退出登录",
+        "operationId": "accountLogout",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Data": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
-  "x-date": "2026-05-03 23:19:37",
+  "x-date": "2026-05-08 23:05:24",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

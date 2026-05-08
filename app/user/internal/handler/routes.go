@@ -29,4 +29,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithPrefix("/user"),
 	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.RedisJwtMiddleware},
+			[]rest.Route{
+				{
+					// 退出登录
+					Method:  http.MethodDelete,
+					Path:    "/logout",
+					Handler: AccountLogoutHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/user"),
+	)
 }
