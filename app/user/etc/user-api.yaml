@@ -12,6 +12,7 @@ JWT:
   issuer: asfdasfasdfasfd
   secret: sdfaswerwrwerwerwer
   expiration: 60
+  prefix: your_token_prefix
 Auth:
   AccessSecret: "asfdasfasdfasfd"
   AccessExpire: 3600        # Access Token 有效期：1 小时

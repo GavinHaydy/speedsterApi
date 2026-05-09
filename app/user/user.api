@@ -25,10 +25,6 @@ type LogoutReq {
 	Token string `json:"token"`
 }
 
-type Rsp {
-	Data interface{}
-}
-
 @server (
 	tags:   "User-Server"
 	prefix: /user
@@ -52,6 +48,6 @@ service user-api {
 service user-api {
 	@doc "退出登录"
 	@handler AccountLogout
-	delete /logout returns (Rsp)
+	delete /logout returns (Response)
 }
 

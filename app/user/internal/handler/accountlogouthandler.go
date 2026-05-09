@@ -5,22 +5,21 @@ package handler
 
 import (
 	"net/http"
+	"speedsterApi/common/response"
 
 	"user/internal/logic"
 	"user/internal/svc"
-
-	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-// 退出登录
+// AccountLogoutHandler 退出登录
 func AccountLogoutHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		l := logic.NewAccountLogoutLogic(r.Context(), svcCtx)
 		resp, err := l.AccountLogout()
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			response.Error(w, err)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			response.SuccessWithMsg(w, resp.Msg)
 		}
 	}
 }

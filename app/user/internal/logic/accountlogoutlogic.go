@@ -5,7 +5,7 @@ package logic
 
 import (
 	"context"
-
+	"fmt"
 	"user/internal/svc"
 	"user/internal/types"
 
@@ -18,7 +18,7 @@ type AccountLogoutLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 退出登录
+// NewAccountLogoutLogic 退出登录
 func NewAccountLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AccountLogoutLogic {
 	return &AccountLogoutLogic{
 		Logger: logx.WithContext(ctx),
@@ -27,10 +27,13 @@ func NewAccountLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Acc
 	}
 }
 
-func (l *AccountLogoutLogic) AccountLogout() (resp *types.Rsp, err error) {
+func (l *AccountLogoutLogic) AccountLogout() (resp *types.Response, err error) {
 	// todo: add your logic here and delete this line
 	value := l.ctx.Value("user_id")
+	_, err = l.svcCtx.Redis.Del(fmt.Sprintf("%s%v", l.svcCtx.Config.JWT.Prefix, value))
+	if err != nil {
+		return nil, err
+	}
 
-	logx.Infof("AccountLogoutLogic, Authorization:%v", value)
-	return &types.Rsp{Data: value}, nil
+	return &types.Response{Msg: "logout success"}, nil
 }

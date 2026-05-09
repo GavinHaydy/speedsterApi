@@ -19,6 +19,7 @@ type Config struct {
 		Secret string `json:",optional"`
 		Issuer string `json:",optional"`
 		Expire int    `json:",optional"`
+		Prefix string `json:",optional"`
 	}
 	Auth struct { // JWT 认证需要的密钥和过期时间配置
 		AccessSecret string
