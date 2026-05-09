@@ -21,8 +21,11 @@ type LoginReq {
 	Password string `json:"password,omitempty"`
 }
 
-type LogoutReq {
-	Token string `json:"token"`
+type RegisterReq {
+	username string `json:"account, omitempty"`
+	password string `json:"password, omitempty"`
+	email    string `json:"email"`
+	phone    string `json:"phone"`
 }
 
 @server (
@@ -37,6 +40,10 @@ service user-api {
 	@doc "登录"
 	@handler AccountLogin
 	post /login (LoginReq) returns (Response)
+
+	@doc "注册"
+	@handler Register
+	post /register (RegisterReq) returns (Response)
 }
 
 @server (

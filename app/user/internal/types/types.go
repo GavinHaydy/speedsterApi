@@ -8,6 +8,13 @@ type LoginReq struct {
 	Password string `json:"password,omitempty"`
 }
 
+type RegisterReq struct {
+	Username string `json:"account, omitempty"`
+	Password string `json:"password, omitempty"`
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
+}
+
 type Request struct {
 	Name string `path:"name,options=you|me"`
 }
@@ -16,8 +23,4 @@ type Response struct {
 	Code int         `json:"code"`
 	Msg  string      `json:"msg,omitempty"`
 	Data interface{} `json:"data,omitempty"` // .api 中使用 any 对应 Go 的 interface{} 或 泛型 T
-}
-
-type Rsp struct {
-	Data interface{}
 }
