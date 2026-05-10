@@ -8,8 +8,8 @@ CREATE TABLE sys_user
     password      VARCHAR(255)       NOT NULL,
     nickname      VARCHAR(50),
     avatar        TEXT,
-    email         VARCHAR(100),
-    phone         VARCHAR(20),
+    email         VARCHAR(100)  UNIQUE,
+    phone         VARCHAR(20)   UNIQUE,
 
     status        SMALLINT         DEFAULT 1,
     is_super      BOOLEAN          DEFAULT FALSE,

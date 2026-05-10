@@ -5,14 +5,16 @@ package handler
 
 import (
 	"net/http"
+	"speedsterApi/common/response"
 
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"user/internal/logic"
 	"user/internal/svc"
 	"user/internal/types"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-// 注册
+// RegisterHandler 注册
 func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.RegisterReq
@@ -26,7 +28,7 @@ func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			response.SuccessWithMsg(w, resp.Msg)
 		}
 	}
 }

@@ -38,7 +38,7 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 
 	pw := utils.AesEncrypt(req.Password, l.svcCtx.Config.AesSecretKey)
 
-	userInfo, err := l.svcCtx.SysUserModel.FindByAccountAndPW(l.ctx, req.Account, pw)
+	userInfo, err := l.svcCtx.SysUserModel.FindByAccountAndPW(l.ctx, req.Username, pw)
 	if err != nil {
 		return &types.Response{Msg: err.Error()}, nil
 	}

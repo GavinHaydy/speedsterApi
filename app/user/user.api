@@ -17,15 +17,15 @@ type Request {
 }
 
 type LoginReq {
-	Account  string `json:"account"`
-	Password string `json:"password,omitempty"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type RegisterReq {
-	username string `json:"account, omitempty"`
-	password string `json:"password, omitempty"`
-	email    string `json:"email"`
-	phone    string `json:"phone"`
+	username string `json:"username"`
+	password string `json:"password"`
+	email    string `json:"email,optional"`
+	phone    string `json:"phone,optional"`
 }
 
 @server (

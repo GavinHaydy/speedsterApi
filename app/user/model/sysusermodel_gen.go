@@ -27,6 +27,8 @@ type (
 	sysUserModel interface {
 		Insert(ctx context.Context, data *SysUser) (sql.Result, error)
 		FindOne(ctx context.Context, id string) (*SysUser, error)
+		FindOneByEmail(ctx context.Context, email sql.NullString) (*SysUser, error)
+		FindOneByPhone(ctx context.Context, phone sql.NullString) (*SysUser, error)
 		FindOneByUsername(ctx context.Context, username string) (*SysUser, error)
 		Update(ctx context.Context, data *SysUser) error
 		Delete(ctx context.Context, id string) error
@@ -47,6 +49,7 @@ type (
 		Phone       sql.NullString `db:"phone"`
 		Status      int64          `db:"status"`
 		IsSuper     bool           `db:"is_super"`
+		IsSysUser   bool           `db:"is_sys_user"`
 		LastLoginAt sql.NullTime   `db:"last_login_at"`
 		LastLoginIp sql.NullString `db:"last_login_ip"`
 		CreatedAt   time.Time      `db:"created_at"`
@@ -82,6 +85,34 @@ func (m *defaultSysUserModel) FindOne(ctx context.Context, id string) (*SysUser,
 	}
 }
 
+func (m *defaultSysUserModel) FindOneByEmail(ctx context.Context, email sql.NullString) (*SysUser, error) {
+	var resp SysUser
+	query := fmt.Sprintf("select %s from %s where email = $1 limit 1", sysUserRows, m.table)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, email)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlx.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
+func (m *defaultSysUserModel) FindOneByPhone(ctx context.Context, phone sql.NullString) (*SysUser, error) {
+	var resp SysUser
+	query := fmt.Sprintf("select %s from %s where phone = $1 limit 1", sysUserRows, m.table)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, phone)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlx.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
 func (m *defaultSysUserModel) FindOneByUsername(ctx context.Context, username string) (*SysUser, error) {
 	var resp SysUser
 	query := fmt.Sprintf("select %s from %s where username = $1 limit 1", sysUserRows, m.table)
@@ -97,14 +128,14 @@ func (m *defaultSysUserModel) FindOneByUsername(ctx context.Context, username st
 }
 
 func (m *defaultSysUserModel) Insert(ctx context.Context, data *SysUser) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", m.table, sysUserRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.Username, data.Password, data.Nickname, data.Avatar, data.Email, data.Phone, data.Status, data.IsSuper, data.LastLoginAt, data.LastLoginIp, data.DeletedAt)
+	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", m.table, sysUserRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.Username, data.Password, data.Nickname, data.Avatar, data.Email, data.Phone, data.Status, data.IsSuper, data.IsSysUser, data.LastLoginAt, data.LastLoginIp, data.DeletedAt)
 	return ret, err
 }
 
 func (m *defaultSysUserModel) Update(ctx context.Context, newData *SysUser) error {
 	query := fmt.Sprintf("update %s set %s where id = $1", m.table, sysUserRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, newData.Id, newData.Username, newData.Password, newData.Nickname, newData.Avatar, newData.Email, newData.Phone, newData.Status, newData.IsSuper, newData.LastLoginAt, newData.LastLoginIp, newData.DeletedAt)
+	_, err := m.conn.ExecCtx(ctx, query, newData.Id, newData.Username, newData.Password, newData.Nickname, newData.Avatar, newData.Email, newData.Phone, newData.Status, newData.IsSuper, newData.IsSysUser, newData.LastLoginAt, newData.LastLoginIp, newData.DeletedAt)
 	return err
 }
 
