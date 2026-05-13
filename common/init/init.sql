@@ -1,25 +1,25 @@
 CREATE
-EXTENSION IF NOT EXISTS "uuid-ossp";
+    EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE sys_user
 (
-    id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id            UUID PRIMARY KEY            DEFAULT uuid_generate_v4(),
     username      VARCHAR(50) UNIQUE NOT NULL,
     password      VARCHAR(255)       NOT NULL,
     nickname      VARCHAR(50),
     avatar        TEXT,
-    email         VARCHAR(100)  UNIQUE,
-    phone         VARCHAR(20)   UNIQUE,
+    email         VARCHAR(100) UNIQUE,
+    phone         VARCHAR(20) UNIQUE,
 
-    status        SMALLINT         DEFAULT 1,
-    is_super      BOOLEAN          DEFAULT FALSE,
-    is_sys_user   BOOLEAN          DEFAULT FALSE,
+    status        SMALLINT           NOT NULL DEFAULT 1,
+    is_super      BOOLEAN                     DEFAULT FALSE,
+    is_sys_user   BOOLEAN                     DEFAULT FALSE,
 
     last_login_at TIMESTAMP,
     last_login_ip VARCHAR(45),
 
-    created_at    TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
-    updated_at    TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    created_at    TIMESTAMP                   DEFAULT CURRENT_TIMESTAMP,
+    updated_at    TIMESTAMP                   DEFAULT CURRENT_TIMESTAMP,
     deleted_at    TIMESTAMP
 );
 

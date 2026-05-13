@@ -2,7 +2,10 @@ module user
 
 go 1.26.2
 
-require github.com/zeromicro/go-zero v1.10.1
+require (
+	github.com/Masterminds/squirrel v1.5.4
+	github.com/zeromicro/go-zero v1.10.1
+)
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
@@ -12,6 +15,8 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/pgx/v5 v5.8.0 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
+	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect
+	github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0 // indirect
 	github.com/redis/go-redis/v9 v9.18.0 // indirect
 	github.com/satori/go.uuid v1.2.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect

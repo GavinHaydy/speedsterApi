@@ -28,6 +28,25 @@ type RegisterReq {
 	phone    string `json:"phone,optional"`
 }
 
+type UserListReq {
+	usarname string `json:"usarname,optional"`
+	email    string `json:"email,optional"`
+	phone    string `json:"phone,optional"`
+	nickname string `json:"nickname,optional"`
+	status   int64  `json:"status,optional"`
+	pageNo   int    `json:"pageNo,optional"`
+	pageSize int    `json:"pageSize,optional"`
+}
+
+type UserListRsp {
+	username string  `json:"username"`
+	email    *string `json:"email"`
+	phone    *string `json:"phone"`
+	nickname *string `json:"nickname"`
+	status   *int64  `json:"status"`
+	avatar   *string `json:"avatar"`
+}
+
 @server (
 	tags:   "User-Server"
 	prefix: /user
@@ -56,5 +75,9 @@ service user-api {
 	@doc "退出登录"
 	@handler AccountLogout
 	delete /logout returns (Response)
+
+	@doc "用户列表"
+	@handler UserList
+	post /userlist (UserListReq) returns (Response)
 }
 

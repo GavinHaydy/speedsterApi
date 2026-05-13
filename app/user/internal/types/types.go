@@ -24,3 +24,22 @@ type Response struct {
 	Msg  string      `json:"msg,omitempty"`
 	Data interface{} `json:"data,omitempty"` // .api 中使用 any 对应 Go 的 interface{} 或 泛型 T
 }
+
+type UserListReq struct {
+	Usarname string `json:"usarname,optional"`
+	Email    string `json:"email,optional"`
+	Phone    string `json:"phone,optional"`
+	Nickname string `json:"nickname,optional"`
+	Status   int64  `json:"status,optional"`
+	PageNo   int    `json:"pageNo,optional"`
+	PageSize int    `json:"pageSize,optional"`
+}
+
+type UserListRsp struct {
+	Username string  `json:"username"`
+	Email    *string `json:"email"`
+	Phone    *string `json:"phone"`
+	Nickname *string `json:"nickname"`
+	Avatar   *string `json:"avatar"`
+	Status   *int64  `json:"status"`
+}
