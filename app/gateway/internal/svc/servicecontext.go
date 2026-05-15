@@ -4,7 +4,7 @@
 package svc
 
 import (
-	"speedsterApi/app/gateway/internal/config"
+	"gateway/internal/config"
 )
 
 type ServiceContext struct {

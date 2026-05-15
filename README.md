@@ -14,6 +14,9 @@ goctl api swagger --api your.api --dir internal/handler/docs
 #--filename：指定生成的文件名（不含扩展名）
 #--yaml：是否生成 YAML 格式
 
+# dockerfile
+goctl docker --go hello.go --port 8888
+
 ```
 
 ```

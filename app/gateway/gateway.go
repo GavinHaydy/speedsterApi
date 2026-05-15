@@ -6,10 +6,9 @@ package main
 import (
 	"flag"
 	"fmt"
-
-	"speedsterApi/app/gateway/internal/config"
-	"speedsterApi/app/gateway/internal/handler"
-	"speedsterApi/app/gateway/internal/svc"
+	"gateway/internal/config"
+	"gateway/internal/handler"
+	"gateway/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"

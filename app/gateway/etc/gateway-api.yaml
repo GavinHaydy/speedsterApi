@@ -4,7 +4,7 @@ Port: 9527
 
 # 各微服务地址
 UserService:
-  Target: http://user-service:8080
+  Target: http://user-service:8888
 OrderService:
   Target: http://order-service:8080
 ProductService:

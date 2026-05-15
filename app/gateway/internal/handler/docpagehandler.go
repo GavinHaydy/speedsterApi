@@ -6,9 +6,10 @@ package handler
 import (
 	"net/http"
 
+	"gateway/internal/logic"
+	"gateway/internal/svc"
+
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"speedsterApi/app/gateway/internal/logic"
-	"speedsterApi/app/gateway/internal/svc"
 )
 
 func DocPageHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {

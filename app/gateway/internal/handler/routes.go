@@ -1,11 +1,12 @@
 package handler
 
 import (
+	"fmt"
+	"gateway/internal/svc"
 	"io"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"speedsterApi/app/gateway/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )
@@ -15,15 +16,15 @@ type RouteConfig struct {
 	Target string // 目标服务地址
 }
 
-var routes = []RouteConfig{
-	{Path: "/user/", Target: "http://localhost:8888"},
-	{Path: "/order/", Target: "http://order-service:8080"},
-	{Path: "/product/", Target: "http://product-service:8080"},
-}
-
 // RegisterRoutes 注册所有的路由（包括文档聚合和业务接口转发）
 func RegisterRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 	// 修改点：将 ctx 传递给 RegisterDocRoutes
+
+	var routes = []RouteConfig{
+		{Path: "/user/", Target: ctx.Config.UserService.Target},
+		{Path: "/order/", Target: "http://order-service:8080"},
+		{Path: "/product/", Target: "http://product-service:8080"},
+	}
 	RegisterDocRoutes(engine, ctx)
 
 	//业务路由转发逻辑保持不变...
@@ -112,9 +113,10 @@ func RegisterDocRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 	// 注意：这里暂时没用到 ctx，但为了保持函数签名一致先加上。
 	// 以后如果你需要从配置文件（ctx.Config）中读取后端服务的真实地址，就可以在这里使用了。
 	engine.AddRoute(rest.Route{
-		Method:  http.MethodGet,
-		Path:    "/docs/user.json",
-		Handler: proxyTo("http://localhost:8888/docs/user.json"),
+		Method: http.MethodGet,
+		Path:   "/docs/user.json",
+		//Handler: proxyTo("http://localhost:8888/docs/user.json"),
+		Handler: proxyTo(fmt.Sprintf("%s/docs/user.json", ctx.Config.UserService.Target)),
 	})
 	engine.AddRoute(rest.Route{
 		Method:  http.MethodGet,

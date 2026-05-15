@@ -6,8 +6,8 @@ package logic
 import (
 	"context"
 
-	"speedsterApi/app/gateway/internal/svc"
-	"speedsterApi/app/gateway/internal/types"
+	"gateway/internal/svc"
+	"gateway/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

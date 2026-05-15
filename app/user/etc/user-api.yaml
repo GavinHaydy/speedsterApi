@@ -1,20 +1,20 @@
 Name: user-api
 Host: 0.0.0.0
 Port: 8888
-AesSecretKey: asfdasfasdfasfd
+AesSecretKey: SpeedsterIsBest!
 DB:
-  DSN: postgres://name:password@127.0.0.1:5432/postgres?sslmode=disable
+  DSN: postgres://speedster:GavinHaydy2779@gavin-db:5432/speedster?sslmode=disable
 Redis:
-  Host: 127.0.0.1:6379
-  Pass: ""
+  Host: redis-db:6379
+  Pass: "mypassword"
   Type: node
 JWT:
-  issuer: asfdasfasdfasfd
-  secret: sdfaswerwrwerwerwer
+  issuer: SpeedsterIsBest!
+  secret: SpeedsterIsBest!
   expiration: 60
-  prefix: your_token_prefix
+  prefix: user_token_
 Auth:
-  AccessSecret: "asfdasfasdfasfd"
+  AccessSecret: "SpeedsterIsBest!"
   AccessExpire: 3600        # Access Token 有效期：1 小时
-RefreshSecret: "asfdasfasdfasfd"
+RefreshSecret: "SpeedsterIsBest!"
 RefreshExpire: 3600        # Refresh Token 有效期：1 小时

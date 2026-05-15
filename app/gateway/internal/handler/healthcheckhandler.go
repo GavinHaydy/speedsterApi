@@ -4,11 +4,11 @@
 package handler
 
 import (
+	"gateway/internal/logic"
+	"gateway/internal/svc"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"speedsterApi/app/gateway/internal/logic"
-	"speedsterApi/app/gateway/internal/svc"
 )
 
 func HealthCheckHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
