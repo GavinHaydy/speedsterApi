@@ -5,6 +5,7 @@ import (
 
 	"speedsterApi/common/errno"
 
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
@@ -19,7 +20,8 @@ type Response[T any] struct {
 
 func display[T any](w http.ResponseWriter, r *http.Request, code int, data T) {
 	var msg string
-	lang := r.Form.Get("Accept-Language")
+	lang := r.Header.Get("Accept-Language")
+	logx.Infof("lang========%s", lang)
 	if lang == "en" {
 		if m, ok := errno.CodeMsgMap[code]; ok {
 			msg = m
