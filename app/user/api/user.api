@@ -9,7 +9,7 @@ info (
 )
 
 import (
-	"../../common/response/types.api"
+	"../../../common/response/types.api"
 )
 
 type Request {
