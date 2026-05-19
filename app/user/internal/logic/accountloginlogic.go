@@ -6,6 +6,7 @@ package logic
 import (
 	"context"
 	"fmt"
+	"speedsterApi/common/errno"
 	"time"
 	"user/internal/types"
 
@@ -36,11 +37,17 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 	//return nil
 	rdb := l.svcCtx.Redis
 
+	_, err := l.svcCtx.SysUserModel.FindOneByUsername(l.ctx, req.Username)
+	if err != nil {
+		return &types.Response{Code: errno.ErrAccountNotFound}, err
+	}
+
 	pw := utils.AesEncrypt(req.Password, l.svcCtx.Config.AesSecretKey)
 
 	userInfo, err := l.svcCtx.SysUserModel.FindByAccountAndPW(l.ctx, req.Username, pw)
 	if err != nil {
-		return &types.Response{Msg: err.Error()}, nil
+
+		return &types.Response{Code: errno.ErrPasswordFailed}, err
 	}
 
 	var resultToken string
@@ -48,24 +55,21 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 
 	sysToken, err := rdb.Get(fmt.Sprintf("%s%v", l.svcCtx.Config.JWT.Prefix, userInfo.Id))
 
-	logx.Infof("sysToken:%v, err: %v", sysToken, err)
 	if err != nil || sysToken == "" {
 		logx.Info("token不存在:开始生成token")
-		logx.Infof("===================================%v", sysToken)
 		token, t, err := utils.GenerateToken(userInfo.Id, l.svcCtx.Config.JWT.Issuer, l.svcCtx.Config.JWT.Secret)
 		if err != nil {
-			logx.Debugf("===%v", err)
-			return &types.Response{Msg: err.Error()}, err
+			logx.Errorf("GenerateToken: %v", err)
+			return &types.Response{Code: errno.ErrGenTokenFailed}, nil
 		}
 		resultToken = token
 		resultTime = t
 	} else {
-		logx.Infof("------------------------%v", sysToken)
 		logx.Info("token存在:开始刷新token")
 		newToken, t, err := utils.RefreshToken(sysToken, l.svcCtx.Config.JWT.Issuer, l.svcCtx.Config.JWT.Secret)
 		if err != nil {
-			logx.Infof("===%v", err)
-			return &types.Response{Msg: err.Error()}, err
+			logx.Errorf("RefreshToken:%v", err)
+			return &types.Response{Code: errno.ErrGenTokenFailed}, err
 		}
 		resultToken = newToken
 		resultTime = t
@@ -76,7 +80,8 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 
 	err = rdb.Setex(fmt.Sprintf("%s%v", l.svcCtx.Config.JWT.Prefix, userInfo.Id), resultToken, l.svcCtx.Config.JWT.Expire)
 	if err != nil {
-		return &types.Response{Msg: err.Error()}, err
+		logx.Errorf("Setex: %v", err)
+		return &types.Response{Code: errno.ErrRedisFailed}, err
 	}
 
 	result := map[string]interface{}{
@@ -84,8 +89,6 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 		"time":  exp,
 	}
 	return &types.Response{
-		Code: 0,
-		Msg:  "",
 		Data: result,
 	}, nil
 

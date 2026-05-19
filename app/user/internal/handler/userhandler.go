@@ -27,8 +27,7 @@ func UserHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			//httpx.OkJsonCtx(r.Context(), w, resp)
-			response.SuccessWithMsg(w, resp.Msg)
+			response.SuccessWithData(w, r, resp.Msg)
 		}
 	}
 }

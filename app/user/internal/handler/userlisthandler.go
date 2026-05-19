@@ -5,7 +5,6 @@ package handler
 
 import (
 	"net/http"
-	"speedsterApi/common/errno"
 	"speedsterApi/common/response"
 
 	"user/internal/logic"
@@ -27,9 +26,9 @@ func UserListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := logic.NewUserListLogic(r.Context(), svcCtx)
 		resp, err := l.UserList(&req)
 		if err != nil {
-			response.ErrorWithCode(w, errno.ErrRecordNotFound, err.Error())
+			response.ErrorWithCode(w, r, resp.Code)
 		} else {
-			response.SuccessWithData(w, resp.Data)
+			response.SuccessWithData(w, r, resp.Data)
 		}
 	}
 }

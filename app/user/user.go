@@ -14,9 +14,8 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 )
 
+// var configFile = flag.String("f", "etc/dev.yaml", "the config file")
 var configFile = flag.String("f", "etc/user-api.yaml", "the config file")
-
-//var configFile = flag.String("f", "etc/dev.yaml", "the config file")
 
 func main() {
 	flag.Parse()

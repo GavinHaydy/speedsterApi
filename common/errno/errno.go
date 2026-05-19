@@ -14,18 +14,20 @@ const (
 	ErrMustDID         = 10011
 	ErrMustSN          = 10012
 	ErrHttpFailed      = 10013
+	ErrGenTokenFailed  = 10014
 	ErrRedisFailed     = 10100
 	ErrMongoFailed     = 10101
 	ErrPgsqlFailed     = 10102
 	ErrRecordNotFound  = 10103
+	ErrSelectDbFailed  = 10104
 
 	ErrSignError       = 20001
 	ErrRepeatRequest   = 20002
 	ErrMustLogin       = 20003
 	ErrAuthFailed      = 20004
-	ErrAccountDel      = 20005
 	ErrAccountNotFound = 20006
 	ErrPasswordFailed  = 20007
+	ErrRegisterFailed  = 20008
 
 	ErrCompanyNotRemoveMember   = 20101
 	ErrCompanyNotFound          = 20102
@@ -40,12 +42,7 @@ const (
 	ErrYetEmailValid       = 20207
 	ErrYetEmailNotFound    = 20208
 	ErrYetUserNotFound     = 20209
-
-	ErrTeamNotFound        = 20301
-	ErrTeamNotRemoveSelf   = 20302
-	ErrTeamNotRemoveCreate = 20303
-	ErrTeamSaveRepeat      = 20304
-	ErrTeamTypePrivate     = 20305
+	ErrYetPhoneRegister    = 20210
 
 	ErrRoleNotDel    = 20401
 	ErrRoleNotChange = 20402
@@ -56,7 +53,6 @@ const (
 	ErrFileMaxSize  = 20501
 	ErrFileMaxLimit = 20502
 
-	ErrNoticeNotFound         = 20602
 	ErrNoticeNameRepeat       = 20603
 	ErrNoticeGroupNameRepeat  = 20604
 	ErrNoticeWebhookURLRepeat = 20605
@@ -71,6 +67,7 @@ var CodeAlertMap = map[int]string{
 	ErrParam:                  "参数校验错误",
 	ErrSignError:              "签名错误",
 	ErrRecordNotFound:         "数据库记录不存在",
+	ErrSelectDbFailed:         "数据查询失败",
 	ErrRPCFailed:              "请求下游RPC服务失败",
 	ErrInvalidToken:           "无效的token",
 	ErrMarshalFailed:          "序列化失败",
@@ -93,12 +90,15 @@ var CodeAlertMap = map[int]string{
 	ErrYetNicknameRegister:    "昵称已存在",
 	ErrYetEmailRegister:       "邮箱已注册",
 	ErrYetEmailValid:          "邮箱格式不正确",
+	ErrYetPhoneRegister:       "手机号已注册",
 	ErrRoleNotExists:          "角色不存在",
 	ErrRoleForbidden:          "不能添加该角色，角色较高",
 	ErrAccountNotFound:        "账号不存在",
 	ErrPasswordFailed:         "密码错误",
+	ErrRegisterFailed:         "注册失败",
 	ErrYetEmailNotFound:       "邮箱不能为空",
 	ErrYetUserNotFound:        "用户不能为空",
+	ErrGenTokenFailed:         "token生成失败",
 }
 
 // CodeMsgMap 错误码映射错误信息，不展示给用户
@@ -111,6 +111,7 @@ var CodeMsgMap = map[int]string{
 	ErrNonce:                    "nonce error",
 	ErrTimeStamp:                "timestamp error",
 	ErrRecordNotFound:           "record not found",
+	ErrSelectDbFailed:           "select database failed",
 	ErrRPCFailed:                "rpc failed",
 	ErrInvalidToken:             "invalid token",
 	ErrMarshalFailed:            "marshal failed",
@@ -125,25 +126,22 @@ var CodeMsgMap = map[int]string{
 	ErrAuthFailed:               "auth failed",
 	ErrYetAccountRegister:       "ErrYetAccountRegister",
 	ErrUserDisable:              "ErrUserDisable",
-	ErrTeamNotFound:             "ErrTeamNotFound",
 	ErrFileMaxSize:              "ErrFileMaxSize",
 	ErrRoleNotDel:               "ErrRoleNotDel",
 	ErrRoleNotChange:            "ErrRoleNotChange",
-	ErrTeamNotRemoveSelf:        "ErrTeamNotRemoveSelf",
-	ErrTeamNotRemoveCreate:      "ErrTeamNotRemoveCreate",
 	ErrUserNotRole:              "ErrUserNotRole",
 	ErrUserForbidden:            "ErrUserForbidden",
-	ErrTeamSaveRepeat:           "ErrTeamSaveRepeat",
 	ErrRoleExists:               "ErrRoleExists",
-	ErrTeamTypePrivate:          "ErrTeamTypePrivate",
 	ErrCompanyNotRemoveMember:   "ErrCompanyNotRemoveMember",
 	ErrYetNicknameRegister:      "ErrYetNicknameRegister",
 	ErrYetEmailRegister:         "ErrYetEmailRegister",
 	ErrYetEmailValid:            "ErrYetEmailValid",
+	ErrYetPhoneRegister:         "ErrYetPhoneRegister",
 	ErrRoleNotExists:            "ErrRoleNotExists",
 	ErrRoleForbidden:            "ErrRoleForbidden",
 	ErrAccountNotFound:          "ErrAccountNotFound",
 	ErrPasswordFailed:           "ErrPasswordFailed",
+	ErrRegisterFailed:           "ErrRegisterFailed",
 	ErrFileMaxLimit:             "ErrFileMaxLimit",
 	ErrCompanyNotFound:          "ErrCompanyNotFound",
 	ErrNoticeNameRepeat:         "ErrNoticeNameRepeat",
@@ -154,4 +152,5 @@ var CodeMsgMap = map[int]string{
 	ErrNoticeRelateNotNull:      "ErrNoticeRelateNotNull",
 	ErrYetEmailNotFound:         "ErrYetEmailNotFound",
 	ErrYetUserNotFound:          "ErrYetUserNotFound",
+	ErrGenTokenFailed:           "ErrGenTokenFailed",
 }

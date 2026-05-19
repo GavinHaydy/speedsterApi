@@ -6,6 +6,7 @@ package logic
 import (
 	"context"
 	"fmt"
+	"speedsterApi/common/errno"
 	"user/internal/svc"
 	"user/internal/types"
 
@@ -32,8 +33,8 @@ func (l *AccountLogoutLogic) AccountLogout() (resp *types.Response, err error) {
 	value := l.ctx.Value("user_id")
 	_, err = l.svcCtx.Redis.Del(fmt.Sprintf("%s%v", l.svcCtx.Config.JWT.Prefix, value))
 	if err != nil {
-		return nil, err
+		return &types.Response{Code: errno.ErrRedisFailed}, nil
 	}
 
-	return &types.Response{Msg: "logout success"}, nil
+	return &types.Response{}, nil
 }

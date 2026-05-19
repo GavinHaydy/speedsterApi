@@ -6,6 +6,7 @@ package logic
 import (
 	"context"
 	"database/sql"
+	"speedsterApi/common/errno"
 	"speedsterApi/common/utils"
 	"user/model"
 
@@ -34,7 +35,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.Response, 
 	// todo: add your logic here and delete this line
 	_, err = l.svcCtx.SysUserModel.FindOneByUsername(l.ctx, req.Username)
 	if err == nil {
-		return &types.Response{Msg: "username"}, nil // 没报错说明找到了，即用户名已存在
+		return &types.Response{Code: errno.ErrYetAccountRegister}, nil
 	}
 
 	_, err = l.svcCtx.SysUserModel.FindOneByPhone(l.ctx, sql.NullString{
@@ -42,7 +43,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.Response, 
 		Valid:  true,
 	})
 	if err == nil {
-		return &types.Response{Msg: "phone"}, nil // 没报错说明找到了，即用户名已存在
+		return &types.Response{Code: errno.ErrYetPhoneRegister}, nil
 	}
 
 	_, err = l.svcCtx.SysUserModel.FindOneByEmail(l.ctx, sql.NullString{
@@ -50,7 +51,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.Response, 
 		Valid:  true,
 	})
 	if err == nil {
-		return &types.Response{Msg: "email"}, nil // 没报错说明找到了，即用户名已存在
+		return &types.Response{Code: errno.ErrYetEmailRegister}, nil
 	}
 
 	pw := utils.AesEncrypt(req.Password, l.svcCtx.Config.AesSecretKey)
@@ -72,8 +73,10 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.Response, 
 		},
 	})
 	if err != nil {
-		return nil, err
+		return &types.Response{
+			Code: errno.ErrRegisterFailed,
+		}, nil
 	}
 
-	return &types.Response{Msg: "ok"}, nil
+	return &types.Response{}, nil
 }

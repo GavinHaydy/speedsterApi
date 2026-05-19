@@ -5,6 +5,7 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/common/errno"
 
 	"user/internal/svc"
 	"user/internal/types"
@@ -31,7 +32,7 @@ func (l *UserListLogic) UserList(req *types.UserListReq) (resp *types.Response, 
 	// todo: add your logic here and delete this line
 	total, list, err := l.svcCtx.SysUserModel.SelectUserList(l.ctx, req)
 	if err != nil {
-		return nil, err
+		return &types.Response{Code: errno.ErrSelectDbFailed}, err
 	}
 	result := map[string]interface{}{
 		"list":  list,
