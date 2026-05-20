@@ -62,24 +62,35 @@ jobs:
       ################################
       # 上传文件
       ################################
-      - name: Upload by rsync
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-#          script: |
-#            mkdir -p /data/github
-
-      - name: rsync
+      - name: Setup SSH
         run: |
-          rsync -avz \
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p ${{ secrets.SERVER_PORT }} \
+            ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Create target dir
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+            -p ${{ secrets.SERVER_PORT }} \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+            "mkdir -p /data/github"
+
+      - name: Upload user
+        run: |
+          rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
             app/user/user \
             app/user/etc \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/user/
+
+      - name: Upload gateway
+        run: |
+          rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
             app/gateway/gateway \
             app/gateway/etc \
-            docker-compose.yml \
-            root@${{ secrets.SERVER_HOST }}:/data/github
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/gateway/
+
 
       ################################
       # docker compose
