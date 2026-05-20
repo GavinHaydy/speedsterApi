@@ -50,14 +50,14 @@ jobs:
         run: |
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
           go build -ldflags="-s -w" \
-          -o user cmd/main.go
+          -o user user.go
 
       - name: Build Gateway
         working-directory: app/gateway
         run: |
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
           go build -ldflags="-s -w" \
-          -o gateway cmd/main.go
+          -o gateway gateway.go
 
       ################################
       # 上传文件
