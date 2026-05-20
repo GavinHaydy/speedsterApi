@@ -69,12 +69,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: |
-            app/user/user
-            app/user/etc/*
-            app/gateway/gateway
-            app/gateway/etc/*
-            docker-compose.yml
+          source: "app/user/user,app/user/etc/*,app/gateway/gateway,app/gateway/etc/*,docker-compose.yml"
           target: /data/github
 
       ################################
