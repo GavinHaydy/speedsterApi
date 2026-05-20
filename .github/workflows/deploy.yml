@@ -1,0 +1,93 @@
+name: Deploy Speedster
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+
+      - name: Install goctl
+        run: |
+            go install github.com/zeromicro/go-zero/tools/goctl@latest
+
+      - name: Install goctl-swagger
+        run: |
+            go install github.com/zeromicro/goctl-swagger@latest
+
+      - name: Generate User Swagger
+        run: |
+          mkdir -p app/user/docs
+          goctl api plugin \
+            -plugin goctl-swagger="swagger -filename user.json" \
+            -api app/user/user.api \
+            -dir app/user/docs
+
+      - name: Generate Gateway Swagger
+        run: |
+          mkdir -p app/gateway/docs
+          goctl api plugin \
+            -plugin goctl-swagger="swagger -filename gateway.json" \
+            -api app/gateway/gateway.api \
+            -dir app/gateway/docs
+
+      ################################
+      # 编译
+      ################################
+      - name: Build User
+        working-directory: app/user
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+          go build -ldflags="-s -w" \
+          -o user cmd/main.go
+
+      - name: Build Gateway
+        working-directory: app/gateway
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+          go build -ldflags="-s -w" \
+          -o gateway cmd/main.go
+
+      ################################
+      # 上传文件
+      ################################
+      - name: Copy files to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          source: |
+            app/user/user
+            app/user/etc/*
+            app/gateway/gateway
+            app/gateway/etc/*
+            docker-compose.yml
+          target: /data/github
+
+      ################################
+      # docker compose
+      ################################
+      - name: Restart services
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            cd /data/speedster
+            docker compose down
+            docker compose up -d --build
