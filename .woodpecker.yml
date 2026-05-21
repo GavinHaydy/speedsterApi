@@ -1,5 +1,11 @@
-steps:
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      partial: false
+      depth: 1
 
+steps:
   build-user:
     image: golang:1.26
     environment:
