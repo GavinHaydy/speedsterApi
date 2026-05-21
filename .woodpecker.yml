@@ -21,13 +21,13 @@ steps:
     image: appleboy/drone-scp
     settings:
       host:
-        from_secret: server_host
+        from_secret: SERVER_HOST
       username:
-        from_secret: server_user
+        from_secret: SERVER_USER
       port:
-        from_secret: server_port
+        from_secret: SERVER_PORT
       key:
-        from_secret: server_ssh_key
+        from_secret: SERVER_SSH_KEY
       target: /data/speedster
       source:
         - app/user/user
@@ -43,13 +43,13 @@ steps:
     image: appleboy/drone-ssh
     settings:
       host:
-        from_secret: server_host
+        from_secret: SERVER_HOST
       username:
-        from_secret: server_user
+        from_secret: SERVER_USER
       port:
-        from_secret: server_port
+        from_secret: SERVER_PORT
       key:
-        from_secret: server_ssh_key
+        from_secret: SERVER_SSH_KEY
       script:
         - cd /data/speedster
         - docker compose down
