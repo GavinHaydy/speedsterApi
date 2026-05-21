@@ -25,7 +25,7 @@ steps:
       GOSUMDB: sum.golang.google.cn
     commands:
       - cd app/gateway
-      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o gateway user.go
+      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o gateway gateway.go
     when:
       event: push
       branch: main
