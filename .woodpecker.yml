@@ -1,31 +1,33 @@
-when:
-  - event: push
-  - branch: main
-
 steps:
   build-user:
     image: golang:1.26
     commands:
       - cd app/user
       - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o user user.go
+    when:
+      event: push
+      branch: main
 
   build-gateway:
     image: golang:1.26
     commands:
       - cd app/gateway
-      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o gateway gateway.go
+      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o gateway user.go
+    when:
+      event: push
+      branch: main
 
   deploy:
     image: appleboy/drone-scp
     settings:
       host:
-        from_secret: SERVER_HOST
+        from_secret: server_host
       username:
-        from_secret: SERVER_USER
+        from_secret: server_user
       port:
-        from_secret: SERVER_PORT
+        from_secret: server_port
       key:
-        from_secret: SERVER_SSH_KEY
+        from_secret: server_ssh_key
       target: /data/speedster
       source:
         - app/user/user
@@ -33,19 +35,25 @@ steps:
         - app/gateway/gateway
         - app/gateway/etc
         - docker-compose.yml
+    when:
+      event: push
+      branch: main
 
   restart:
     image: appleboy/drone-ssh
     settings:
       host:
-        from_secret: SERVER_HOST
+        from_secret: server_host
       username:
-        from_secret: SERVER_USER
+        from_secret: server_user
       port:
-        from_secret: SERVER_PORT
+        from_secret: server_port
       key:
-        from_secret: SERVER_SSH_KEY
+        from_secret: server_ssh_key
       script:
         - cd /data/speedster
         - docker compose down
         - docker compose up -d
+    when:
+      event: push
+      branch: main
