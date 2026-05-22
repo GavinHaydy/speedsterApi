@@ -30,38 +30,24 @@ steps:
       event: push
       branch: main
 
-#  deploy:
-#    image: appleboy/drone-scp
-#    settings:
-#      host:
-#        from_secret: SERVER_HOST
-#      username:
-#        from_secret: SERVER_USER
-#      port:
-#        from_secret: SERVER_PORT
-#      key:
-#        from_secret: SERVER_SSH_KEY
-#      target: /data/speedster
-#      source:
-#        - app/user/user
-#        - app/user/etc
-#        - app/gateway/gateway
-#        - app/gateway/etc
-#        - docker-compose.yml
-#    when:
-#      event: push
-#      branch: main
   deploy:
-    image: alpine
-    commands:
-      - mkdir -p /data/speedster
-      - cp app/user/user /data/speedster/app/user/
-      - cp -r app/user/etc /data/speedster/app/user/
-      - cp app/gateway/gateway /data/speedster/app/gateway/
-      - cp -r app/gateway/etc /data/speedster/app/gateway/
-      - cp docker-compose.yml /data/speedster/
-    volumes:
-      - /data/speedster:/data/speedster
+    image: appleboy/drone-scp
+    settings:
+      host:
+        from_secret: SERVER_HOST
+      username:
+        from_secret: SERVER_USER
+      port:
+        from_secret: SERVER_PORT
+      key:
+        from_secret: SERVER_SSH_KEY
+      target: /data/speedster
+      source:
+        - app/user/user
+        - app/user/etc
+        - app/gateway/gateway
+        - app/gateway/etc
+        - docker-compose.yml
     when:
       event: push
       branch: main
