@@ -261,7 +261,7 @@
                 "status": {
                   "type": "integer"
                 },
-                "usarname": {
+                "username": {
                   "type": "string"
                 }
               }
@@ -290,7 +290,7 @@
       }
     }
   },
-  "x-date": "2026-05-13 16:42:07",
+  "x-date": "2026-05-23 22:34:18",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

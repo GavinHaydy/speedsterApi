@@ -38,7 +38,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.RedisJwtMiddleware},
+			[]rest.Middleware{serverCtx.RedisJwtMiddleware, serverCtx.CasbinMiddleware},
 			[]rest.Route{
 				{
 					// 退出登录

@@ -57,7 +57,28 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 
 	if err != nil || sysToken == "" {
 		logx.Info("token不存在:开始生成token")
-		token, t, err := utils.GenerateToken(userInfo.Id, l.svcCtx.Config.JWT.Issuer, l.svcCtx.Config.JWT.Secret)
+		var role string
+
+		// language=PostgreSQL
+		sql := `
+				select r.code
+				from sys_user_role ur
+				join role r on ur.role_id = r.id
+				where ur.user_id = $1
+				limit 1
+				`
+
+		err = l.svcCtx.DB.QueryRowCtx(
+			l.ctx,
+			&role,
+			sql,
+			userInfo.Id,
+		)
+		if err != nil {
+			return &types.Response{Code: errno.ErrRoleNotExists}, nil
+		}
+		logx.Infof("role:%v", role)
+		token, t, err := utils.GenerateToken(userInfo.Id, role, l.svcCtx.Config.JWT.Issuer, l.svcCtx.Config.JWT.Secret)
 		if err != nil {
 			logx.Errorf("GenerateToken: %v", err)
 			return &types.Response{Code: errno.ErrGenTokenFailed}, nil

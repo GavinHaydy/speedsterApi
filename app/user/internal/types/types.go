@@ -26,7 +26,7 @@ type Response struct {
 }
 
 type UserListReq struct {
-	Usarname string `json:"usarname,optional"`
+	Username string `json:"username,optional"`
 	Email    string `json:"email,optional"`
 	Phone    string `json:"phone,optional"`
 	Nickname string `json:"nickname,optional"`
@@ -40,6 +40,6 @@ type UserListRsp struct {
 	Email    *string `json:"email"`
 	Phone    *string `json:"phone"`
 	Nickname *string `json:"nickname"`
-	Avatar   *string `json:"avatar"`
 	Status   *int64  `json:"status"`
+	Avatar   *string `json:"avatar"`
 }

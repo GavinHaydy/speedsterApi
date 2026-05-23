@@ -10,14 +10,19 @@ import (
 
 	"github.com/zeromicro/go-zero/core/stores/postgres"
 	"github.com/zeromicro/go-zero/core/stores/redis"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/rest"
 )
 
 type ServiceContext struct {
 	Config             config.Config
 	SysUserModel       model.SysUserModel
+	SysRoleModel       model.RoleModel
+	SysUserRoleModel   model.SysUserRoleModel
 	Redis              redis.Redis
 	RedisJwtMiddleware rest.Middleware
+	DB                 sqlx.SqlConn
+	CasbinMiddleware   rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -27,7 +32,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config:             c,
 		SysUserModel:       model.NewSysUserModel(conn),
+		SysRoleModel:       model.NewRoleModel(conn),
+		SysUserRoleModel:   model.NewSysUserRoleModel(conn),
 		Redis:              *redis.MustNewRedis(c.Redis),
 		RedisJwtMiddleware: middleware.NewRedisJwtMiddleware(c, redis.MustNewRedis(c.Redis)).Handle,
+		DB:                 conn,
+		CasbinMiddleware:   middleware.NewCasbinMiddleware().Handle,
 	}
 }

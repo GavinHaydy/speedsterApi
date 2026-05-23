@@ -6,6 +6,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"speedsterApi/common/casbin"
 	"user/internal/config"
 	"user/internal/handler"
 	"user/internal/svc"
@@ -14,7 +15,8 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 )
 
-// var configFile = flag.String("f", "etc/dev.yaml", "the config file")
+//var configFile = flag.String("f", "etc/dev.yaml", "the config file")
+
 var configFile = flag.String("f", "etc/user-api.yaml", "the config file")
 
 func main() {
@@ -22,6 +24,18 @@ func main() {
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
+
+	//casbin
+	svcCtx := svc.NewServiceContext(c)
+
+	if err := casbin.Init(); err != nil {
+		panic(err)
+	}
+
+	if err := casbin.LoadPolicy(svcCtx.DB); err != nil {
+		panic(err)
+	}
+	// end
 
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()

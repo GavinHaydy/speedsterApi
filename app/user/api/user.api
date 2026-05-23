@@ -29,13 +29,13 @@ type RegisterReq {
 }
 
 type UserListReq {
-	usarname string `json:"usarname,optional"`
-	email    string `json:"email,optional"`
-	phone    string `json:"phone,optional"`
-	nickname string `json:"nickname,optional"`
-	status   int64  `json:"status,optional"`
-	pageNo   int    `json:"pageNo,optional"`
-	pageSize int    `json:"pageSize,optional"`
+	Username string `json:"username,optional"`
+	Email    string `json:"email,optional"`
+	Phone    string `json:"phone,optional"`
+	Nickname string `json:"nickname,optional"`
+	Status   int64  `json:"status,optional"`
+	PageNo   int    `json:"pageNo,optional"`
+	PageSize int    `json:"pageSize,optional"`
 }
 
 type UserListRsp {
@@ -69,7 +69,7 @@ service user-api {
 	tags:       "User-Server"
 	prefix:     /user
 	jwt:        Auth
-	middleware: RedisJwtMiddleware
+	middleware: RedisJwtMiddleware,CasbinMiddleware
 )
 service user-api {
 	@doc "退出登录"

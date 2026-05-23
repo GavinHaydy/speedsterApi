@@ -61,9 +61,9 @@ func (m *customSysUserModel) SelectUserList(ctx context.Context, req *types.User
 	builder := squirrel.Select().From(m.table).PlaceholderFormat(squirrel.Dollar)
 
 	// 动态添加 WHERE 条件
-	if req.Usarname != "" {
+	if req.Username != "" {
 		//builder = builder.Where("username LIKE ?", "%"+req.Usarname+"%")
-		builder = builder.Where(squirrel.Like{"username": fmt.Sprintf("%%%s%%", req.Usarname)})
+		builder = builder.Where(squirrel.Like{"username": fmt.Sprintf("%%%s%%", req.Username)})
 	}
 	if req.Status != 0 {
 		//builder = builder.Where("status = ?", req.Status)
