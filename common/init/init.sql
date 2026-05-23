@@ -29,7 +29,7 @@ INSERT INTO sys_user (id,
                       nickname,
                       is_super,
                       is_sys_user)
-VALUES (uuid_generate_v4(),
+VALUES ('b62e9977-1bba-438e-983d-5e5e8344eced',
         'admin',
         '3BMHz_rEwHpi1xrAG8K9PQ', -- bcrypt加密
         '超级管理员',
@@ -51,13 +51,59 @@ CREATE TABLE role
     updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+INSERT INTO role(name,code)
+VALUES ('超级管理员','admin');
+
 CREATE TABLE sys_user_role
 (
     id         BIGSERIAL PRIMARY KEY,
-    user_id    BIGINT NOT NULL,
+    user_id    UUID NOT NULL,
     role_id    BIGINT NOT NULL,
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     UNIQUE (user_id, role_id)
 );
+
+INSERT INTO sys_user_role(user_id, role_id)
+VALUES ('b62e9977-1bba-438e-983d-5e5e8344eced',1);
+
+CREATE TABLE sys_permission (
+                                id            BIGSERIAL PRIMARY KEY,
+                                parent_id     BIGINT DEFAULT 0,
+
+                                name          VARCHAR(100) NOT NULL,
+                                code          VARCHAR(100) NOT NULL UNIQUE,
+
+                                path          VARCHAR(255),
+                                method        VARCHAR(20),
+
+                                type          SMALLINT NOT NULL, -- 1菜单 2按钮 3接口
+                                icon          VARCHAR(100),
+                                sort          INT DEFAULT 0,
+
+                                status        SMALLINT DEFAULT 1,
+                                created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO sys_permission(name,code,path,method,type)
+VALUES
+    ('用户列表','user:list','/user/userlist','POST',3),
+    ('退出登录','user:logout','/user/logout','DELETE',3);
+
+CREATE TABLE sys_role_permission (
+                                     id             BIGSERIAL PRIMARY KEY,
+                                     role_id        BIGINT NOT NULL,
+                                     permission_id  BIGINT NOT NULL,
+                                     UNIQUE(role_id, permission_id)
+);
+
+INSERT INTO sys_role_permission(role_id, permission_id)
+VALUES (1,1),(1,2);
+
+CREATE INDEX idx_user_role_user_id ON sys_user_role(user_id);
+CREATE INDEX idx_user_role_role_id ON sys_user_role(role_id);
+
+CREATE INDEX idx_role_perm_role_id ON sys_role_permission(role_id);
+CREATE INDEX idx_role_perm_perm_id ON sys_role_permission(permission_id);

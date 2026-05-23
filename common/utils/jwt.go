@@ -8,12 +8,13 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func GenerateToken(userID string, issuer string, secret string) (string, time.Time, error) {
+func GenerateToken(userID string, role string, issuer string, secret string) (string, time.Time, error) {
 	now := time.Now()
 	exp := now.Add(24 * time.Hour * 365)
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": userID,
+		"role":    role,
 		"iss":     issuer,
 		"iat":     now.Unix(),
 		"nbf":     now.Unix(),
@@ -40,7 +41,7 @@ func GenerateTokenByTime(userID string, iss string, secret string, d time.Durati
 	return tokenString, exp, err
 }
 
-func ParseToken(tokenString string, secret string) (string, error) {
+func ParseToken(tokenString string, secret string) (string, string, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -51,29 +52,46 @@ func ParseToken(tokenString string, secret string) (string, error) {
 
 	if err != nil {
 		//return "", jwt.ErrHashUnavailable
-		return "", err
+		return "", "", err
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		if userID, ok := claims["user_id"]; ok {
 
-			if i, ok := userID.(string); ok {
-				return i, nil
+		var userID string
+		var role string
+
+		if v, ok := claims["user_id"]; ok {
+			if s, ok := v.(string); ok {
+				userID = s
 			}
-
 		}
+
+		if v, ok := claims["role"]; ok {
+			if s, ok := v.(string); ok {
+				role = s
+			}
+		}
+
+		return userID, role, nil
+		//if userID, ok := claims["user_id"]; ok {
+		//
+		//	if i, ok := userID.(string); ok {
+		//		return i, nil
+		//	}
+		//
+		//}
 	}
 
-	return "", jwt.ErrTokenInvalidClaims
+	return "", "", jwt.ErrTokenInvalidClaims
 }
 
 func RefreshToken(tokenString string, iss, secret string) (string, time.Time, error) {
-	userID, err := ParseToken(tokenString, secret)
+	userID, role, err := ParseToken(tokenString, secret)
 	if err != nil {
 		return "", time.Now(), err
 	}
 
-	return GenerateToken(userID, iss, secret)
+	return GenerateToken(userID, role, iss, secret)
 }
 
 func GetUserIDByCtx(ctx context.Context) string {
