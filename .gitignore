@@ -34,3 +34,4 @@ go.work.sum
 *dev.yaml
 app/user/user
 app/gateway/gateway
+app/role

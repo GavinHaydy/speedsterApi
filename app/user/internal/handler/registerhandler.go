@@ -5,11 +5,10 @@ package handler
 
 import (
 	"net/http"
+	"speedsterApi/app/user/internal/logic"
+	"speedsterApi/app/user/internal/svc"
+	"speedsterApi/app/user/internal/types"
 	"speedsterApi/common/response"
-
-	"user/internal/logic"
-	"user/internal/svc"
-	"user/internal/types"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 )

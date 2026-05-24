@@ -6,12 +6,11 @@ package logic
 import (
 	"context"
 	"database/sql"
+	"speedsterApi/app/user/internal/svc"
+	"speedsterApi/app/user/internal/types"
+	"speedsterApi/app/user/model"
 	"speedsterApi/common/errno"
 	"speedsterApi/common/utils"
-	"user/model"
-
-	"user/internal/svc"
-	"user/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

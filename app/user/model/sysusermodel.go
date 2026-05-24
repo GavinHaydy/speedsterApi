@@ -3,7 +3,7 @@ package model
 import (
 	"context"
 	"fmt"
-	"user/internal/types"
+	"speedsterApi/app/user/internal/types"
 
 	"github.com/Masterminds/squirrel"
 	"github.com/zeromicro/go-zero/core/logx"

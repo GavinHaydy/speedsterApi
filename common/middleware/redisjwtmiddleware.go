@@ -3,20 +3,17 @@ package middleware
 import (
 	"fmt"
 	"net/http"
-	"user/internal/config"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 )
 
 type RedisJwtMiddleware struct {
-	Config      config.Config
 	RedisClient *redis.Redis
 }
 
-func NewRedisJwtMiddleware(c config.Config, redisClient *redis.Redis) *RedisJwtMiddleware {
+func NewRedisJwtMiddleware(redisClient *redis.Redis) *RedisJwtMiddleware {
 	return &RedisJwtMiddleware{
-		Config:      c,
 		RedisClient: redisClient,
 	}
 }

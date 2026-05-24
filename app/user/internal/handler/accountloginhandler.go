@@ -5,12 +5,12 @@ package handler
 
 import (
 	"net/http"
+	"speedsterApi/app/user/internal/logic"
+	"speedsterApi/app/user/internal/svc"
+	"speedsterApi/app/user/internal/types"
 	"speedsterApi/common/response"
-	"user/internal/types"
 
-	"user/internal/logic"
-	"user/internal/svc"
-
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
@@ -26,8 +26,10 @@ func AccountLoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := logic.NewAccountLoginLogic(r.Context(), svcCtx)
 		result, err := l.AccountLogin(&req)
 		if err != nil {
+			logx.Errorf("AccountLoginLogic error: %v,---result%s", err, result)
 			response.ErrorWithCode(w, r, result.Code)
 		} else {
+			logx.Infof("AccountLoginLogic result: %v", result)
 			response.SuccessWithData(w, r, result.Data)
 		}
 	}

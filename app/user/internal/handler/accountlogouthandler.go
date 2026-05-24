@@ -5,11 +5,10 @@ package handler
 
 import (
 	"net/http"
+	"speedsterApi/app/user/internal/logic"
+	"speedsterApi/app/user/internal/svc"
 	"speedsterApi/common/errno"
 	"speedsterApi/common/response"
-
-	"user/internal/logic"
-	"user/internal/svc"
 )
 
 // AccountLogoutHandler 退出登录

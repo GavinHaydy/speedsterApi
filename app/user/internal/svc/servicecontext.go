@@ -4,9 +4,9 @@
 package svc
 
 import (
-	"user/internal/config"
-	"user/internal/middleware"
-	"user/model"
+	"speedsterApi/app/user/internal/config"
+	"speedsterApi/app/user/model"
+	"speedsterApi/common/middleware"
 
 	"github.com/zeromicro/go-zero/core/stores/postgres"
 	"github.com/zeromicro/go-zero/core/stores/redis"
@@ -28,14 +28,15 @@ type ServiceContext struct {
 func NewServiceContext(c config.Config) *ServiceContext {
 	conn := postgres.New(c.DB.DSN)
 	//conn := sqlx.NewSqlConn(c.DB.Driver, c.DB.DSN)
+	rdb := redis.MustNewRedis(c.Redis)
 
 	return &ServiceContext{
 		Config:             c,
 		SysUserModel:       model.NewSysUserModel(conn),
 		SysRoleModel:       model.NewRoleModel(conn),
 		SysUserRoleModel:   model.NewSysUserRoleModel(conn),
-		Redis:              *redis.MustNewRedis(c.Redis),
-		RedisJwtMiddleware: middleware.NewRedisJwtMiddleware(c, redis.MustNewRedis(c.Redis)).Handle,
+		Redis:              *rdb,
+		RedisJwtMiddleware: middleware.NewRedisJwtMiddleware(rdb).Handle,
 		DB:                 conn,
 		CasbinMiddleware:   middleware.NewCasbinMiddleware().Handle,
 	}

@@ -6,11 +6,10 @@ package logic
 import (
 	"context"
 	"fmt"
+	"speedsterApi/app/user/internal/svc"
+	"speedsterApi/app/user/internal/types"
 	"speedsterApi/common/errno"
 	"time"
-	"user/internal/types"
-
-	"user/internal/svc"
 
 	"speedsterApi/common/utils"
 
@@ -75,7 +74,7 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 			userInfo.Id,
 		)
 		if err != nil {
-			return &types.Response{Code: errno.ErrRoleNotExists}, nil
+			return &types.Response{Code: errno.ErrRoleNotExists}, err
 		}
 		logx.Infof("role:%v", role)
 		token, t, err := utils.GenerateToken(userInfo.Id, role, l.svcCtx.Config.JWT.Issuer, l.svcCtx.Config.JWT.Secret)
