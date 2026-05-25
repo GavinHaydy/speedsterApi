@@ -1,0 +1,43 @@
+syntax = "v1"
+
+info (
+	title:   "Role Server"
+	desc:    "Role apis"
+	author:  "GavinHaydy"
+	email:   "gavinhaydy@gmail.com"
+	version: "0.0.1"
+)
+
+import (
+	"../../../common/response/types.api"
+)
+
+type RoleListReq {
+	Rolename string `json:"rolename,optional"`
+	Code     string `json:"code,optional"`
+	Status   int64  `json:"status,optional"`
+	PageNo   int    `json:"pageNo,optional"`
+	PageSize int    `json:"pageSize,optional"`
+}
+
+type RoleListRsp {
+	Name        string
+	Code        string
+	Desctiption string
+	Status      int64
+	CreateTime  string
+	UpdateTime  string
+}
+
+@server (
+	tags:       "Role-Server"
+	prefix:     /role
+	jwt:        Auth
+	middleware: RedisJwtMiddleware,CasbinMiddleware
+)
+service role-api {
+	@doc "角色列表"
+	@handler RoleList
+	post /rolelist (RoleListReq) returns (Response)
+}
+

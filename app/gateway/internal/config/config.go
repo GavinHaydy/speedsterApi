@@ -10,4 +10,7 @@ type Config struct {
 	UserService struct {
 		Target string
 	}
+	RoleService struct {
+		Target string
+	}
 }

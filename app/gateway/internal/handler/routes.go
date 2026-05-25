@@ -22,7 +22,7 @@ func RegisterRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 
 	var routes = []RouteConfig{
 		{Path: "/user/", Target: ctx.Config.UserService.Target},
-		{Path: "/order/", Target: "http://order-service:8080"},
+		{Path: "/role/", Target: ctx.Config.RoleService.Target},
 		{Path: "/product/", Target: "http://product-service:8080"},
 	}
 	RegisterDocRoutes(engine, ctx)
@@ -99,10 +99,24 @@ func RegisterDocRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
-    <!-- 直接使用 data-url 属性指向你的 JSON 接口 -->
-    <script id="api-reference" data-url="/docs/user.json"></script>
-    <!-- 引入 Scalar 脚本 -->
+<div id="app"></div>
     <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+	<script>
+		Scalar.createApiReference('#app', {
+			sources: [
+    // API #1
+    {
+      title: 'User-Server',
+      url: '/docs/user.json',
+    },
+	{
+	title: 'Role-Server', 
+	url: '/docs/role.json'
+	},
+]
+})
+	</script>
+    
 </body>
 </html>
 			`))
@@ -119,9 +133,10 @@ func RegisterDocRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 		Handler: proxyTo(fmt.Sprintf("%s/docs/user.json", ctx.Config.UserService.Target)),
 	})
 	engine.AddRoute(rest.Route{
-		Method:  http.MethodGet,
-		Path:    "/docs/order/swagger.json",
-		Handler: proxyTo("http://order-service:8080/docs/swagger.json"),
+		Method: http.MethodGet,
+		Path:   "/docs/role.json",
+		//Handler: proxyTo("http://order-service:8080/docs/swagger.json"),
+		Handler: proxyTo(fmt.Sprintf("%s/docs/role.json", ctx.Config.RoleService.Target)),
 	})
 	engine.AddRoute(rest.Route{
 		Method:  http.MethodGet,
