@@ -34,13 +34,14 @@ jobs:
             -api app/user/user.api \
             -dir app/user/docs
 
-      - name: Generate Gateway Swagger
+      - name: Generate Role Swagger
         run: |
-          mkdir -p app/gateway/docs
+          mkdir -p app/role/docs
           goctl api plugin \
-            -plugin goctl-swagger="swagger -filename gateway.json" \
-            -api app/gateway/gateway.api \
-            -dir app/gateway/docs
+            -plugin goctl-swagger="swagger -filename role.json" \
+            -api app/role/role.api \
+            -dir app/role/docs
+          
 
       ################################
       # 编译
@@ -58,6 +59,13 @@ jobs:
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
           go build -ldflags="-s -w" \
           -o gateway gateway.go
+
+      - name: Build Role
+        working-directory: app/role
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+          go build -ldflags="-s -w" \
+          -o role role.go
 
       ################################
       # 上传文件
@@ -83,6 +91,13 @@ jobs:
             app/user/user \
             app/user/etc \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/user/
+
+      - name: Upload role
+        run: |
+          rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
+            app/role/role \
+            app/role/etc \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/role/
 
       - name: Upload gateway
         run: |
