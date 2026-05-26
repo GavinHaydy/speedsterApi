@@ -5,8 +5,8 @@ Port: 9527
 # 各微服务地址
 UserService:
   Target: http://user-service:8888
-OrderService:
-  Target: http://order-service:8080
+RoleService:
+  Target: http://role-service:8080
 ProductService:
   Target: http://product-service:8080
 
