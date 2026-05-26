@@ -90,21 +90,21 @@ jobs:
           rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
             app/user/user \
             app/user/etc \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/user/
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/user/
 
       - name: Upload role
         run: |
           rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
             app/role/role \
             app/role/etc \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/role/
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/role/
 
       - name: Upload gateway
         run: |
           rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
             app/gateway/gateway \
             app/gateway/etc \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/gateway/
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/gateway/
 
 
       ################################
@@ -118,6 +118,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            cd /data/speedster
+            cd /data/github
             docker compose down
             docker compose up -d --build
