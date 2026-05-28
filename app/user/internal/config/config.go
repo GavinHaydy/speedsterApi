@@ -15,16 +15,12 @@ type Config struct {
 		DSN string // 对应 YAML 中的 DSN
 	}
 	Redis redis.RedisConf
-	JWT   struct {
-		Secret string `json:",optional"`
-		Issuer string `json:",optional"`
-		Expire int    `json:",optional"`
-		Prefix string `json:",optional"`
-	}
-	Auth struct { // JWT 认证需要的密钥和过期时间配置
+	Auth  struct { // JWT 认证需要的密钥和过期时间配置
+		Issuer        string
+		Prefix        string
 		AccessSecret  string
-		AccessExpire  int64
+		AccessExpire  int
 		RefreshSecret string
-		RefreshExpire int64
+		RefreshExpire int
 	}
 }
