@@ -77,7 +77,7 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 			return &types.Response{Code: errno.ErrRoleNotExists}, err
 		}
 		logx.Infof("role:%v", role)
-		token, t, err := utils.GenerateToken(userInfo.Id, role, l.svcCtx.Config.JWT.Issuer, l.svcCtx.Config.JWT.Secret)
+		token, t, err := utils.GenerateToken(userInfo.Id, role, l.svcCtx.Config.JWT.Issuer, l.svcCtx.Config.JWT.Secret, l.svcCtx.Config.Auth.AccessExpire)
 		if err != nil {
 			logx.Errorf("GenerateToken: %v", err)
 			return &types.Response{Code: errno.ErrGenTokenFailed}, nil
@@ -86,7 +86,7 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 		resultTime = t
 	} else {
 		logx.Info("token存在:开始刷新token")
-		newToken, t, err := utils.RefreshToken(sysToken, l.svcCtx.Config.JWT.Issuer, l.svcCtx.Config.JWT.Secret)
+		newToken, t, err := utils.RefreshToken(sysToken, l.svcCtx.Config.JWT.Issuer, l.svcCtx.Config.JWT.Secret, l.svcCtx.Config.Auth.RefreshExpire)
 		if err != nil {
 			logx.Errorf("RefreshToken:%v", err)
 			return &types.Response{Code: errno.ErrGenTokenFailed}, err

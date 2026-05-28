@@ -8,9 +8,9 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func GenerateToken(userID string, role string, issuer string, secret string) (string, time.Time, error) {
+func GenerateToken(userID string, role string, issuer string, secret string, expire int64) (string, time.Time, error) {
 	now := time.Now()
-	exp := now.Add(24 * time.Hour * 365)
+	exp := now.Add(time.Second * time.Duration(expire))
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": userID,
@@ -85,13 +85,13 @@ func ParseToken(tokenString string, secret string) (string, string, error) {
 	return "", "", jwt.ErrTokenInvalidClaims
 }
 
-func RefreshToken(tokenString string, iss, secret string) (string, time.Time, error) {
+func RefreshToken(tokenString string, iss, secret string, expire int64) (string, time.Time, error) {
 	userID, role, err := ParseToken(tokenString, secret)
 	if err != nil {
 		return "", time.Now(), err
 	}
 
-	return GenerateToken(userID, role, iss, secret)
+	return GenerateToken(userID, role, iss, secret, expire)
 }
 
 func GetUserIDByCtx(ctx context.Context) string {
