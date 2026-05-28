@@ -31,7 +31,7 @@ func NewAccountLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Acc
 func (l *AccountLogoutLogic) AccountLogout() (resp *types.Response, err error) {
 	// todo: add your logic here and delete this line
 	value := l.ctx.Value("user_id")
-	_, err = l.svcCtx.Redis.Del(fmt.Sprintf("%s%v", l.svcCtx.Config.JWT.Prefix, value))
+	_, err = l.svcCtx.Redis.Del(fmt.Sprintf("%s%v", l.svcCtx.Config.Auth.Prefix, value))
 	if err != nil {
 		return &types.Response{Code: errno.ErrRedisFailed}, nil
 	}
