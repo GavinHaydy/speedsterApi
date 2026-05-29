@@ -5,6 +5,7 @@ package handler
 
 import (
 	"net/http"
+
 	"speedsterApi/app/user/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -24,6 +25,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/login",
 				Handler: AccountLoginHandler(serverCtx),
+			},
+			{
+				// 刷新token
+				Method:  http.MethodPost,
+				Path:    "/refresh",
+				Handler: RefreshHandler(serverCtx),
 			},
 			{
 				// 注册

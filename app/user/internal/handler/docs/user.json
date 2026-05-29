@@ -154,6 +154,58 @@
         }
       }
     },
+    "/user/refresh": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "User-Server"
+        ],
+        "summary": "刷新token",
+        "operationId": "refresh",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "refreshToken": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "data": {
+                  "description": ".api 中使用 any 对应 Go 的 interface{} 或 泛型 T"
+                },
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user/register": {
       "post": {
         "consumes": [
@@ -290,7 +342,7 @@
       }
     }
   },
-  "x-date": "2026-05-23 22:34:18",
+  "x-date": "2026-05-29 22:31:02",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

@@ -28,6 +28,7 @@ const (
 	ErrAccountNotFound = 20006
 	ErrPasswordFailed  = 20007
 	ErrRegisterFailed  = 20008
+	ErrTokenTypeFailed = 20009
 
 	ErrCompanyNotRemoveMember   = 20101
 	ErrCompanyNotFound          = 20102
@@ -99,6 +100,7 @@ var CodeAlertMap = map[int]string{
 	ErrYetEmailNotFound:       "邮箱不能为空",
 	ErrYetUserNotFound:        "用户不能为空",
 	ErrGenTokenFailed:         "token生成失败",
+	ErrTokenTypeFailed:        "token类型错误",
 }
 
 // CodeMsgMap 错误码映射错误信息，不展示给用户
@@ -153,4 +155,5 @@ var CodeMsgMap = map[int]string{
 	ErrYetEmailNotFound:         "ErrYetEmailNotFound",
 	ErrYetUserNotFound:          "ErrYetUserNotFound",
 	ErrGenTokenFailed:           "ErrGenTokenFailed",
+	ErrTokenTypeFailed:          "ErrTokenTypeFailed",
 }

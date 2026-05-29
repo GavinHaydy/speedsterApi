@@ -47,6 +47,10 @@ type UserListRsp {
 	avatar   *string `json:"avatar"`
 }
 
+type RefreshReq {
+	RefreshToken string `json:"refreshToken,optional"`
+}
+
 @server (
 	tags:   "User-Server"
 	prefix: /user
@@ -63,6 +67,10 @@ service user-api {
 	@doc "注册"
 	@handler Register
 	post /register (RegisterReq) returns (Response)
+
+	@doc "刷新token"
+	@handler Refresh
+	post /refresh (RefreshReq) returns (Response)
 }
 
 @server (

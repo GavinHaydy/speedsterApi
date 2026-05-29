@@ -8,6 +8,10 @@ type LoginReq struct {
 	Password string `json:"password"`
 }
 
+type RefreshReq struct {
+	RefreshToken string `json:"refreshToken,optional"`
+}
+
 type RegisterReq struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
