@@ -12,6 +12,6 @@ Auth:
   issuer: SpeedsterApi  # 发行者
   prefix: user_token_ # token前缀
   AccessSecret: "SpeedsterIsBest!"
-  AccessExpire: 3600        # Access Token 有效期：1 小时
+  AccessExpire: 600        # Access Token 秒 有效期：10 分钟
   RefreshSecret: "SpeedsterRefresh"
   RefreshExpire: 604800        # Refresh Token 有效期：一周

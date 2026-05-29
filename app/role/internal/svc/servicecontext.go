@@ -29,7 +29,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config:             c,
 		RoleModel:          model.NewRoleModel(conn),
-		RedisJwtMiddleware: middleware.NewRedisJwtMiddleware(rdb).Handle,
+		RedisJwtMiddleware: middleware.NewRedisJwtMiddleware(rdb, c.Auth.AccessSecret).Handle,
 		CasbinMiddleware:   middleware.NewCasbinMiddleware().Handle,
 		DB:                 conn,
 	}

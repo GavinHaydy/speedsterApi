@@ -36,7 +36,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		SysRoleModel:       model.NewRoleModel(conn),
 		SysUserRoleModel:   model.NewSysUserRoleModel(conn),
 		Redis:              *rdb,
-		RedisJwtMiddleware: middleware.NewRedisJwtMiddleware(rdb).Handle,
+		RedisJwtMiddleware: middleware.NewRedisJwtMiddleware(rdb, c.Auth.AccessSecret).Handle,
 		DB:                 conn,
 		CasbinMiddleware:   middleware.NewCasbinMiddleware().Handle,
 	}

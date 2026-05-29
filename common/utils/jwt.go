@@ -1,19 +1,19 @@
 package utils
 
 import (
-	"context"
 	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func GenerateToken(userID string, role string, issuer string, secret string, expire int) (string, time.Time, error) {
+func genToken(userID string, role string, issuer string, secret string, expire int, tokenType string) (string, time.Time, error) {
 	now := time.Now()
 	exp := now.Add(time.Second * time.Duration(expire))
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": userID,
+		"type":    tokenType,
 		"role":    role,
 		"iss":     issuer,
 		"iat":     now.Unix(),
@@ -23,6 +23,10 @@ func GenerateToken(userID string, role string, issuer string, secret string, exp
 	tokenString, err := token.SignedString([]byte(secret))
 
 	return tokenString, exp, err
+}
+
+func GenAccessToken(userID string, role string, issuer string, secret string, expire int) (string, time.Time, error) {
+	return genToken(userID, role, issuer, secret, expire, "access")
 }
 
 func GenerateTokenByTime(userID string, iss string, secret string, d time.Duration) (string, time.Time, error) {
@@ -41,7 +45,7 @@ func GenerateTokenByTime(userID string, iss string, secret string, d time.Durati
 	return tokenString, exp, err
 }
 
-func ParseToken(tokenString string, secret string) (string, string, error) {
+func ParseToken(tokenString string, secret string) (string, string, string, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -52,13 +56,14 @@ func ParseToken(tokenString string, secret string) (string, string, error) {
 
 	if err != nil {
 		//return "", jwt.ErrHashUnavailable
-		return "", "", err
+		return "", "", "", err
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 
 		var userID string
 		var role string
+		var tokenType string
 
 		if v, ok := claims["user_id"]; ok {
 			if s, ok := v.(string); ok {
@@ -72,30 +77,19 @@ func ParseToken(tokenString string, secret string) (string, string, error) {
 			}
 		}
 
-		return userID, role, nil
-		//if userID, ok := claims["user_id"]; ok {
-		//
-		//	if i, ok := userID.(string); ok {
-		//		return i, nil
-		//	}
-		//
-		//}
+		if v, ok := claims["type"]; ok {
+			if s, ok := v.(string); ok {
+				tokenType = s
+
+			}
+		}
+
+		return userID, role, tokenType, nil
 	}
 
-	return "", "", jwt.ErrTokenInvalidClaims
+	return "", "", "", jwt.ErrTokenInvalidClaims
 }
 
-func RefreshToken(tokenString string, iss, secret string, expire int) (string, time.Time, error) {
-	userID, role, err := ParseToken(tokenString, secret)
-	if err != nil {
-		return "", time.Now(), err
-	}
-
-	return GenerateToken(userID, role, iss, secret, expire)
-}
-
-func GetUserIDByCtx(ctx context.Context) string {
-	// JWT 中间件解析后，通常会将值以 json.Number 的类型存入 context
-	jsonUid := ctx.Value("user_id")
-	return jsonUid.(string)
+func GenRefreshToken(userID string, role string, issuer string, secret string, expire int) (string, time.Time, error) {
+	return genToken(userID, role, issuer, secret, expire, "refresh")
 }

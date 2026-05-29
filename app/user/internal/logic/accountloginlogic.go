@@ -49,17 +49,15 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 		return &types.Response{Code: errno.ErrPasswordFailed}, err
 	}
 
-	var resultToken string
+	var accessToken string
+	var refreshToken string
 	var resultTime time.Time
 
-	sysToken, err := rdb.Get(fmt.Sprintf("%s%v", l.svcCtx.Config.Auth.Prefix, userInfo.Id))
+	logx.Info("开始生成token")
+	var role string
 
-	if err != nil || sysToken == "" {
-		logx.Info("token不存在:开始生成token")
-		var role string
-
-		// language=PostgreSQL
-		sql := `
+	// language=PostgreSQL
+	sql := `
 				select r.code
 				from sys_user_role ur
 				join role r on ur.role_id = r.id
@@ -67,46 +65,45 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 				limit 1
 				`
 
-		err = l.svcCtx.DB.QueryRowCtx(
-			l.ctx,
-			&role,
-			sql,
-			userInfo.Id,
-		)
-		if err != nil {
-			return &types.Response{Code: errno.ErrRoleNotExists}, err
-		}
-		logx.Infof("role:%v", role)
-		token, t, err := utils.GenerateToken(userInfo.Id, role, l.svcCtx.Config.Auth.Issuer, l.svcCtx.Config.Auth.AccessSecret, l.svcCtx.Config.Auth.AccessExpire)
-		if err != nil {
-			logx.Errorf("GenerateToken: %v", err)
-			return &types.Response{Code: errno.ErrGenTokenFailed}, nil
-		}
-		resultToken = token
-		resultTime = t
-	} else {
-		logx.Info("token存在:开始刷新token")
-		newToken, t, err := utils.RefreshToken(sysToken, l.svcCtx.Config.Auth.Issuer, l.svcCtx.Config.Auth.RefreshSecret, l.svcCtx.Config.Auth.RefreshExpire)
-		if err != nil {
-			logx.Errorf("RefreshToken:%v", err)
-			return &types.Response{Code: errno.ErrGenTokenFailed}, err
-		}
-		resultToken = newToken
-		resultTime = t
-
+	err = l.svcCtx.DB.QueryRowCtx(
+		l.ctx,
+		&role,
+		sql,
+		userInfo.Id,
+	)
+	if err != nil {
+		return &types.Response{Code: errno.ErrRoleNotExists}, err
 	}
+
+	token, t, err := utils.GenAccessToken(userInfo.Id, role, l.svcCtx.Config.Auth.Issuer, l.svcCtx.Config.Auth.AccessSecret, l.svcCtx.Config.Auth.AccessExpire)
+	if err != nil {
+		logx.Errorf("GenAccessToken: %v", err)
+		return &types.Response{Code: errno.ErrGenTokenFailed}, nil
+	}
+	accessToken = token
+	resultTime = t
+
+	longToken, _, err := utils.GenRefreshToken(userInfo.Id, role, l.svcCtx.Config.Auth.Issuer, l.svcCtx.Config.Auth.RefreshSecret, l.svcCtx.Config.Auth.RefreshExpire)
+	if err != nil {
+		logx.Errorf("GenRefreshToken:%v", err)
+		return &types.Response{Code: errno.ErrGenTokenFailed}, err
+	}
+	refreshToken = longToken
+
+	//}
 
 	exp := utils.DateTime(resultTime)
 
-	err = rdb.Setex(fmt.Sprintf("%s%v", l.svcCtx.Config.Auth.Prefix, userInfo.Id), resultToken, l.svcCtx.Config.Auth.AccessExpire)
+	err = rdb.Setex(fmt.Sprintf("%s%v", l.svcCtx.Config.Auth.Prefix, userInfo.Id), refreshToken, l.svcCtx.Config.Auth.RefreshExpire)
 	if err != nil {
 		logx.Errorf("Setex: %v", err)
 		return &types.Response{Code: errno.ErrRedisFailed}, err
 	}
 
 	result := map[string]interface{}{
-		"token": resultToken,
-		"time":  exp,
+		"accessToken":  accessToken,
+		"refreshToken": refreshToken,
+		"time":         exp,
 	}
 	return &types.Response{
 		Data: result,
