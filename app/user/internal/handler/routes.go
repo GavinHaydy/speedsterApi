@@ -53,6 +53,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: AccountLogoutHandler(serverCtx),
 				},
 				{
+					// 修改用户状态
+					Method:  http.MethodPut,
+					Path:    "/status",
+					Handler: StatusHandler(serverCtx),
+				},
+				{
 					// 用户列表
 					Method:  http.MethodPost,
 					Path:    "/userlist",

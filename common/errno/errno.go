@@ -3,23 +3,24 @@ package errno
 const (
 	Ok = 0
 
-	ErrParam           = 10001
-	ErrServer          = 10002
-	ErrNonce           = 10003
-	ErrTimeStamp       = 10004
-	ErrRPCFailed       = 10005
-	ErrInvalidToken    = 10006
-	ErrMarshalFailed   = 10007
-	ErrUnMarshalFailed = 10008
-	ErrMustDID         = 10011
-	ErrMustSN          = 10012
-	ErrHttpFailed      = 10013
-	ErrGenTokenFailed  = 10014
-	ErrRedisFailed     = 10100
-	ErrMongoFailed     = 10101
-	ErrPgsqlFailed     = 10102
-	ErrRecordNotFound  = 10103
-	ErrSelectDbFailed  = 10104
+	ErrParam            = 10001
+	ErrServer           = 10002
+	ErrNonce            = 10003
+	ErrTimeStamp        = 10004
+	ErrRPCFailed        = 10005
+	ErrInvalidToken     = 10006
+	ErrMarshalFailed    = 10007
+	ErrUnMarshalFailed  = 10008
+	ErrMustDID          = 10011
+	ErrMustSN           = 10012
+	ErrHttpFailed       = 10013
+	ErrGenTokenFailed   = 10014
+	ErrRedisFailed      = 10100
+	ErrMongoFailed      = 10101
+	ErrPgsqlFailed      = 10102
+	ErrRecordNotFound   = 10103
+	ErrSelectDbFailed   = 10104
+	ErrUpdateDataFailed = 10105
 
 	ErrSignError       = 20001
 	ErrRepeatRequest   = 20002
@@ -101,6 +102,7 @@ var CodeAlertMap = map[int]string{
 	ErrYetUserNotFound:        "用户不能为空",
 	ErrGenTokenFailed:         "token生成失败",
 	ErrTokenTypeFailed:        "token类型错误",
+	ErrUpdateDataFailed:       "数据修改失败",
 }
 
 // CodeMsgMap 错误码映射错误信息，不展示给用户
@@ -156,4 +158,5 @@ var CodeMsgMap = map[int]string{
 	ErrYetUserNotFound:          "ErrYetUserNotFound",
 	ErrGenTokenFailed:           "ErrGenTokenFailed",
 	ErrTokenTypeFailed:          "ErrTokenTypeFailed",
+	ErrUpdateDataFailed:         "ErrUpdateDataFailed",
 }

@@ -29,6 +29,11 @@ type Response struct {
 	Data interface{} `json:"data,omitempty"` // .api 中使用 any 对应 Go 的 interface{} 或 泛型 T
 }
 
+type StatusReq struct {
+	Id     string `json:"id,optional"`
+	Status int64  `json:"status,options=1|2"`
+}
+
 type UserListReq struct {
 	Username string `json:"username,optional"`
 	Email    string `json:"email,optional"`

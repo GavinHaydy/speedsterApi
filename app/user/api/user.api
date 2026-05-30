@@ -51,6 +51,11 @@ type RefreshReq {
 	RefreshToken string `json:"refreshToken,optional"`
 }
 
+type StatusReq {
+	id     string `json:"id,optional"`
+	status int64  `json:"status,options=1|2"`
+}
+
 @server (
 	tags:   "User-Server"
 	prefix: /user
@@ -87,5 +92,9 @@ service user-api {
 	@doc "用户列表"
 	@handler UserList
 	post /userlist (UserListReq) returns (Response)
+
+	@doc "修改用户状态"
+	@handler Status
+	put /status (StatusReq) returns (Response)
 }
 
