@@ -17,6 +17,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.RedisJwtMiddleware, serverCtx.CasbinMiddleware},
 			[]rest.Route{
 				{
+					// 新建角色
+					Method:  http.MethodPost,
+					Path:    "/create",
+					Handler: CreateRoleHandler(serverCtx),
+				},
+				{
 					// 角色列表
 					Method:  http.MethodPost,
 					Path:    "/rolelist",

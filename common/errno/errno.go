@@ -21,6 +21,7 @@ const (
 	ErrRecordNotFound   = 10103
 	ErrSelectDbFailed   = 10104
 	ErrUpdateDataFailed = 10105
+	ErrInsertFailed     = 10106
 
 	ErrSignError       = 20001
 	ErrRepeatRequest   = 20002
@@ -103,6 +104,7 @@ var CodeAlertMap = map[int]string{
 	ErrGenTokenFailed:         "token生成失败",
 	ErrTokenTypeFailed:        "token类型错误",
 	ErrUpdateDataFailed:       "数据修改失败",
+	ErrInsertFailed:           "新增失败",
 }
 
 // CodeMsgMap 错误码映射错误信息，不展示给用户
@@ -159,4 +161,5 @@ var CodeMsgMap = map[int]string{
 	ErrGenTokenFailed:           "ErrGenTokenFailed",
 	ErrTokenTypeFailed:          "ErrTokenTypeFailed",
 	ErrUpdateDataFailed:         "ErrUpdateDataFailed",
+	ErrInsertFailed:             "ErrInsertFailed",
 }

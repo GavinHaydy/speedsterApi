@@ -29,6 +29,12 @@ type RoleListRsp {
 	UpdateTime  string
 }
 
+type NewRole {
+	Name        string `json:"name,optional"`
+	Code        string `json:"code,optional"`
+	Description string `json:"description"`
+}
+
 @server (
 	tags:       "Role-Server"
 	prefix:     /role
@@ -39,5 +45,9 @@ service role-api {
 	@doc "角色列表"
 	@handler RoleList
 	post /rolelist (RoleListReq) returns (Response)
+
+	@doc "新建角色"
+	@handler CreateRole
+	post /create (NewRole) returns (Response)
 }
 

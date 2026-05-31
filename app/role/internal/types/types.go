@@ -3,6 +3,12 @@
 
 package types
 
+type NewRole struct {
+	Name        string `json:"name,optional"`
+	Code        string `json:"code,optional"`
+	Description string `json:"description"`
+}
+
 type Response struct {
 	Code int         `json:"code"`
 	Msg  string      `json:"msg,omitempty"`
