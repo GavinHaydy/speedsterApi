@@ -14,7 +14,7 @@ ADD go.sum .
 RUN go mod download
 COPY . .
 
-RUN go build -ldflags="-s -w" -o /app/user app/user/user.go
+RUN go build -ldflags="-s -w" -o /app/role app/role/role.go
 
 
 FROM scratch
@@ -24,9 +24,9 @@ COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/S
 ENV TZ Asia/Shanghai
 
 WORKDIR /app
-COPY --from=builder /app/user /app/user
-COPY app/user/etc /app/etc
+COPY --from=builder /app/role /app/role
+COPY app/role/etc /app/etc
 
-EXPOSE 8888
+EXPOSE 8889
 
-CMD ["./user", "-f", "etc/user-api.local.yaml"]
+CMD ["./role", "-f", "etc/role-api.docker.yaml"]
