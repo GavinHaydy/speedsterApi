@@ -26,6 +26,7 @@ ENV TZ Asia/Shanghai
 WORKDIR /app
 COPY --from=builder /app/role /app/role
 COPY app/role/etc /app/etc
+COPY common/casbin /common/casbin
 
 EXPOSE 8889
 

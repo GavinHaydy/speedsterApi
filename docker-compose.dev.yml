@@ -1,45 +1,60 @@
-version: "3.9"
+x-app-environment: &app-environment
+  HTTP_PROXY: ""
+  HTTPS_PROXY: ""
+  http_proxy: ""
+  https_proxy: ""
+  NO_PROXY: "*"
+  no_proxy: "*"
+  GOMAXPROCS: ${GOMAXPROCS:-1}
 
 services:
   postgres:
     image: postgres:18
     container_name: speedster-postgres
-    restart: always
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: speedster
-      POSTGRES_PASSWORD: speedster
-      POSTGRES_DB: speedster
+      POSTGRES_USER: ${POSTGRES_USER:-speedster}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-speedster}
+      POSTGRES_DB: ${POSTGRES_DB:-speedster}
     ports:
-      - "15432:5432"
+      - "${POSTGRES_PORT:-15432}:5432"
     volumes:
       - pg_data:/var/lib/postgresql
-      - ./common/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./common/init/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - speedster-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U speedster -d speedster"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
+      timeout: 5s
       retries: 10
 
   redis:
     image: redis:8
     container_name: speedster-redis
-    restart: always
-    command: ["redis-server", "--requirepass", "mypassword"]
+    restart: unless-stopped
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-mypassword}
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-mypassword}"]
     ports:
-      - "16379:6379"
+      - "${REDIS_PORT:-16379}:6379"
     networks:
       - speedster-net
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "mypassword", "ping"]
+      test: ["CMD-SHELL", 'redis-cli -a "$${REDIS_PASSWORD:-mypassword}" ping | grep PONG']
       interval: 5s
       timeout: 5s
       retries: 10
 
   user-service:
+    container_name: speedster-user
+    restart: unless-stopped
     build:
       context: .
       dockerfile: app/user/Dockerfile
+    environment: *app-environment
+    expose:
+      - "8888"
     depends_on:
       postgres:
         condition: service_healthy
@@ -49,9 +64,14 @@ services:
       - speedster-net
 
   role-service:
+    container_name: speedster-role
+    restart: unless-stopped
     build:
       context: .
       dockerfile: app/role/Dockerfile
+    environment: *app-environment
+    expose:
+      - "8889"
     depends_on:
       postgres:
         condition: service_healthy
@@ -61,14 +81,19 @@ services:
       - speedster-net
 
   gateway:
+    container_name: speedster-gateway
+    restart: unless-stopped
     build:
-      context: .
-      dockerfile: app/gateway/Dockerfile
+      context: ./app/gateway
+      dockerfile: Dockerfile
+    environment: *app-environment
     ports:
-      - "9527:9527"
+      - "${GATEWAY_PORT:-9527}:9527"
     depends_on:
-      - user-service
-      - role-service
+      user-service:
+        condition: service_started
+      role-service:
+        condition: service_started
     networks:
       - speedster-net
 

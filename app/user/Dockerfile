@@ -26,7 +26,8 @@ ENV TZ Asia/Shanghai
 WORKDIR /app
 COPY --from=builder /app/user /app/user
 COPY app/user/etc /app/etc
+COPY common/casbin /common/casbin
 
 EXPOSE 8888
 
-CMD ["./user", "-f", "etc/user-api.local.yaml"]
+CMD ["./user", "-f", "etc/user-api.docker.yaml"]
