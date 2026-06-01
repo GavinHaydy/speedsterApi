@@ -3,7 +3,7 @@ Host: 0.0.0.0
 Port: 8888
 AesSecretKey: SpeedsterIsBest!
 DB:
-  DSN: postgres://speedster:speedster@localhost:15432/speedster?sslmode=disable
+  DSN: postgres://speedster:speedster@localhost:5432/speedster?sslmode=disable
 Redis:
   Host: localhost:6379
   Pass: ""
