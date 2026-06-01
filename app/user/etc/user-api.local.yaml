@@ -1,0 +1,17 @@
+Name: user-api
+Host: 0.0.0.0
+Port: 8888
+AesSecretKey: SpeedsterIsBest!
+DB:
+  DSN: postgres://speedster:speedster@localhost:15432/speedster?sslmode=disable
+Redis:
+  Host: localhost:6379
+  Pass: ""
+  Type: node
+Auth:
+  issuer: SpeedsterApi # 发行者
+  prefix: user_token_ # token前缀
+  AccessSecret: "SpeedsterIsBest!"
+  AccessExpire: 600 # Access Token 秒 有效期：10 分钟
+  RefreshSecret: "SpeedsterRefresh"
+  RefreshExpire: 604800 # Refresh Token 有效期：一周

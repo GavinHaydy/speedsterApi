@@ -2,9 +2,29 @@
 
 本文档用于说明如何在本地搭建并运行 speedsterApi 开发环境。
 
+---
+
+## 开发方式
+
+本项目支持两种开发方式：
+
+### 方式一：本地安装依赖（推荐熟悉环境）
+
+自行安装 PostgreSQL 和 Redis。
+
+### 方式二：Docker 启动依赖（推荐快速启动）
+
+使用 docker-compose 一键启动数据库依赖。
+
+```bash id="runcompose"
+docker compose -f docker-compose.dev.yml up -d
+```
+
+---
+
 ## 环境要求
 
-开发前请确保已安装以下软件：
+开发前请确保已安装：
 
 - Go
 - PostgreSQL
@@ -12,7 +32,7 @@
 
 检查版本：
 
-```bash
+```bash id="checkver"
 go version
 psql --version
 redis-server --version
@@ -26,19 +46,19 @@ redis-server --version
 
 ### 创建数据库
 
-```sql
+```sql id="createdb"
 CREATE DATABASE speedster;
 ```
 
 ### 导入初始化数据
 
-执行项目中的初始化脚本：
+执行初始化脚本：
 
-```bash
+```bash id="importsql"
 psql -U <用户名> -d speedster -f common/init/init.sql
 ```
 
-初始化脚本会自动创建：
+初始化脚本会创建以下表：
 
 - sys_user
 - role
@@ -52,24 +72,41 @@ psql -U <用户名> -d speedster -f common/init/init.sql
 
 ## Redis 配置
 
-项目默认配置：
+### 本地模式
 
-```text
-Host: redis-db:6379
+```text id="redislocal"
+Host: localhost:6379
 Password: mypassword
 ```
 
-可使用 Docker 快速启动：
+### Docker 模式
 
-```bash
-docker run -d \
-  --name redis-db \
-  -p 6379:6379 \
-  redis:7 \
-  redis-server --requirepass mypassword
+```text id="redisdocker"
+Host: localhost:16379
+Password: mypassword
 ```
 
-如使用本地 Redis，请根据实际情况修改配置文件。
+---
+
+## PostgreSQL 配置
+
+### 本地模式
+
+```text id="pglocal"
+Host: localhost:5432
+Database: speedster
+User: speedster
+Password: speedster
+```
+
+### Docker 模式
+
+```text id="pgdocker"
+Host: localhost:15432
+Database: speedster
+User: speedster
+Password: speedster
+```
 
 ---
 
@@ -77,15 +114,13 @@ docker run -d \
 
 ### User 服务
 
-配置文件：
-
-```text
+```text id="userconf"
 app/user/etc/user-api.yaml
 ```
 
 默认端口：
 
-```text
+```text id="userport"
 8888
 ```
 
@@ -93,15 +128,13 @@ app/user/etc/user-api.yaml
 
 ### Role 服务
 
-配置文件：
-
-```text
+```text id="roleconf"
 app/role/etc/role-api.yaml
 ```
 
 默认端口：
 
-```text
+```text id="roleport"
 8889
 ```
 
@@ -109,15 +142,13 @@ app/role/etc/role-api.yaml
 
 ### Gateway 服务
 
-配置文件：
-
-```text
+```text id="gwconf"
 app/gateway/etc/gateway-api.yaml
 ```
 
 默认端口：
 
-```text
+```text id="gwport"
 9527
 ```
 
@@ -125,7 +156,7 @@ app/gateway/etc/gateway-api.yaml
 
 ## 服务启动顺序
 
-由于 User 和 Role 服务启动时需要连接 PostgreSQL 并加载权限策略，因此建议按以下顺序启动：
+由于 User 和 Role 服务依赖数据库并加载权限策略，建议按以下顺序启动：
 
 1. PostgreSQL
 2. Redis
@@ -139,14 +170,14 @@ app/gateway/etc/gateway-api.yaml
 
 ### 启动 User 服务
 
-```bash
+```bash id="runuser"
 cd app/user
 go run .
 ```
 
-正常启动后会看到：
+启动成功输出：
 
-```text
+```text id="userok"
 Starting server at 0.0.0.0:8888...
 ```
 
@@ -154,14 +185,14 @@ Starting server at 0.0.0.0:8888...
 
 ### 启动 Role 服务
 
-```bash
+```bash id="runrole"
 cd app/role
 go run .
 ```
 
-正常启动后会看到：
+启动成功输出：
 
-```text
+```text id="roleok"
 Starting server at 0.0.0.0:8889...
 ```
 
@@ -169,14 +200,14 @@ Starting server at 0.0.0.0:8889...
 
 ### 启动 Gateway 服务
 
-```bash
+```bash id="rungw"
 cd app/gateway
 go run .
 ```
 
-正常启动后会看到：
+启动成功输出：
 
-```text
+```text id="gwok"
 Starting server at 0.0.0.0:9527...
 ```
 
@@ -184,27 +215,27 @@ Starting server at 0.0.0.0:9527...
 
 ## 服务端口
 
-| 服务       | 端口 |
-| ---------- | ---- |
-| Gateway    | 9527 |
-| User       | 8888 |
-| Role       | 8889 |
-| PostgreSQL | 5432 |
-| Redis      | 6379 |
+| 服务       | 端口         |
+| ---------- | ------------ |
+| Gateway    | 9527         |
+| User       | 8888         |
+| Role       | 8889         |
+| PostgreSQL | 5432 / 15432 |
+| Redis      | 6379 / 16379 |
 
 ---
 
 ## API 文档生成
 
-首次使用 Swagger 功能时：
+首次启用 Swagger：
 
-```bash
+```bash id="swaggerenv"
 goctl env -w GOCTL_EXPERIMENTAL=on
 ```
 
 生成 Swagger：
 
-```bash
+```bash id="swaggergen"
 goctl api swagger \
   --api your.api \
   --dir internal/handler/docs
@@ -212,12 +243,12 @@ goctl api swagger \
 
 参数说明：
 
-| 参数       | 说明           |
-| ---------- | -------------- |
-| --api      | API 文件路径   |
-| --dir      | 输出目录       |
-| --filename | 输出文件名     |
-| --yaml     | 生成 YAML 格式 |
+| 参数       | 说明         |
+| ---------- | ------------ |
+| --api      | API 文件路径 |
+| --dir      | 输出目录     |
+| --filename | 文件名       |
+| --yaml     | 输出 YAML    |
 
 ---
 
@@ -225,13 +256,13 @@ goctl api swagger \
 
 生成 API 代码：
 
-```bash
+```bash id="genapi"
 goctl api go -api user.api -dir .
 ```
 
 生成 Dockerfile：
 
-```bash
+```bash id="gendocker"
 goctl docker --go hello.go --port 8888
 ```
 
@@ -241,28 +272,28 @@ goctl docker --go hello.go --port 8888
 
 ### PostgreSQL 连接失败
 
-请检查：
+检查：
 
 - PostgreSQL 是否启动
-- 数据库是否已创建
-- 配置文件中的 DSN 是否正确
+- 数据库是否存在
+- DSN 是否正确（端口是否匹配 5432 / 15432）
 
 ---
 
 ### Redis 连接失败
 
-请检查：
+检查：
 
 - Redis 是否启动
-- Redis 密码是否与配置文件一致
-- Redis 地址是否可访问
+- 密码是否匹配
+- 端口是否正确（6379 / 16379）
 
 ---
 
 ### Casbin 初始化失败
 
-请检查：
+检查：
 
-- 是否执行了 `common/init/init.sql`
-- 权限相关数据表是否存在
-- PostgreSQL 是否正常连接
+- 是否执行 `common/init/init.sql`
+- 权限表是否存在
+- 数据库是否可连接
