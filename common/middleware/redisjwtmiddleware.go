@@ -2,6 +2,8 @@ package middleware
 
 import (
 	"net/http"
+	"speedsterApi/common/errno"
+	"speedsterApi/common/response"
 	"speedsterApi/common/utils"
 
 	"github.com/zeromicro/go-zero/core/stores/redis"
@@ -52,13 +54,15 @@ func (m *RedisJwtMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		token := r.Header.Get("Authorization")
 		_, _, tokenType, err := utils.ParseToken(token, m.Signature)
 		if err != nil {
-			w.Header().Set("Content-Type", "application/json")
-			w.Write([]byte(`{"code": 401, "msg": "登录已失效，请重新登录"}`))
+			//w.Header().Set("Content-Type", "application/json")
+			//w.Write([]byte(`{"code": 401, "msg": "登录已失效，请重新登录"}`))
+			response.ErrorWithCode(w, r, errno.ErrInvalidToken)
 			return
 		}
 		if tokenType != "access" {
-			w.Header().Set("Content-Type", "application/json")
-			w.Write([]byte(`{"code": 401, "msg": "无效Token"}`))
+			//w.Header().Set("Content-Type", "application/json")
+			//w.Write([]byte(`{"code": 401, "msg": "无效Token"}`))
+			response.ErrorWithCode(w, r, errno.ErrTokenTypeFailed)
 			return
 		}
 		// 4. Redis 校验通过，放行请求

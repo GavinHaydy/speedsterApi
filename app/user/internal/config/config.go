@@ -10,7 +10,7 @@ import (
 
 type Config struct {
 	rest.RestConf
-	AesSecretKey string `json:",optional"`
+	AesSecretKey string
 	DB           struct {
 		DSN string // 对应 YAML 中的 DSN
 	}
