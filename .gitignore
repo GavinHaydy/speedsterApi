@@ -35,3 +35,6 @@ go.work.sum
 app/user/user
 app/gateway/gateway
 app/role/role
+
+/.logs
+/.run

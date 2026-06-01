@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: speedster-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: speedster
+      POSTGRES_PASSWORD: speedster
+      POSTGRES_DB: speedster
+    ports:
+      - "15432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql
+      - ./common/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - speedster-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U speedster -d speedster"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:8
+    container_name: speedster-redis
+    restart: always
+    command: ["redis-server", "--requirepass", "mypassword"]
+    ports:
+      - "16379:6379"
+    networks:
+      - speedster-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "mypassword", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+networks:
+  speedster-net:
+    driver: bridge
+
+volumes:
+  pg_data:

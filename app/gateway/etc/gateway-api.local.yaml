@@ -1,0 +1,22 @@
+Name: gateway-api
+Host: 0.0.0.0
+Port: 9527
+
+# 各微服务地址
+UserService:
+  Target: http://localhost:8888
+RoleService:
+  Target: http://localhost:8889
+ProductService:
+  Target: http://localhost:8080
+
+Upstreams:
+  - Name: userapi
+    Http:
+      Target: localhost:8888
+      Prefix: /api/user
+    Mappings:
+      - Method: GET
+        Path: /user
+      - Method: POST
+        Path: /user
