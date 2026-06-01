@@ -1,0 +1,15 @@
+Name: role-api
+Host: 0.0.0.0
+Port: 8889
+DB:
+  DSN: postgres://speedster:speedster@postgres:5432/speedster?sslmode=disable
+Redis:
+  Host: redis:6379
+  Pass: "mypassword"
+  Type: node
+Auth:
+  AccessSecret: "SpeedsterIsBest!"
+  AccessExpire: 600 # Access Token 有效期：1 小时
+  RefreshSecret: "SpeedsterRefresh"
+  RefreshExpire: 604800 # Refresh Token 有效期：1 小时
+  prefix: user_token_ # token前缀

@@ -36,6 +36,42 @@ services:
       timeout: 5s
       retries: 10
 
+  user-service:
+    build:
+      context: .
+      dockerfile: app/user/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - speedster-net
+
+  role-service:
+    build:
+      context: .
+      dockerfile: app/role/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - speedster-net
+
+  gateway:
+    build:
+      context: .
+      dockerfile: app/gateway/Dockerfile
+    ports:
+      - "9527:9527"
+    depends_on:
+      - user-service
+      - role-service
+    networks:
+      - speedster-net
+
 networks:
   speedster-net:
     driver: bridge
