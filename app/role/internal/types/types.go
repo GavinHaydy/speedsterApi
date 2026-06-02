@@ -31,3 +31,11 @@ type RoleListRsp struct {
 	CreateTime  string
 	UpdateTime  string
 }
+
+type UpdateRole struct {
+	Id          int64   `json:"id,optional"`
+	Name        *string `json:"name"`
+	Code        *string `json:"code"`
+	Description *string `json:"description"`
+	Status      *int64  `json:"status,options=1|2"`
+}

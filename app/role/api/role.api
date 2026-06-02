@@ -35,6 +35,14 @@ type NewRole {
 	Description string `json:"description"`
 }
 
+type UpdateRole {
+	Id          int64   `json:"id,optional"`
+	Name        *string `json:"name"`
+	Code        *string `json:"code"`
+	Description *string `json:"description"`
+	Status      *int64  `json:"status,options=1|2"`
+}
+
 @server (
 	tags:       "Role-Server"
 	prefix:     /role
@@ -49,5 +57,9 @@ service role-api {
 	@doc "新建角色"
 	@handler CreateRole
 	post /create (NewRole) returns (Response)
+
+	@doc "修改角色"
+	@handler UpdateRole
+	put /update (UpdateRole) returns (Response)
 }
 

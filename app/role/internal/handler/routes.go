@@ -28,6 +28,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/rolelist",
 					Handler: RoleListHandler(serverCtx),
 				},
+				{
+					// 修改角色
+					Method:  http.MethodPut,
+					Path:    "/update",
+					Handler: UpdateRoleHandler(serverCtx),
+				},
 			}...,
 		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
