@@ -3,6 +3,10 @@
 
 package types
 
+type DelRole struct {
+	Id int64 `json:"id,optional"`
+}
+
 type NewRole struct {
 	Name        string `json:"name,optional"`
 	Code        string `json:"code,optional"`

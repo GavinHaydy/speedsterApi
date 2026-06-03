@@ -48,7 +48,8 @@ CREATE TABLE role
     status      SMALLINT  DEFAULT 1,
 
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    delete_at   TIMESTAMP
 );
 
 INSERT INTO role(name,code)

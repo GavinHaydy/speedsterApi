@@ -17,6 +17,7 @@ import (
 type ServiceContext struct {
 	Config             config.Config
 	RoleModel          model.RoleModel
+	SysRolePermission  model.SysRolePermissionModel
 	RedisJwtMiddleware rest.Middleware
 	CasbinMiddleware   rest.Middleware
 	DB                 sqlx.SqlConn
@@ -29,6 +30,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config:             c,
 		RoleModel:          model.NewRoleModel(conn),
+		SysRolePermission:  model.NewSysRolePermissionModel(conn),
 		RedisJwtMiddleware: middleware.NewRedisJwtMiddleware(rdb, c.Auth.AccessSecret).Handle,
 		CasbinMiddleware:   middleware.NewCasbinMiddleware().Handle,
 		DB:                 conn,

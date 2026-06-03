@@ -15,22 +15,22 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-// CreateRoleHandler 新建角色
-func CreateRoleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// DelRoleHandler 删除角色
+func DelRoleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.NewRole
+		var req types.DelRole
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := logic.NewCreateRoleLogic(r.Context(), svcCtx)
-		resp, err := l.CreateRole(&req)
+		l := logic.NewDelRoleLogic(r.Context(), svcCtx)
+		resp, err := l.DelRole(&req)
 		if err != nil {
-			logx.Errorf("CreateRole err: %v", err)
-			response.ErrorWithCode(w, r, resp.Code)
+			logx.Errorf("l.DelRole failed: %v", err)
+			response.Error(w, r, resp.Code)
 		} else {
-			logx.Infof("CreateRole resp: %v", resp)
+			logx.Infof("l.DelRole success: %v", resp)
 			response.Success(w, r)
 		}
 	}

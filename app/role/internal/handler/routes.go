@@ -23,6 +23,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: CreateRoleHandler(serverCtx),
 				},
 				{
+					// 删除角色
+					Method:  http.MethodDelete,
+					Path:    "/delete",
+					Handler: DelRoleHandler(serverCtx),
+				},
+				{
 					// 角色列表
 					Method:  http.MethodPost,
 					Path:    "/rolelist",

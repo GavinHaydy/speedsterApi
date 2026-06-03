@@ -76,6 +76,58 @@
         }
       }
     },
+    "/role/delete": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "Role-Server"
+        ],
+        "summary": "删除角色",
+        "operationId": "delRole",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "data": {
+                  "description": ".api 中使用 any 对应 Go 的 interface{} 或 泛型 T"
+                },
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/role/rolelist": {
       "post": {
         "consumes": [
@@ -215,7 +267,7 @@
       }
     }
   },
-  "x-date": "2026-06-02 21:28:59",
+  "x-date": "2026-06-03 22:21:33",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

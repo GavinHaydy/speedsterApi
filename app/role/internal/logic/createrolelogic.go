@@ -31,7 +31,7 @@ func NewCreateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 }
 
 func (l *CreateRoleLogic) CreateRole(req *types.NewRole) (resp *types.Response, err error) {
-	insert, err := l.svcCtx.RoleModel.Insert(l.ctx, &model.Role{
+	_, err = l.svcCtx.RoleModel.Insert(l.ctx, &model.Role{
 		Name: req.Name,
 		Code: req.Code,
 		Description: sql.NullString{
@@ -43,5 +43,5 @@ func (l *CreateRoleLogic) CreateRole(req *types.NewRole) (resp *types.Response, 
 		return &types.Response{Code: errno.ErrInsertFailed}, err
 	}
 
-	return &types.Response{Data: insert}, nil
+	return &types.Response{}, nil
 }

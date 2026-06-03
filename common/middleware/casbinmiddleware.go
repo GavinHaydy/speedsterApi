@@ -25,6 +25,10 @@ func (m *CasbinMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			httpx.Error(w, errors.New("no role"))
 			return
 		}
+		if role == "admin" {
+			next(w, r)
+			return
+		}
 
 		pass, err := mycasbin.Enforcer.Enforce(
 			role,
