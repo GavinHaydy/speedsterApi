@@ -5,8 +5,7 @@ package handler
 
 import (
 	"net/http"
-
-	"speedsterApi/app/role/internal/svc"
+	"speedsterApi/app/role/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )

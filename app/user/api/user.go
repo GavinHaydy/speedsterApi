@@ -6,9 +6,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"speedsterApi/app/user/internal/config"
-	"speedsterApi/app/user/internal/handler"
-	"speedsterApi/app/user/internal/svc"
+	"speedsterApi/app/user/api/internal/config"
+	handler2 "speedsterApi/app/user/api/internal/handler"
+	"speedsterApi/app/user/api/internal/svc"
 	"speedsterApi/common/casbin"
 
 	"github.com/zeromicro/go-zero/core/conf"
@@ -41,8 +41,8 @@ func main() {
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)
-	handler.RegisterHandlers(server, ctx)
-	handler.RegisterDocRoute(server)
+	handler2.RegisterHandlers(server, ctx)
+	handler2.RegisterDocRoute(server)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

@@ -6,8 +6,8 @@ package logic
 import (
 	"context"
 	"fmt"
-	"speedsterApi/app/user/internal/svc"
-	"speedsterApi/app/user/internal/types"
+	"speedsterApi/app/user/api/internal/svc"
+	"speedsterApi/app/user/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

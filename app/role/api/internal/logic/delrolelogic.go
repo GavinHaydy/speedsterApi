@@ -6,10 +6,9 @@ package logic
 import (
 	"context"
 	"errors"
+	"speedsterApi/app/role/api/internal/svc"
+	"speedsterApi/app/role/api/internal/types"
 	"speedsterApi/common/errno"
-
-	"speedsterApi/app/role/internal/svc"
-	"speedsterApi/app/role/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

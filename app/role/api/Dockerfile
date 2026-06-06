@@ -12,7 +12,7 @@ WORKDIR /build
 ADD go.mod .
 ADD go.sum .
 RUN go mod download
-COPY . .
+COPY .. .
 
 RUN go build -ldflags="-s -w" -o /app/role app/role/role.go
 

@@ -5,9 +5,9 @@ package handler
 
 import (
 	"net/http"
-	"speedsterApi/app/user/internal/logic"
-	"speedsterApi/app/user/internal/svc"
-	"speedsterApi/app/user/internal/types"
+	"speedsterApi/app/user/api/internal/logic"
+	"speedsterApi/app/user/api/internal/svc"
+	"speedsterApi/app/user/api/internal/types"
 	"speedsterApi/common/response"
 
 	"github.com/zeromicro/go-zero/core/logx"

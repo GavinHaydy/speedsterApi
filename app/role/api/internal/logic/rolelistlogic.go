@@ -5,10 +5,8 @@ package logic
 
 import (
 	"context"
-	"speedsterApi/common/errno"
-
-	"speedsterApi/app/role/internal/svc"
-	"speedsterApi/app/role/internal/types"
+	"speedsterApi/app/role/api/internal/svc"
+	"speedsterApi/app/role/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -30,13 +28,14 @@ func NewRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleList
 
 func (l *RoleListLogic) RoleList(req *types.RoleListReq) (resp *types.Response, err error) {
 	// todo: add your logic here and delete this line
-	total, list, err := l.svcCtx.RoleModel.SelectRoleList(l.ctx, req)
-	if err != nil {
-		return &types.Response{Code: errno.ErrSelectDbFailed}, err
-	}
-	result := map[string]interface{}{
-		"list":  list,
-		"total": total,
-	}
-	return &types.Response{Data: result}, nil
+	//total, list, err := l.svcCtx.RoleModel.SelectRoleList(l.ctx, req)
+	//if err != nil {
+	//	return &types.Response{Code: errno.ErrSelectDbFailed}, err
+	//}
+	//result := map[string]interface{}{
+	//	"list":  list,
+	//	"total": total,
+	//}
+	//return &types.Response{Data: result}, nil
+	return &types.Response{}, nil
 }
