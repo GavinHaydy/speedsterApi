@@ -1,0 +1,19 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8080
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: user.rpc
+DB:
+  DSN: postgres://speedster:GavinHaydy2779@gavin-db:5432/speedster?sslmode=disable
+Redis:
+  Host: redis-db:6379
+  Pass: "mypassword"
+  Type: node
+Auth:
+  issuer: SpeedsterApi  # 发行者
+  prefix: user_token_ # token前缀
+  AccessSecret: "SpeedsterIsBest!"
+  AccessExpire: 600        # Access Token 秒 有效期：10 分钟
+  RefreshSecret: "SpeedsterRefresh"
+  RefreshExpire: 604800        # Refresh Token 有效期：一周
