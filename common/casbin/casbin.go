@@ -8,7 +8,7 @@ func Init() error {
 	var err error
 
 	Enforcer, err = casbin.NewEnforcer(
-		"../../common/casbin/model.conf",
+		"../../../common/casbin/model.conf",
 	)
 
 	return err

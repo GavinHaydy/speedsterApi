@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
     build:
       context: .
-      dockerfile: app/user/Dockerfile
+      dockerfile: app/user/api/Dockerfile
     environment: *app-environment
     expose:
       - "8888"
@@ -68,7 +68,7 @@ services:
     restart: unless-stopped
     build:
       context: .
-      dockerfile: app/role/Dockerfile
+      dockerfile: app/role/api/Dockerfile
     environment: *app-environment
     expose:
       - "8889"
