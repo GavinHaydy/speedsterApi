@@ -5,8 +5,8 @@ package handler
 
 import (
 	"net/http"
-	"speedsterApi/app/user/internal/logic"
-	"speedsterApi/app/user/internal/svc"
+	"speedsterApi/app/user/api/internal/logic"
+	"speedsterApi/app/user/api/internal/svc"
 	"speedsterApi/common/errno"
 	"speedsterApi/common/response"
 )

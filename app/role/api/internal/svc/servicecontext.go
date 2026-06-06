@@ -4,7 +4,7 @@
 package svc
 
 import (
-	"speedsterApi/app/role/internal/config"
+	"speedsterApi/app/role/api/internal/config"
 	"speedsterApi/app/role/model"
 	"speedsterApi/common/middleware"
 

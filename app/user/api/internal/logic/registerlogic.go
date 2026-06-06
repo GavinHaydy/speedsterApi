@@ -6,8 +6,8 @@ package logic
 import (
 	"context"
 	"database/sql"
-	"speedsterApi/app/user/internal/svc"
-	"speedsterApi/app/user/internal/types"
+	"speedsterApi/app/user/api/internal/svc"
+	"speedsterApi/app/user/api/internal/types"
 	"speedsterApi/app/user/model"
 	"speedsterApi/common/errno"
 	"speedsterApi/common/utils"

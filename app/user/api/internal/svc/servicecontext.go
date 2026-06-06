@@ -4,14 +4,16 @@
 package svc
 
 import (
-	"speedsterApi/app/user/internal/config"
+	"speedsterApi/app/user/api/internal/config"
 	"speedsterApi/app/user/model"
+	"speedsterApi/app/user/user/pb/pb"
 	"speedsterApi/common/middleware"
 
 	"github.com/zeromicro/go-zero/core/stores/postgres"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
@@ -23,9 +25,11 @@ type ServiceContext struct {
 	RedisJwtMiddleware rest.Middleware
 	DB                 sqlx.SqlConn
 	CasbinMiddleware   rest.Middleware
+	UserRpc            pb.UserClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	client := zrpc.MustNewClient(c.UserRpc)
 	conn := postgres.New(c.DB.DSN)
 	//conn := sqlx.NewSqlConn(c.DB.Driver, c.DB.DSN)
 	rdb := redis.MustNewRedis(c.Redis)
@@ -39,5 +43,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		RedisJwtMiddleware: middleware.NewRedisJwtMiddleware(rdb, c.Auth.AccessSecret).Handle,
 		DB:                 conn,
 		CasbinMiddleware:   middleware.NewCasbinMiddleware().Handle,
+		UserRpc:            pb.NewUserClient(client.Conn()),
 	}
 }
