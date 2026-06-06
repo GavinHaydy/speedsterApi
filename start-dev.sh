@@ -5,15 +5,22 @@ case "$1" in
     tmux new-session -d -s speedster
 
     tmux send-keys -t speedster:0 \
-      'cd app/user && air' C-m
+      'cd app/gateway && air' C-m
 
     tmux new-window -t speedster:1
     tmux send-keys -t speedster:1 \
-      'cd app/role && air' C-m
+      'cd app/user/api && air' C-m
 
     tmux new-window -t speedster:2
     tmux send-keys -t speedster:2 \
-      'cd app/gateway && air' C-m
+    'cd app/user/user && air' C-m
+
+    tmux new-window -t speedster:3
+    tmux send-keys -t speedster:3 \
+      'cd app/role/api && air' C-m
+
+
+
 
     tmux attach -t speedster
     ;;
