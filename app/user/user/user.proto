@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package user;
+option go_package = "./pb";
+
+message LoginReq {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginRsp {
+  string access_token = 1;
+  string refresh_token = 2;
+  string time = 3;
+}
+
+message RegisterReq {
+  string username = 1;
+  string password = 2;
+  string email = 3;
+  string phone = 4;
+}
+
+message RegisterRsp{
+  string user_id = 1;
+}
+
+
+service User {
+  rpc Login(LoginReq) returns(LoginRsp);
+  rpc Register(RegisterReq) returns(RegisterRsp);
+}
