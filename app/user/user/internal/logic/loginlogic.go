@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"speedsterApi/app/user/model"
 	"speedsterApi/app/user/user/user"
+	"speedsterApi/common/errno"
+	"speedsterApi/common/errorx"
 	"speedsterApi/common/utils"
 	"time"
 
@@ -33,7 +35,7 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginRsp, error) {
 
 	_, err := l.svcCtx.SysUserModel.FindOneByUsername(l.ctx, in.Username)
 	if err != nil {
-		return &user.LoginRsp{}, err
+		return nil, errorx.New(errno.ErrAccountNotFound)
 	}
 
 	if in.Password == "speedster" {
@@ -52,7 +54,7 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginRsp, error) {
 	}
 	if err != nil {
 
-		return &user.LoginRsp{}, err
+		return nil, errorx.New(errno.ErrPasswordFailed)
 	}
 
 	var accessToken string
@@ -78,13 +80,13 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginRsp, error) {
 		userInfo.Id,
 	)
 	if err != nil {
-		return &user.LoginRsp{}, err
+		return nil, errorx.New(errno.ErrRoleNotExists)
 	}
 
 	token, t, err := utils.GenAccessToken(userInfo.Id, role, l.svcCtx.Config.CacheAuth.Issuer, l.svcCtx.Config.CacheAuth.AccessSecret, l.svcCtx.Config.CacheAuth.AccessExpire)
 	if err != nil {
 		logx.Errorf("GenAccessToken: %v", err)
-		return &user.LoginRsp{}, err
+		return nil, errorx.New(errno.ErrGenTokenFailed)
 	}
 	accessToken = token
 	resultTime = t
@@ -92,7 +94,7 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginRsp, error) {
 	longToken, _, err := utils.GenRefreshToken(userInfo.Id, role, l.svcCtx.Config.CacheAuth.Issuer, l.svcCtx.Config.CacheAuth.RefreshSecret, l.svcCtx.Config.CacheAuth.RefreshExpire)
 	if err != nil {
 		logx.Errorf("GenRefreshToken:%v", err)
-		return &user.LoginRsp{}, err
+		return nil, errorx.New(errno.ErrGenTokenFailed)
 	}
 	refreshToken = longToken
 
@@ -103,7 +105,7 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginRsp, error) {
 	err = rdb.Setex(fmt.Sprintf("%s%v", l.svcCtx.Config.CacheAuth.Prefix, userInfo.Id), refreshToken, l.svcCtx.Config.CacheAuth.RefreshExpire)
 	if err != nil {
 		logx.Errorf("Setex: %v", err)
-		return &user.LoginRsp{}, err
+		return nil, errorx.New(errno.ErrRedisFailed)
 	}
 
 	return &user.LoginRsp{
