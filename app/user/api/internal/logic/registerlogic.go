@@ -9,6 +9,7 @@ import (
 	"speedsterApi/app/user/api/internal/types"
 	"speedsterApi/app/user/user/user"
 	"speedsterApi/common/errorx"
+	"speedsterApi/common/utils"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -79,9 +80,10 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.Response, 
 	register, err := l.svcCtx.UserRpc.Register(l.ctx, &user.RegisterReq{
 		Username: req.Username,
 		Password: req.Password,
-		Phone:    req.Phone,
-		Email:    req.Email,
+		Phone:    utils.EmptyToNil(req.Phone),
+		Email:    utils.EmptyToNil(req.Email),
 	})
+	logx.Infof("Register %+v", register)
 	if err != nil {
 		code, msg := errorx.Parse(err)
 		return &types.Response{

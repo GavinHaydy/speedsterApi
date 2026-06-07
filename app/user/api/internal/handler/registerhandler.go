@@ -28,7 +28,7 @@ func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			//httpx.ErrorCtx(r.Context(), w, err)
 			response.ErrorWithCode(w, r, resp.Code)
 		} else {
-			response.Success(w, r)
+			response.SuccessWithData(w, r, resp.Data)
 		}
 	}
 }

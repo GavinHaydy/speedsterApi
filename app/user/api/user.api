@@ -22,10 +22,10 @@ type LoginReq {
 }
 
 type RegisterReq {
-	username string `json:"username"`
-	password string `json:"password"`
-	email    string `json:"email,optional"`
-	phone    string `json:"phone,optional"`
+	username string  `json:"username"`
+	password string  `json:"password"`
+	email    *string `json:"email,optional"`
+	phone    *string `json:"phone,optional"`
 }
 
 type UserListReq {

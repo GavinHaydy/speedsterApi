@@ -137,8 +137,8 @@ type RegisterReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
 	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
-	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
-	Phone         string                 `protobuf:"bytes,4,opt,name=phone,proto3" json:"phone,omitempty"`
+	Email         *string                `protobuf:"bytes,3,opt,name=email,proto3,oneof" json:"email,omitempty"`
+	Phone         *string                `protobuf:"bytes,4,opt,name=phone,proto3,oneof" json:"phone,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -188,15 +188,15 @@ func (x *RegisterReq) GetPassword() string {
 }
 
 func (x *RegisterReq) GetEmail() string {
-	if x != nil {
-		return x.Email
+	if x != nil && x.Email != nil {
+		return *x.Email
 	}
 	return ""
 }
 
 func (x *RegisterReq) GetPhone() string {
-	if x != nil {
-		return x.Phone
+	if x != nil && x.Phone != nil {
+		return *x.Phone
 	}
 	return ""
 }
@@ -257,12 +257,14 @@ const file_user_proto_rawDesc = "" +
 	"\bLoginRsp\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\x12#\n" +
 	"\rrefresh_token\x18\x02 \x01(\tR\frefreshToken\x12\x12\n" +
-	"\x04time\x18\x03 \x01(\tR\x04time\"q\n" +
+	"\x04time\x18\x03 \x01(\tR\x04time\"\x8f\x01\n" +
 	"\vRegisterReq\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\x12\x14\n" +
-	"\x05phone\x18\x04 \x01(\tR\x05phone\"&\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x19\n" +
+	"\x05email\x18\x03 \x01(\tH\x00R\x05email\x88\x01\x01\x12\x19\n" +
+	"\x05phone\x18\x04 \x01(\tH\x01R\x05phone\x88\x01\x01B\b\n" +
+	"\x06_emailB\b\n" +
+	"\x06_phone\"&\n" +
 	"\vRegisterRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId2a\n" +
 	"\x04User\x12'\n" +
@@ -305,6 +307,7 @@ func file_user_proto_init() {
 	if File_user_proto != nil {
 		return
 	}
+	file_user_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
