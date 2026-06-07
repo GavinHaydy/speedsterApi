@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"speedsterApi/app/user/model"
 	"speedsterApi/app/user/user/internal/svc"
 	"speedsterApi/app/user/user/user"
@@ -33,49 +34,52 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterRsp, error
 		return nil, errorx.New(errno.ErrYetAccountRegister)
 	}
 
-	_, err = l.svcCtx.SysUserModel.FindOneByPhone(l.ctx, sql.NullString{
-		String: in.Phone,
-		Valid:  true,
-	})
-	if err == nil {
-		return nil, errorx.New(errno.ErrYetPhoneRegister)
-	}
-
-	_, err = l.svcCtx.SysUserModel.FindOneByEmail(l.ctx, sql.NullString{
-		String: in.Email,
-		Valid:  true,
-	})
-	if err == nil {
-		return nil, errorx.New(errno.ErrYetEmailRegister)
-	}
-
 	pw := utils.AesEncrypt(in.Password, l.svcCtx.Config.CacheAuth.AccessSecret)
-	userInfo, err := l.svcCtx.SysUserModel.Insert(l.ctx, &model.SysUser{
+
+	userInfo := &model.SysUser{
 		Id:       utils.GetUUID(),
 		Username: in.Username,
 		Password: pw,
-		Phone: sql.NullString{
-			String: in.Phone,
-			Valid:  true,
-		},
-		Email: sql.NullString{
-			String: in.Email,
-			Valid:  true,
-		},
-		Nickname: sql.NullString{
-			String: in.Username,
-			Valid:  true,
-		},
-	})
+	}
+	logx.Infof("register user:%+v", in.Phone)
+
+	if in.Phone != nil {
+		_, err = l.svcCtx.SysUserModel.FindOneByPhone(l.ctx, utils.ToNullString(in.Phone))
+
+		if err == nil {
+			return nil, errorx.New(errno.ErrYetPhoneRegister)
+		}
+
+		if !errors.Is(err, model.ErrNotFound) {
+			return nil, errorx.New(errno.ErrPgsqlFailed)
+		}
+		userInfo.Phone = utils.ToNullString(in.Phone)
+	}
+
+	if in.Email != nil {
+		_, err = l.svcCtx.SysUserModel.FindOneByEmail(l.ctx, utils.ToNullString(in.Email))
+		if err == nil {
+			return nil, errorx.New(errno.ErrYetEmailRegister)
+		}
+
+		if !errors.Is(err, model.ErrNotFound) {
+			return nil, errorx.New(errno.ErrPgsqlFailed)
+		}
+		userInfo.Email = utils.ToNullString(in.Email)
+	}
+
+	userInfo.Nickname = sql.NullString{
+		String: in.Username,
+		Valid:  true,
+	}
+
+	_, err = l.svcCtx.SysUserModel.Insert(l.ctx, userInfo)
 	if err != nil {
 		return nil, errorx.New(errno.ErrRegisterFailed)
 	}
-	id, err := userInfo.LastInsertId()
-	if err != nil {
-		return nil, err
-	}
-	logx.Infof("register user:%+v", id)
 
-	return &user.RegisterRsp{}, nil
+	logx.Infof("register user:%+v", userInfo.Id)
+
+	return &user.RegisterRsp{UserId: userInfo.Id}, nil
 	//return &user.RegisterRsp{}, nil
 }

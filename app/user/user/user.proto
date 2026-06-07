@@ -17,8 +17,8 @@ message LoginRsp {
 message RegisterReq {
   string username = 1;
   string password = 2;
-  string email = 3;
-  string phone = 4;
+  optional string email = 3;
+  optional string phone = 4;
 }
 
 message RegisterRsp{

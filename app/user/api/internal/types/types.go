@@ -13,10 +13,10 @@ type RefreshReq struct {
 }
 
 type RegisterReq struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Email    string `json:"email,optional"`
-	Phone    string `json:"phone,optional"`
+	Username string  `json:"username"`
+	Password string  `json:"password"`
+	Email    *string `json:"email,optional"`
+	Phone    *string `json:"phone,optional"`
 }
 
 type Request struct {
