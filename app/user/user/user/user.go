@@ -14,14 +14,18 @@ import (
 )
 
 type (
-	LoginReq    = pb.LoginReq
-	LoginRsp    = pb.LoginRsp
-	RegisterReq = pb.RegisterReq
-	RegisterRsp = pb.RegisterRsp
+	LoginReq     = pb.LoginReq
+	LoginRsp     = pb.LoginRsp
+	RegisterReq  = pb.RegisterReq
+	RegisterRsp  = pb.RegisterRsp
+	UserItem     = pb.UserItem
+	UserListReq  = pb.UserListReq
+	UserListResp = pb.UserListResp
 
 	User interface {
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRsp, error)
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterRsp, error)
+		UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error)
 	}
 
 	defaultUser struct {
@@ -43,4 +47,9 @@ func (m *defaultUser) Login(ctx context.Context, in *LoginReq, opts ...grpc.Call
 func (m *defaultUser) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterRsp, error) {
 	client := pb.NewUserClient(m.cli.Conn())
 	return client.Register(ctx, in, opts...)
+}
+
+func (m *defaultUser) UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error) {
+	client := pb.NewUserClient(m.cli.Conn())
+	return client.UserList(ctx, in, opts...)
 }

@@ -10,6 +10,7 @@ import (
 	"speedsterApi/app/user/api/internal/types"
 	"speedsterApi/common/response"
 
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
@@ -25,8 +26,10 @@ func UserListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := logic.NewUserListLogic(r.Context(), svcCtx)
 		resp, err := l.UserList(&req)
 		if err != nil {
+			logx.Errorf("UserListHandler err:%v", err)
 			response.ErrorWithCode(w, r, resp.Code)
 		} else {
+			logx.Infof("UserListHandler resp:%v", resp.Data)
 			response.SuccessWithData(w, r, resp.Data)
 		}
 	}
