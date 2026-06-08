@@ -40,6 +40,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterRsp, error
 		Id:       utils.GetUUID(),
 		Username: in.Username,
 		Password: pw,
+		Status:   1,
 	}
 	logx.Infof("register user:%+v", in.Phone)
 

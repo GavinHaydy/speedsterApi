@@ -32,3 +32,8 @@ func (s *UserServer) Register(ctx context.Context, in *pb.RegisterReq) (*pb.Regi
 	l := logic.NewRegisterLogic(ctx, s.svcCtx)
 	return l.Register(in)
 }
+
+func (s *UserServer) UserList(ctx context.Context, in *pb.UserListReq) (*pb.UserListResp, error) {
+	l := logic.NewUserListLogic(ctx, s.svcCtx)
+	return l.UserList(in)
+}

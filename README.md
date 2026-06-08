@@ -18,14 +18,19 @@
 
 ### Generate API
 
-```bash
-goctl api go -api user.api -dir .
+```shell
+  goctl api go -api user.api -dir .
+```
+
+### Generate RPC
+```shell
+  goctl rpc protoc server.proto --go_out=./pb --go-grpc_out=./pb --zrpc_out=.
 ```
 
 ### Generate Swagger
 
 ```bash
-goctl env -w GOCTL_EXPERIMENTAL=on
+  goctl env -w GOCTL_EXPERIMENTAL=on
 
 goctl api swagger \
   --api your.api \
@@ -35,5 +40,5 @@ goctl api swagger \
 ### Generate Dockerfile
 
 ```bash
-goctl docker --go hello.go --port 8888
+  goctl docker --go hello.go --port 8888
 ```

@@ -245,6 +245,242 @@ func (x *RegisterRsp) GetUserId() string {
 	return ""
 }
 
+type UserListReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	Phone         string                 `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone,omitempty"`
+	Nickname      string                 `protobuf:"bytes,4,opt,name=nickname,proto3" json:"nickname,omitempty"`
+	Status        int64                  `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`
+	PageNo        int64                  `protobuf:"varint,6,opt,name=page_no,json=pageNo,proto3" json:"page_no,omitempty"`
+	PageSize      int64                  `protobuf:"varint,7,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserListReq) Reset() {
+	*x = UserListReq{}
+	mi := &file_user_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserListReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserListReq) ProtoMessage() {}
+
+func (x *UserListReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserListReq.ProtoReflect.Descriptor instead.
+func (*UserListReq) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UserListReq) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *UserListReq) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UserListReq) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *UserListReq) GetNickname() string {
+	if x != nil {
+		return x.Nickname
+	}
+	return ""
+}
+
+func (x *UserListReq) GetStatus() int64 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *UserListReq) GetPageNo() int64 {
+	if x != nil {
+		return x.PageNo
+	}
+	return 0
+}
+
+func (x *UserListReq) GetPageSize() int64 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type UserItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+	Nickname      *string                `protobuf:"bytes,3,opt,name=nickname,proto3,oneof" json:"nickname,omitempty"`
+	Phone         *string                `protobuf:"bytes,4,opt,name=phone,proto3,oneof" json:"phone,omitempty"`
+	Email         *string                `protobuf:"bytes,5,opt,name=email,proto3,oneof" json:"email,omitempty"`
+	Avatar        *string                `protobuf:"bytes,6,opt,name=avatar,proto3,oneof" json:"avatar,omitempty"`
+	Status        *int64                 `protobuf:"varint,7,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserItem) Reset() {
+	*x = UserItem{}
+	mi := &file_user_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserItem) ProtoMessage() {}
+
+func (x *UserItem) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserItem.ProtoReflect.Descriptor instead.
+func (*UserItem) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UserItem) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UserItem) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *UserItem) GetNickname() string {
+	if x != nil && x.Nickname != nil {
+		return *x.Nickname
+	}
+	return ""
+}
+
+func (x *UserItem) GetPhone() string {
+	if x != nil && x.Phone != nil {
+		return *x.Phone
+	}
+	return ""
+}
+
+func (x *UserItem) GetEmail() string {
+	if x != nil && x.Email != nil {
+		return *x.Email
+	}
+	return ""
+}
+
+func (x *UserItem) GetAvatar() string {
+	if x != nil && x.Avatar != nil {
+		return *x.Avatar
+	}
+	return ""
+}
+
+func (x *UserItem) GetStatus() int64 {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return 0
+}
+
+type UserListResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Total         int64                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	List          []*UserItem            `protobuf:"bytes,2,rep,name=list,proto3" json:"list,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserListResp) Reset() {
+	*x = UserListResp{}
+	mi := &file_user_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserListResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserListResp) ProtoMessage() {}
+
+func (x *UserListResp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserListResp.ProtoReflect.Descriptor instead.
+func (*UserListResp) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *UserListResp) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *UserListResp) GetList() []*UserItem {
+	if x != nil {
+		return x.List
+	}
+	return nil
+}
+
 var File_user_proto protoreflect.FileDescriptor
 
 const file_user_proto_rawDesc = "" +
@@ -266,10 +502,35 @@ const file_user_proto_rawDesc = "" +
 	"\x06_emailB\b\n" +
 	"\x06_phone\"&\n" +
 	"\vRegisterRsp\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId2a\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xbf\x01\n" +
+	"\vUserListReq\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12\x14\n" +
+	"\x05phone\x18\x03 \x01(\tR\x05phone\x12\x1a\n" +
+	"\bnickname\x18\x04 \x01(\tR\bnickname\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\x03R\x06status\x12\x17\n" +
+	"\apage_no\x18\x06 \x01(\x03R\x06pageNo\x12\x1b\n" +
+	"\tpage_size\x18\a \x01(\x03R\bpageSize\"\xfe\x01\n" +
+	"\bUserItem\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
+	"\busername\x18\x02 \x01(\tR\busername\x12\x1f\n" +
+	"\bnickname\x18\x03 \x01(\tH\x00R\bnickname\x88\x01\x01\x12\x19\n" +
+	"\x05phone\x18\x04 \x01(\tH\x01R\x05phone\x88\x01\x01\x12\x19\n" +
+	"\x05email\x18\x05 \x01(\tH\x02R\x05email\x88\x01\x01\x12\x1b\n" +
+	"\x06avatar\x18\x06 \x01(\tH\x03R\x06avatar\x88\x01\x01\x12\x1b\n" +
+	"\x06status\x18\a \x01(\x03H\x04R\x06status\x88\x01\x01B\v\n" +
+	"\t_nicknameB\b\n" +
+	"\x06_phoneB\b\n" +
+	"\x06_emailB\t\n" +
+	"\a_avatarB\t\n" +
+	"\a_status\"H\n" +
+	"\fUserListResp\x12\x14\n" +
+	"\x05total\x18\x01 \x01(\x03R\x05total\x12\"\n" +
+	"\x04list\x18\x02 \x03(\v2\x0e.user.UserItemR\x04list2\x94\x01\n" +
 	"\x04User\x12'\n" +
 	"\x05Login\x12\x0e.user.LoginReq\x1a\x0e.user.LoginRsp\x120\n" +
-	"\bRegister\x12\x11.user.RegisterReq\x1a\x11.user.RegisterRspB\x06Z\x04./pbb\x06proto3"
+	"\bRegister\x12\x11.user.RegisterReq\x1a\x11.user.RegisterRsp\x121\n" +
+	"\bUserList\x12\x11.user.UserListReq\x1a\x12.user.UserListRespB\x06Z\x04./pbb\x06proto3"
 
 var (
 	file_user_proto_rawDescOnce sync.Once
@@ -283,23 +544,29 @@ func file_user_proto_rawDescGZIP() []byte {
 	return file_user_proto_rawDescData
 }
 
-var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_user_proto_goTypes = []any{
-	(*LoginReq)(nil),    // 0: user.LoginReq
-	(*LoginRsp)(nil),    // 1: user.LoginRsp
-	(*RegisterReq)(nil), // 2: user.RegisterReq
-	(*RegisterRsp)(nil), // 3: user.RegisterRsp
+	(*LoginReq)(nil),     // 0: user.LoginReq
+	(*LoginRsp)(nil),     // 1: user.LoginRsp
+	(*RegisterReq)(nil),  // 2: user.RegisterReq
+	(*RegisterRsp)(nil),  // 3: user.RegisterRsp
+	(*UserListReq)(nil),  // 4: user.UserListReq
+	(*UserItem)(nil),     // 5: user.UserItem
+	(*UserListResp)(nil), // 6: user.UserListResp
 }
 var file_user_proto_depIdxs = []int32{
-	0, // 0: user.User.Login:input_type -> user.LoginReq
-	2, // 1: user.User.Register:input_type -> user.RegisterReq
-	1, // 2: user.User.Login:output_type -> user.LoginRsp
-	3, // 3: user.User.Register:output_type -> user.RegisterRsp
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	5, // 0: user.UserListResp.list:type_name -> user.UserItem
+	0, // 1: user.User.Login:input_type -> user.LoginReq
+	2, // 2: user.User.Register:input_type -> user.RegisterReq
+	4, // 3: user.User.UserList:input_type -> user.UserListReq
+	1, // 4: user.User.Login:output_type -> user.LoginRsp
+	3, // 5: user.User.Register:output_type -> user.RegisterRsp
+	6, // 6: user.User.UserList:output_type -> user.UserListResp
+	4, // [4:7] is the sub-list for method output_type
+	1, // [1:4] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_user_proto_init() }
@@ -308,13 +575,14 @@ func file_user_proto_init() {
 		return
 	}
 	file_user_proto_msgTypes[2].OneofWrappers = []any{}
+	file_user_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_proto_rawDesc), len(file_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
