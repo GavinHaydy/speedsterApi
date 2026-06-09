@@ -392,7 +392,50 @@
                   "type": "integer"
                 },
                 "data": {
-                  "description": ".api 中使用 any 对应 Go 的 interface{} 或 泛型 T"
+                  "type": "object",
+                  "required": [
+                    "list",
+                    "total"
+                  ],
+                  "properties": {
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "username",
+                          "email",
+                          "phone",
+                          "nickname",
+                          "status",
+                          "avatar"
+                        ],
+                        "properties": {
+                          "avatar": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "nickname": {
+                            "type": "string"
+                          },
+                          "phone": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "integer"
+                          },
+                          "username": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
                 },
                 "msg": {
                   "type": "string"
@@ -404,7 +447,7 @@
       }
     }
   },
-  "x-date": "2026-06-07 23:00:02",
+  "x-date": "2026-06-09 22:52:04",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

@@ -34,6 +34,11 @@ type StatusReq struct {
 	Status int64  `json:"status,options=1|2"`
 }
 
+type UserListData struct {
+	List  []UserListRsp `json:"list"`
+	Total int64         `json:"total"`
+}
+
 type UserListReq struct {
 	Username string `json:"username,optional"`
 	Email    string `json:"email,optional"`
@@ -42,6 +47,12 @@ type UserListReq struct {
 	Status   int64  `json:"status,optional"`
 	PageNo   int64  `json:"pageNo,optional"`
 	PageSize int64  `json:"pageSize,optional"`
+}
+
+type UserListResponse struct {
+	Code int64        `json:"code"`
+	Msg  string       `json:"msg"`
+	Data UserListData `json:"data"`
 }
 
 type UserListRsp struct {

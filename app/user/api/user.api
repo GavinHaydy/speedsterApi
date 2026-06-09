@@ -39,12 +39,23 @@ type UserListReq {
 }
 
 type UserListRsp {
-	username string  `json:"username"`
-	email    *string `json:"email"`
-	phone    *string `json:"phone"`
-	nickname *string `json:"nickname"`
-	status   *int64  `json:"status"`
-	avatar   *string `json:"avatar"`
+	Username string  `json:"username"`
+	Email    *string `json:"email"`
+	Phone    *string `json:"phone"`
+	Nickname *string `json:"nickname"`
+	Status   *int64  `json:"status"`
+	Avatar   *string `json:"avatar"`
+}
+
+type UserListData {
+	List  []UserListRsp `json:"list"`
+	Total int64         `json:"total"`
+}
+
+type UserListResponse {
+	Code int64        `json:"code"`
+	Msg  string       `json:"msg"`
+	Data UserListData `json:"data"`
 }
 
 type RefreshReq {
@@ -91,7 +102,7 @@ service user-api {
 
 	@doc "用户列表"
 	@handler UserList
-	post /userlist (UserListReq) returns (Response)
+	post /userlist (UserListReq) returns (UserListResponse)
 
 	@doc "修改用户状态"
 	@handler Status
