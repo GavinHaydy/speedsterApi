@@ -119,3 +119,6 @@ services:
 networks:
   speedster-net:
     driver: bridge
+
+volumes:
+  pg_data:

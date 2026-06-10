@@ -4,9 +4,9 @@ Port: 9527
 
 # 各微服务地址
 UserService:
-  Target: http://user-service:8888
+  Target: http://user-api:8888
 RoleService:
-  Target: http://role-service:8889
+  Target: http://role-api:8889
 ProductService:
   Target: http://product-service:8080
 
