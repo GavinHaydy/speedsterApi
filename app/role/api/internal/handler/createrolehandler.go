@@ -17,7 +17,7 @@ import (
 // CreateRoleHandler 新建角色
 func CreateRoleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.NewRole
+		var req types.NewRoleReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

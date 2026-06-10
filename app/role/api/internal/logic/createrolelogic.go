@@ -29,7 +29,7 @@ func NewCreateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 	}
 }
 
-func (l *CreateRoleLogic) CreateRole(req *types.NewRole) (resp *types.Response, err error) {
+func (l *CreateRoleLogic) CreateRole(req *types.NewRoleReq) (resp *types.Response, err error) {
 	_, err = l.svcCtx.RoleModel.Insert(l.ctx, &model.Role{
 		Name: req.Name,
 		Code: req.Code,

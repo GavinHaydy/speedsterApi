@@ -3,11 +3,16 @@
 
 package types
 
-type DelRole struct {
+type Base struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type DelRoleReq struct {
 	Id int64 `json:"id,optional"`
 }
 
-type NewRole struct {
+type NewRoleReq struct {
 	Name        string `json:"name,optional"`
 	Code        string `json:"code,optional"`
 	Description string `json:"description"`
@@ -15,8 +20,17 @@ type NewRole struct {
 
 type Response struct {
 	Code int         `json:"code"`
-	Msg  string      `json:"msg,omitempty"`
-	Data interface{} `json:"data,omitempty"` // .api 中使用 any 对应 Go 的 interface{} 或 泛型 T
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data,omitempty"`
+}
+
+type RoleListData struct {
+	Name        string
+	Code        string
+	Desctiption string
+	Status      int64
+	CreateTime  string
+	UpdateTime  string
 }
 
 type RoleListReq struct {
@@ -27,16 +41,12 @@ type RoleListReq struct {
 	PageSize int    `json:"pageSize,optional"`
 }
 
-type RoleListRsp struct {
-	Name        string
-	Code        string
-	Desctiption string
-	Status      int64
-	CreateTime  string
-	UpdateTime  string
+type RoleListResp struct {
+	Base
+	Data RoleListData `json:"data"`
 }
 
-type UpdateRole struct {
+type UpdateRoleReq struct {
 	Id          int64   `json:"id,optional"`
 	Name        *string `json:"name"`
 	Code        *string `json:"code"`

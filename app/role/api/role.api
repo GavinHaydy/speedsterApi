@@ -12,40 +12,45 @@ import (
 	"../../../common/response/types.api"
 )
 
-type RoleListReq {
-	Rolename string `json:"rolename,optional"`
-	Code     string `json:"code,optional"`
-	Status   int64  `json:"status,optional"`
-	PageNo   int    `json:"pageNo,optional"`
-	PageSize int    `json:"pageSize,optional"`
-}
+type (
+	RoleListReq {
+		Rolename string `json:"rolename,optional"`
+		Code     string `json:"code,optional"`
+		Status   int64  `json:"status,optional"`
+		PageNo   int    `json:"pageNo,optional"`
+		PageSize int    `json:"pageSize,optional"`
+	}
+	NewRoleReq {
+		Name        string `json:"name,optional"`
+		Code        string `json:"code,optional"`
+		Description string `json:"description"`
+	}
+	UpdateRoleReq {
+		Id          int64   `json:"id,optional"`
+		Name        *string `json:"name"`
+		Code        *string `json:"code"`
+		Description *string `json:"description"`
+		Status      *int64  `json:"status,options=1|2"`
+	}
+	DelRoleReq {
+		Id int64 `json:"id,optional"`
+	}
+)
 
-type RoleListRsp {
-	Name        string
-	Code        string
-	Desctiption string
-	Status      int64
-	CreateTime  string
-	UpdateTime  string
-}
-
-type NewRole {
-	Name        string `json:"name,optional"`
-	Code        string `json:"code,optional"`
-	Description string `json:"description"`
-}
-
-type UpdateRole {
-	Id          int64   `json:"id,optional"`
-	Name        *string `json:"name"`
-	Code        *string `json:"code"`
-	Description *string `json:"description"`
-	Status      *int64  `json:"status,options=1|2"`
-}
-
-type DelRole {
-	Id int64 `json:"id,optional"`
-}
+type (
+	RoleListData {
+		Name        string
+		Code        string
+		Desctiption string
+		Status      int64
+		CreateTime  string
+		UpdateTime  string
+	}
+	RoleListResp {
+		Base
+		Data RoleListData `json:"data"`
+	}
+)
 
 @server (
 	tags:       "Role-Server"
@@ -56,18 +61,18 @@ type DelRole {
 service role-api {
 	@doc "角色列表"
 	@handler RoleList
-	post /rolelist (RoleListReq) returns (Response)
+	post /rolelist (RoleListReq) returns (RoleListResp)
 
 	@doc "新建角色"
 	@handler CreateRole
-	post /create (NewRole) returns (Response)
+	post /create (NewRoleReq) returns (Response)
 
 	@doc "修改角色"
 	@handler UpdateRole
-	put /update (UpdateRole) returns (Response)
+	put /update (UpdateRoleReq) returns (Response)
 
 	@doc "删除角色"
 	@handler DelRole
-	delete /delete (DelRole) returns (Response)
+	delete /delete (DelRoleReq) returns (Response)
 }
 

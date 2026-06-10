@@ -28,7 +28,7 @@ func NewDelRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelRoleLo
 	}
 }
 
-func (l *DelRoleLogic) DelRole(req *types.DelRole) (resp *types.Response, err error) {
+func (l *DelRoleLogic) DelRole(req *types.DelRoleReq) (resp *types.Response, err error) {
 	count, err := l.svcCtx.SysRolePermission.FindByRoleId(l.ctx, req.Id)
 
 	if err != nil {
