@@ -1,0 +1,13 @@
+FROM ubuntu
+
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+COPY  app/role/api/role-api /app/role-api
+COPY app/role/api/etc /app/etc
+
+RUN chmod +x /app/role-api
+
+EXPOSE 8889
+
+CMD ["./role-api", "-f", "etc/role-api.yaml"]

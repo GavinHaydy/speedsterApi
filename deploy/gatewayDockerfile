@@ -1,0 +1,14 @@
+FROM ubuntu
+
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+COPY  app/gateway/gateway /app/gateway
+COPY app/gateway/etc /app/etc
+
+RUN chmod +x /app/gateway
+
+EXPOSE 9527
+
+CMD ["./gateway", "-f", "etc/gateway-api.yaml"]
+
