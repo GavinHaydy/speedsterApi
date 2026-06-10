@@ -51,6 +51,7 @@ jobs:
         run: |
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
           go build -ldflags="-s -w" \
+          -tags no_k8s \
           -o user-api .
 
       - name: Build UserRpc
@@ -58,6 +59,7 @@ jobs:
         run: |
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
           go build -ldflags="-s -w" \
+          -tags no_k8s \
           -o user-rpc .
 
       - name: Build Gateway
@@ -65,6 +67,7 @@ jobs:
         run: |
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
           go build -ldflags="-s -w" \
+          -tags no_k8s \
           -o gateway .
 
       - name: Build RoleApi
@@ -72,6 +75,7 @@ jobs:
         run: |
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
           go build -ldflags="-s -w" \
+          -tags no_k8s \
           -o role-api .
 
       ################################
@@ -91,6 +95,7 @@ jobs:
             -p ${{ secrets.SERVER_PORT }} \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
             "mkdir -p \
+            /data/github/pgsql \
             /data/github/common/casbin \
             /data/github/app/gateway \
             /data/github/app/user/api \
@@ -103,6 +108,12 @@ jobs:
           rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
             deploy \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/
+
+      - name: Upload initSql
+        run: |
+          rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
+            common/init/init.sql \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/pgsql/gavin.sql
 
       - name: Upload casbin
         run: |

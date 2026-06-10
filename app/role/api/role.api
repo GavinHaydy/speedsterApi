@@ -39,12 +39,12 @@ type (
 
 type (
 	RoleListData {
-		Name        string
-		Code        string
-		Desctiption string
-		Status      int64
-		CreateTime  string
-		UpdateTime  string
+		Name        string  `json:"name"`
+		Code        string  `json:"code"`
+		Desctiption string  `json:"desctiption"`
+		Status      int64   `json:"status"`
+		CreateTime  string  `json:"create_time"`
+		UpdateTime  string  `json:"update_time"`
 	}
 	RoleListResp {
 		Base
