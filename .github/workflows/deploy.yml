@@ -106,7 +106,7 @@ jobs:
       - name: Upload deployFiles
         run: |
           rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
-            deploy \
+            deploy/ \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/
 
       - name: Upload initSql
