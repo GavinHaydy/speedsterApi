@@ -1,0 +1,13 @@
+FROM ubuntu
+
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+COPY  app/user/api/user /app/user-rpc
+COPY app/user/api/etc /app/etc
+
+RUN chmod +x /app/user-rpc
+
+EXPOSE 8889
+
+CMD ["./user-rpc", "-f", "etc/user-rpc.yaml"]

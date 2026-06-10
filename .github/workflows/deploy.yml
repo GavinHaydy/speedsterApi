@@ -28,44 +28,51 @@ jobs:
 
       - name: Generate User Swagger
         run: |
-          mkdir -p app/user/docs
+          mkdir -p app/user/api/docs
           goctl api plugin \
             -plugin goctl-swagger="swagger -filename user.json" \
-            -api app/user/user.api \
-            -dir app/user/docs
+            -api app/user/api/user.api \
+            -dir app/user/api/docs
 
       - name: Generate Role Swagger
         run: |
-          mkdir -p app/role/docs
+          mkdir -p app/role/api/docs
           goctl api plugin \
             -plugin goctl-swagger="swagger -filename role.json" \
-            -api app/role/role.api \
-            -dir app/role/docs
+            -api app/role/api/role.api \
+            -dir app/role/api/docs
           
 
       ################################
       # 编译
       ################################
-      - name: Build User
-        working-directory: app/user
+      - name: Build UserApi
+        working-directory: app/user/api
         run: |
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
           go build -ldflags="-s -w" \
-          -o user user.go
+          -o user-api .
+
+      - name: Build UserRpc
+        working-directory: app/user/user
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+          go build -ldflags="-s -w" \
+          -o user-rpc .
 
       - name: Build Gateway
         working-directory: app/gateway
         run: |
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
           go build -ldflags="-s -w" \
-          -o gateway gateway.go
+          -o gateway .
 
-      - name: Build Role
-        working-directory: app/role
+      - name: Build RoleApi
+        working-directory: app/role/api
         run: |
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
           go build -ldflags="-s -w" \
-          -o role role.go
+          -o role-api .
 
       ################################
       # 上传文件
@@ -83,21 +90,46 @@ jobs:
           ssh -i ~/.ssh/id_ed25519 \
             -p ${{ secrets.SERVER_PORT }} \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
-            "mkdir -p /data/github"
+            "mkdir -p \
+            /data/github/common/casbin \
+            /data/github/app/gateway \
+            /data/github/app/user/api \
+            /data/github/app/user/rpc \
+            /data/github/app/role/api \
+            /data/github/app/role/rpc"
 
-      - name: Upload user
+      - name: Upload deployFiles
         run: |
           rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
-            app/user/user \
-            app/user/etc \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/user/
+            deploy \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/
 
-      - name: Upload role
+      - name: Upload casbin
         run: |
           rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
-            app/role/role \
-            app/role/etc \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/role/
+            common/casbin/model.conf \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/common/casbin/
+
+      - name: Upload userApi
+        run: |
+          rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
+            app/user/api/user-api \
+            app/user/api/etc \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/user/api/
+
+      - name: Upload userRpc
+        run: |
+          rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
+            app/user/user/user-rpc \
+            app/user/user/etc \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/user/rpc/
+
+      - name: Upload roleApi
+        run: |
+          rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
+            app/role/api/role-api \
+            app/role/api/etc \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/role/api/
 
       - name: Upload gateway
         run: |

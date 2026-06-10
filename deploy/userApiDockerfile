@@ -1,0 +1,13 @@
+FROM ubuntu
+
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+COPY  app/user/api/user-api /app/user-api
+COPY app/user/api/etc /app/etc
+
+RUN chmod +x /app/user-api
+
+EXPOSE 8889
+
+CMD ["./user-api", "-f", "etc/user-api.yaml"]

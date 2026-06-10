@@ -12,7 +12,8 @@
 
 开发环境搭建请参考：
 
-[development.md](docs/development.md)
+- [English](docs/development.md)
+- [Chinese](docs/development_cn.md)
 
 ## Code Generation
 
