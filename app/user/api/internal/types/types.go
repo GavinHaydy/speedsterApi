@@ -3,13 +3,33 @@
 
 package types
 
+type Base struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type LoginData struct {
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
+	Time         string `json:"time"`
+}
+
 type LoginReq struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
+type LoginResp struct {
+	Base
+	Data LoginData `json:"data"`
+}
+
 type RefreshReq struct {
 	RefreshToken string `json:"refreshToken,optional"`
+}
+
+type RegisterData struct {
+	UserId string `json:"user_id"`
 }
 
 type RegisterReq struct {
@@ -19,14 +39,15 @@ type RegisterReq struct {
 	Phone    *string `json:"phone,optional"`
 }
 
-type Request struct {
-	Name string `path:"name,options=you|me"`
+type RegisterResp struct {
+	Base
+	Data RegisterData `json:"data"`
 }
 
 type Response struct {
 	Code int         `json:"code"`
-	Msg  string      `json:"msg,omitempty"`
-	Data interface{} `json:"data,omitempty"` // .api 中使用 any 对应 Go 的 interface{} 或 泛型 T
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data,omitempty"`
 }
 
 type StatusReq struct {
@@ -50,8 +71,7 @@ type UserListReq struct {
 }
 
 type UserListResponse struct {
-	Code int64        `json:"code"`
-	Msg  string       `json:"msg"`
+	Base
 	Data UserListData `json:"data"`
 }
 

@@ -8,12 +8,13 @@ info(
     version: "type version here"
 )
 
-
-// 重新定义你的 Response 结构
-// 注意：字段名必须大写（首字母大写）才能被导出
 type Response {
     Code int    `json:"code"`
-    Msg  string `json:"msg,omitempty"`
-    Data interface{}    `json:"data,omitempty"` // .api 中使用 any 对应 Go 的 interface{} 或 泛型 T
+    Msg  string `json:"msg"`
+    Data interface{}    `json:"data,omitempty"`
 }
 
+type Base {
+    Code int    `json:"code"`
+    Msg  string `json:"msg"`
+}
