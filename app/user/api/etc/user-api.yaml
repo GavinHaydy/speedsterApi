@@ -15,3 +15,14 @@ Auth:
   AccessExpire: 600        # Access Token 秒 有效期：10 分钟
   RefreshSecret: "SpeedsterRefresh"
   RefreshExpire: 604800        # Refresh Token 有效期：一周
+Log:
+  ServiceName: user-api
+  Mode: console
+  Encoding: plain
+  TimeFormat: 2006-01-02 15:04:05
+  Path: logs
+UserRpc:
+  Etcd:
+    Hosts:
+      - etcd:2379
+    Key: user.rpc
