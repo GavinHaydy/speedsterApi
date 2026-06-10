@@ -64,9 +64,7 @@
                 "code": {
                   "type": "integer"
                 },
-                "data": {
-                  "description": ".api 中使用 any 对应 Go 的 interface{} 或 泛型 T"
-                },
+                "data": {},
                 "msg": {
                   "type": "string"
                 }
@@ -116,9 +114,7 @@
                 "code": {
                   "type": "integer"
                 },
-                "data": {
-                  "description": ".api 中使用 any 对应 Go 的 interface{} 或 泛型 T"
-                },
+                "data": {},
                 "msg": {
                   "type": "string"
                 }
@@ -181,7 +177,27 @@
                   "type": "integer"
                 },
                 "data": {
-                  "description": ".api 中使用 any 对应 Go 的 interface{} 或 泛型 T"
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "type": "string"
+                    },
+                    "CreateTime": {
+                      "type": "string"
+                    },
+                    "Desctiption": {
+                      "type": "string"
+                    },
+                    "Name": {
+                      "type": "string"
+                    },
+                    "Status": {
+                      "type": "integer"
+                    },
+                    "UpdateTime": {
+                      "type": "string"
+                    }
+                  }
                 },
                 "msg": {
                   "type": "string"
@@ -254,9 +270,7 @@
                 "code": {
                   "type": "integer"
                 },
-                "data": {
-                  "description": ".api 中使用 any 对应 Go 的 interface{} 或 泛型 T"
-                },
+                "data": {},
                 "msg": {
                   "type": "string"
                 }
@@ -267,7 +281,7 @@
       }
     }
   },
-  "x-date": "2026-06-03 22:21:33",
+  "x-date": "2026-06-10 10:08:33",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

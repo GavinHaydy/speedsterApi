@@ -29,7 +29,7 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateRoleLogic) UpdateRole(req *types.UpdateRole) (resp *types.Response, err error) {
+func (l *UpdateRoleLogic) UpdateRole(req *types.UpdateRoleReq) (resp *types.Response, err error) {
 	role, err := l.svcCtx.RoleModel.FindOne(l.ctx, req.Id)
 	if err != nil {
 		return &types.Response{Code: errno.ErrSelectDbFailed}, err
