@@ -47,10 +47,10 @@ clean: check
 
 # 本地开发服务
 start:
-	./scripts/start.sh start
+	./start-dev.sh start
 
 stop:
-	./scripts/start.sh stop
+	./start-dev.sh stop
 
 local-restart:
-	./scripts/start.sh restart
+	./start-dev.sh restart

@@ -7,7 +7,7 @@ Etcd:
 DB:
   DSN: postgres://speedster:GavinHaydy2779@gavin-db:5432/speedster?sslmode=disable
 CacheRedis:
-  Host: redis-db:6380
+  Host: redis-db:6379
   Pass: "mypassword"
   Type: node
 

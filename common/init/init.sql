@@ -31,7 +31,7 @@ INSERT INTO sys_user (id,
                       is_sys_user)
 VALUES ('b62e9977-1bba-438e-983d-5e5e8344eced',
         'admin',
-        '3BMHz_rEwHpi1xrAG8K9PQ', -- bcrypt加密
+        'RPI8A-9CIUKMZ0-pxnkVNRJGaX6yS-2FqZEQ4sfCP-bIsFcceoFZ4aXz9JwxPEP5', -- bcrypt加密
         '超级管理员',
         TRUE,
         TRUE);
