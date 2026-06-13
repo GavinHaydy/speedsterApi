@@ -2,7 +2,7 @@ Name: role.rpc
 ListenOn: 0.0.0.0:18889
 Etcd:
   Hosts:
-  - etcd:2379
+    - etcd:2379
   Key: role.rpc
 DB:
   DSN: postgres://speedster:GavinHaydy2779@gavin-db:5432/speedster?sslmode=disable

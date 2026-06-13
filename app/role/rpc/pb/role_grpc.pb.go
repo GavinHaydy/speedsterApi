@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Role_AddUserRole_FullMethodName       = "/role_rpc.Role/AddUserRole"
-	Role_AssignDefaultRole_FullMethodName = "/role_rpc.Role/AssignDefaultRole"
+	Role_AddUserRole_FullMethodName       = "/role.Role/AddUserRole"
+	Role_AssignDefaultRole_FullMethodName = "/role.Role/AssignDefaultRole"
 )
 
 // RoleClient is the client API for Role service.
@@ -142,7 +142,7 @@ func _Role_AssignDefaultRole_Handler(srv interface{}, ctx context.Context, dec f
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Role_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "role_rpc.Role",
+	ServiceName: "role.Role",
 	HandlerType: (*RoleServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

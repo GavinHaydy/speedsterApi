@@ -210,7 +210,7 @@ var File_role_proto protoreflect.FileDescriptor
 const file_role_proto_rawDesc = "" +
 	"\n" +
 	"\n" +
-	"role.proto\x12\brole_rpc\"<\n" +
+	"role.proto\x12\x04role\"<\n" +
 	"\bUserRole\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x17\n" +
 	"\arole_id\x18\x02 \x01(\x03R\x06roleId\"\"\n" +
@@ -219,10 +219,10 @@ const file_role_proto_rawDesc = "" +
 	"\x14AssignDefaultRoleReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"+\n" +
 	"\x15AssignDefaultRoleResp\x12\x12\n" +
-	"\x04code\x18\x01 \x01(\x03R\x04code2\x97\x01\n" +
-	"\x04Role\x129\n" +
-	"\vAddUserRole\x12\x12.role_rpc.UserRole\x1a\x16.role_rpc.UserRoleResp\x12T\n" +
-	"\x11AssignDefaultRole\x12\x1e.role_rpc.AssignDefaultRoleReq\x1a\x1f.role_rpc.AssignDefaultRoleRespB\x06Z\x04./pbb\x06proto3"
+	"\x04code\x18\x01 \x01(\x03R\x04code2\x87\x01\n" +
+	"\x04Role\x121\n" +
+	"\vAddUserRole\x12\x0e.role.UserRole\x1a\x12.role.UserRoleResp\x12L\n" +
+	"\x11AssignDefaultRole\x12\x1a.role.AssignDefaultRoleReq\x1a\x1b.role.AssignDefaultRoleRespB\x06Z\x04./pbb\x06proto3"
 
 var (
 	file_role_proto_rawDescOnce sync.Once
@@ -238,16 +238,16 @@ func file_role_proto_rawDescGZIP() []byte {
 
 var file_role_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_role_proto_goTypes = []any{
-	(*UserRole)(nil),              // 0: role_rpc.UserRole
-	(*UserRoleResp)(nil),          // 1: role_rpc.UserRoleResp
-	(*AssignDefaultRoleReq)(nil),  // 2: role_rpc.AssignDefaultRoleReq
-	(*AssignDefaultRoleResp)(nil), // 3: role_rpc.AssignDefaultRoleResp
+	(*UserRole)(nil),              // 0: role.UserRole
+	(*UserRoleResp)(nil),          // 1: role.UserRoleResp
+	(*AssignDefaultRoleReq)(nil),  // 2: role.AssignDefaultRoleReq
+	(*AssignDefaultRoleResp)(nil), // 3: role.AssignDefaultRoleResp
 }
 var file_role_proto_depIdxs = []int32{
-	0, // 0: role_rpc.Role.AddUserRole:input_type -> role_rpc.UserRole
-	2, // 1: role_rpc.Role.AssignDefaultRole:input_type -> role_rpc.AssignDefaultRoleReq
-	1, // 2: role_rpc.Role.AddUserRole:output_type -> role_rpc.UserRoleResp
-	3, // 3: role_rpc.Role.AssignDefaultRole:output_type -> role_rpc.AssignDefaultRoleResp
+	0, // 0: role.Role.AddUserRole:input_type -> role.UserRole
+	2, // 1: role.Role.AssignDefaultRole:input_type -> role.AssignDefaultRoleReq
+	1, // 2: role.Role.AddUserRole:output_type -> role.UserRoleResp
+	3, // 3: role.Role.AssignDefaultRole:output_type -> role.AssignDefaultRoleResp
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

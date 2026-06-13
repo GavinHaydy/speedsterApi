@@ -11,4 +11,4 @@ RUN chmod +x /app/role-rpc
 
 EXPOSE 18888
 
-CMD ["./role-rpc", "-f", "etc/role-rpc.yaml"]
+CMD ["./role-rpc", "-f", "etc/role.yaml"]
