@@ -12,28 +12,27 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type AddUserRoleLogic struct {
+type AssignDefaultRoleLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewAddUserRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddUserRoleLogic {
-	return &AddUserRoleLogic{
+func NewAssignDefaultRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AssignDefaultRoleLogic {
+	return &AssignDefaultRoleLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *AddUserRoleLogic) AddUserRole(in *pb.UserRole) (*pb.UserRoleResp, error) {
+func (l *AssignDefaultRoleLogic) AssignDefaultRole(in *pb.AssignDefaultRoleReq) (*pb.AssignDefaultRoleResp, error) {
 	_, err := l.svcCtx.SysUserRoleModel.Insert(l.ctx, &model.SysUserRole{
 		UserId: in.UserId,
-		RoleId: in.RoleId,
+		RoleId: 1,
 	})
 	if err != nil {
 		return nil, errorx.New(errno.ErrInsertFailed)
 	}
-
-	return &pb.UserRoleResp{Code: errno.Ok}, nil
+	return &pb.AssignDefaultRoleResp{Code: errno.Ok}, nil
 }

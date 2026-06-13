@@ -1,6 +1,7 @@
 package svc
 
 import (
+	roleclient "speedsterApi/app/role/rpc/role"
 	"speedsterApi/app/user/model"
 	"speedsterApi/app/user/user/internal/config"
 	"speedsterApi/common/middleware"
@@ -9,6 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
@@ -20,6 +22,7 @@ type ServiceContext struct {
 	RedisJwtMiddleware rest.Middleware
 	DB                 sqlx.SqlConn
 	CasbinMiddleware   rest.Middleware
+	RoleRpc            roleclient.Role
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -35,5 +38,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		RedisJwtMiddleware: middleware.NewRedisJwtMiddleware(rdb, c.CacheAuth.AccessSecret).Handle,
 		DB:                 conn,
 		CasbinMiddleware:   middleware.NewCasbinMiddleware().Handle,
+		RoleRpc:            roleclient.NewRole(zrpc.MustNewClient(c.RoleRpc)),
 	}
 }

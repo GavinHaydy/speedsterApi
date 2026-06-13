@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"speedsterApi/app/role/rpc/pb"
 	"speedsterApi/app/user/model"
 	"speedsterApi/app/user/user/internal/svc"
 	"speedsterApi/app/user/user/user"
@@ -80,6 +81,11 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterRsp, error
 	}
 
 	logx.Infof("register user:%+v", userInfo.Id)
+
+	_, err = l.svcCtx.RoleRpc.AssignDefaultRole(l.ctx, &pb.AssignDefaultRoleReq{UserId: userInfo.Id})
+	if err != nil {
+		return nil, errorx.New(errno.ErrUserNotRole)
+	}
 
 	return &user.RegisterRsp{UserId: userInfo.Id}, nil
 	//return &user.RegisterRsp{}, nil

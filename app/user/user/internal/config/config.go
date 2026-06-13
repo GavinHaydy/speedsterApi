@@ -19,4 +19,5 @@ type Config struct {
 		RefreshSecret string
 		RefreshExpire int
 	}
+	RoleRpc zrpc.RpcClientConf
 }

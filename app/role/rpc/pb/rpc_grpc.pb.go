@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Role_AddUserRole_FullMethodName = "/role_rpc.Role/AddUserRole"
+	Role_AddUserRole_FullMethodName       = "/role_rpc.Role/AddUserRole"
+	Role_AssignDefaultRole_FullMethodName = "/role_rpc.Role/AssignDefaultRole"
 )
 
 // RoleClient is the client API for Role service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RoleClient interface {
 	AddUserRole(ctx context.Context, in *UserRole, opts ...grpc.CallOption) (*UserRoleResp, error)
+	AssignDefaultRole(ctx context.Context, in *AssignDefaultRoleReq, opts ...grpc.CallOption) (*AssignDefaultRoleResp, error)
 }
 
 type roleClient struct {
@@ -47,11 +49,22 @@ func (c *roleClient) AddUserRole(ctx context.Context, in *UserRole, opts ...grpc
 	return out, nil
 }
 
+func (c *roleClient) AssignDefaultRole(ctx context.Context, in *AssignDefaultRoleReq, opts ...grpc.CallOption) (*AssignDefaultRoleResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AssignDefaultRoleResp)
+	err := c.cc.Invoke(ctx, Role_AssignDefaultRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RoleServer is the server API for Role service.
 // All implementations must embed UnimplementedRoleServer
 // for forward compatibility.
 type RoleServer interface {
 	AddUserRole(context.Context, *UserRole) (*UserRoleResp, error)
+	AssignDefaultRole(context.Context, *AssignDefaultRoleReq) (*AssignDefaultRoleResp, error)
 	mustEmbedUnimplementedRoleServer()
 }
 
@@ -64,6 +77,9 @@ type UnimplementedRoleServer struct{}
 
 func (UnimplementedRoleServer) AddUserRole(context.Context, *UserRole) (*UserRoleResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method AddUserRole not implemented")
+}
+func (UnimplementedRoleServer) AssignDefaultRole(context.Context, *AssignDefaultRoleReq) (*AssignDefaultRoleResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method AssignDefaultRole not implemented")
 }
 func (UnimplementedRoleServer) mustEmbedUnimplementedRoleServer() {}
 func (UnimplementedRoleServer) testEmbeddedByValue()              {}
@@ -104,6 +120,24 @@ func _Role_AddUserRole_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Role_AssignDefaultRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssignDefaultRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleServer).AssignDefaultRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Role_AssignDefaultRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleServer).AssignDefaultRole(ctx, req.(*AssignDefaultRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Role_ServiceDesc is the grpc.ServiceDesc for Role service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +148,10 @@ var Role_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddUserRole",
 			Handler:    _Role_AddUserRole_Handler,
+		},
+		{
+			MethodName: "AssignDefaultRole",
+			Handler:    _Role_AssignDefaultRole_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

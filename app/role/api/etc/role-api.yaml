@@ -13,3 +13,9 @@ Auth:
   RefreshSecret: "SpeedsterRefresh"
   RefreshExpire: 604800        # Refresh Token 有效期：1 小时
   prefix: user_token_ # token前缀
+Log:
+  ServiceName: user-api
+  Mode: console
+  Encoding: plain
+  TimeFormat: 2006-01-02 15:04:05
+  Path: logs

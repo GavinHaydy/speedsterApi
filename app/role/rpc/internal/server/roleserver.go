@@ -27,3 +27,8 @@ func (s *RoleServer) AddUserRole(ctx context.Context, in *pb.UserRole) (*pb.User
 	l := logic.NewAddUserRoleLogic(ctx, s.svcCtx)
 	return l.AddUserRole(in)
 }
+
+func (s *RoleServer) AssignDefaultRole(ctx context.Context, in *pb.AssignDefaultRoleReq) (*pb.AssignDefaultRoleResp, error) {
+	l := logic.NewAssignDefaultRoleLogic(ctx, s.svcCtx)
+	return l.AssignDefaultRole(in)
+}
