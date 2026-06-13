@@ -6,3 +6,9 @@ Etcd:
   Key: role.rpc
 DB:
   DSN: postgres://speedster:GavinHaydy2779@gavin-db:5432/speedster?sslmode=disable
+Log:
+  ServiceName: user-api
+  Mode: console
+  Encoding: plain
+  TimeFormat: 2006-01-02 15:04:05
+  Path: logs

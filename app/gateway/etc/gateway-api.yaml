@@ -10,6 +10,12 @@ RoleService:
 ProductService:
   Target: http://product-service:8080
 
+Log:
+  ServiceName: user-api
+  Mode: console
+  Encoding: plain
+  TimeFormat: 2006-01-02 15:04:05
+  Path: logs
 Upstreams:
   - Name: userapi
     Http:

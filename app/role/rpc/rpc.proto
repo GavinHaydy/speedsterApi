@@ -13,6 +13,15 @@ message UserRoleResp {
   int64 code = 1 ;
 }
 
+message AssignDefaultRoleReq {
+  string user_id = 1 ;
+}
+
+message AssignDefaultRoleResp {
+  int64 code = 1 ;
+}
+
 service Role {
   rpc AddUserRole(UserRole) returns (UserRoleResp);
+  rpc AssignDefaultRole(AssignDefaultRoleReq) returns (AssignDefaultRoleResp);
 }

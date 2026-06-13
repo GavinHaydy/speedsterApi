@@ -19,6 +19,9 @@ case "$1" in
     tmux send-keys -t speedster:role-api \
       'cd app/role/api && air' C-m
 
+    tmux new-window -t speedster -n role-rpc
+    tmux send-keys -t speedster:role-rpc \
+      'cd app/role/rpc && air' C-m
 
 
 

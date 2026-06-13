@@ -14,11 +14,14 @@ import (
 )
 
 type (
-	UserRole     = pb.UserRole
-	UserRoleResp = pb.UserRoleResp
+	AssignDefaultRoleReq  = pb.AssignDefaultRoleReq
+	AssignDefaultRoleResp = pb.AssignDefaultRoleResp
+	UserRole              = pb.UserRole
+	UserRoleResp          = pb.UserRoleResp
 
 	Role interface {
 		AddUserRole(ctx context.Context, in *UserRole, opts ...grpc.CallOption) (*UserRoleResp, error)
+		AssignDefaultRole(ctx context.Context, in *AssignDefaultRoleReq, opts ...grpc.CallOption) (*AssignDefaultRoleResp, error)
 	}
 
 	defaultRole struct {
@@ -35,4 +38,9 @@ func NewRole(cli zrpc.Client) Role {
 func (m *defaultRole) AddUserRole(ctx context.Context, in *UserRole, opts ...grpc.CallOption) (*UserRoleResp, error) {
 	client := pb.NewRoleClient(m.cli.Conn())
 	return client.AddUserRole(ctx, in, opts...)
+}
+
+func (m *defaultRole) AssignDefaultRole(ctx context.Context, in *AssignDefaultRoleReq, opts ...grpc.CallOption) (*AssignDefaultRoleResp, error) {
+	client := pb.NewRoleClient(m.cli.Conn())
+	return client.AssignDefaultRole(ctx, in, opts...)
 }

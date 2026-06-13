@@ -117,6 +117,94 @@ func (x *UserRoleResp) GetCode() int64 {
 	return 0
 }
 
+type AssignDefaultRoleReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AssignDefaultRoleReq) Reset() {
+	*x = AssignDefaultRoleReq{}
+	mi := &file_rpc_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AssignDefaultRoleReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssignDefaultRoleReq) ProtoMessage() {}
+
+func (x *AssignDefaultRoleReq) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssignDefaultRoleReq.ProtoReflect.Descriptor instead.
+func (*AssignDefaultRoleReq) Descriptor() ([]byte, []int) {
+	return file_rpc_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *AssignDefaultRoleReq) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type AssignDefaultRoleResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AssignDefaultRoleResp) Reset() {
+	*x = AssignDefaultRoleResp{}
+	mi := &file_rpc_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AssignDefaultRoleResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssignDefaultRoleResp) ProtoMessage() {}
+
+func (x *AssignDefaultRoleResp) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssignDefaultRoleResp.ProtoReflect.Descriptor instead.
+func (*AssignDefaultRoleResp) Descriptor() ([]byte, []int) {
+	return file_rpc_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *AssignDefaultRoleResp) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
 var File_rpc_proto protoreflect.FileDescriptor
 
 const file_rpc_proto_rawDesc = "" +
@@ -126,9 +214,14 @@ const file_rpc_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x17\n" +
 	"\arole_id\x18\x02 \x01(\x03R\x06roleId\"\"\n" +
 	"\fUserRoleResp\x12\x12\n" +
-	"\x04code\x18\x01 \x01(\x03R\x04code2A\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\"/\n" +
+	"\x14AssignDefaultRoleReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"+\n" +
+	"\x15AssignDefaultRoleResp\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code2\x97\x01\n" +
 	"\x04Role\x129\n" +
-	"\vAddUserRole\x12\x12.role_rpc.UserRole\x1a\x16.role_rpc.UserRoleRespB\x06Z\x04./pbb\x06proto3"
+	"\vAddUserRole\x12\x12.role_rpc.UserRole\x1a\x16.role_rpc.UserRoleResp\x12T\n" +
+	"\x11AssignDefaultRole\x12\x1e.role_rpc.AssignDefaultRoleReq\x1a\x1f.role_rpc.AssignDefaultRoleRespB\x06Z\x04./pbb\x06proto3"
 
 var (
 	file_rpc_proto_rawDescOnce sync.Once
@@ -142,16 +235,20 @@ func file_rpc_proto_rawDescGZIP() []byte {
 	return file_rpc_proto_rawDescData
 }
 
-var file_rpc_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_rpc_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_rpc_proto_goTypes = []any{
-	(*UserRole)(nil),     // 0: role_rpc.UserRole
-	(*UserRoleResp)(nil), // 1: role_rpc.UserRoleResp
+	(*UserRole)(nil),              // 0: role_rpc.UserRole
+	(*UserRoleResp)(nil),          // 1: role_rpc.UserRoleResp
+	(*AssignDefaultRoleReq)(nil),  // 2: role_rpc.AssignDefaultRoleReq
+	(*AssignDefaultRoleResp)(nil), // 3: role_rpc.AssignDefaultRoleResp
 }
 var file_rpc_proto_depIdxs = []int32{
 	0, // 0: role_rpc.Role.AddUserRole:input_type -> role_rpc.UserRole
-	1, // 1: role_rpc.Role.AddUserRole:output_type -> role_rpc.UserRoleResp
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	2, // 1: role_rpc.Role.AssignDefaultRole:input_type -> role_rpc.AssignDefaultRoleReq
+	1, // 2: role_rpc.Role.AddUserRole:output_type -> role_rpc.UserRoleResp
+	3, // 3: role_rpc.Role.AssignDefaultRole:output_type -> role_rpc.AssignDefaultRoleResp
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -168,7 +265,7 @@ func file_rpc_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_rpc_proto_rawDesc), len(file_rpc_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
