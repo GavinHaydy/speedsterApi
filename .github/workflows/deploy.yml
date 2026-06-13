@@ -78,6 +78,14 @@ jobs:
           -tags no_k8s \
           -o role-api .
 
+      - name: Build RoleRpc
+        working-directory: app/role/rpc
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+          go build -ldflags="-s -w" \
+          -tags no_k8s \
+          -o role-rpc .
+
       ################################
       # 上传文件
       ################################
@@ -141,6 +149,13 @@ jobs:
             app/role/api/role-api \
             app/role/api/etc \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/role/api/
+
+      - name: Upload roleRpc
+        run: |
+          rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
+            app/role/rpc/role-rpc \
+            app/role/rpc/etc \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/role/rpc/
 
       - name: Upload gateway
         run: |

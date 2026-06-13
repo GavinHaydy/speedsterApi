@@ -118,6 +118,20 @@ services:
       - redis-db
       - gavin-db
 
+  role-rpc:
+    build:
+      context: .
+      dockerfile: roleRpcDockerfile
+    restart: always
+    networks:
+      - speedster-net
+    ports:
+      - "18889:18889"
+    depends_on:
+      - redis-db
+      - gavin-db
+
+
 networks:
   speedster-net:
     driver: bridge
