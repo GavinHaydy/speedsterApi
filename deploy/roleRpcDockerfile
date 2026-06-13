@@ -1,0 +1,14 @@
+FROM ubuntu
+
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+COPY  app/role/rpc/role-rpc /app/role-rpc
+COPY app/role/rpc/etc /app/etc
+COPY common/casbin /common/casbin
+
+RUN chmod +x /app/role-rpc
+
+EXPOSE 18888
+
+CMD ["./role-rpc", "-f", "etc/role-rpc.yaml"]
