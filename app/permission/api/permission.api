@@ -1,0 +1,56 @@
+syntax = "v1"
+
+info (
+	title:   "Permission Server"
+	desc:    "Permission apis"
+	author:  "GavinHaydy"
+	email:   "GavinHaydy@gmail.com"
+	version: "0.0.1"
+)
+
+import (
+	"../../../common/response/types.api"
+)
+
+type (
+	PermisssionListReq {
+		Name string `json:"name,optional"`
+	}
+)
+
+type (
+	PermissionListItem {
+		Id       int64                `json:"id"`
+		Name     string               `json:"name"`
+		Code     string               `json:"code"`
+		Path     string               `json:"path"`
+		Method   string               `json:"method"`
+		Type     int64                `json:"type"`
+		Icon     string               `json:"icon"`
+		Sort     int64                `json:"sort"`
+		Status   int64                `json:"status"`
+		ParentId int64                `json:"parent_id"`
+		Children []PermissionListItem `json:"children"`
+	}
+	PermissionListData {
+		List  []PermissionListItem `json:"list"`
+		Total int64                `json:"total"`
+	}
+	PermissionListResp {
+		Base
+		Data PermissionListData `json:"data"`
+	}
+)
+
+@server (
+	tags:       "permission-Server"
+	prefix:     /permission
+	jwt:        Auth
+	middleware: RedisJwtMiddleware,CasbinMiddleware
+)
+service permission-api {
+	@doc "权限列表"
+	@handler PermissionList
+	post /permissionlist (PermisssionListReq) returns (PermissionListResp)
+}
+
