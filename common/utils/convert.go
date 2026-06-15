@@ -12,3 +12,10 @@ func ToNullString(v *string) sql.NullString {
 		Valid:  true,
 	}
 }
+
+func NullString(s sql.NullString) string {
+	if s.Valid {
+		return s.String
+	}
+	return ""
+}
