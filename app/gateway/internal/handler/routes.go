@@ -23,7 +23,7 @@ func RegisterRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 	var routes = []RouteConfig{
 		{Path: "/user/", Target: ctx.Config.UserService.Target},
 		{Path: "/role/", Target: ctx.Config.RoleService.Target},
-		{Path: "/product/", Target: "http://product-service:8080"},
+		{Path: "/permission/", Target: ctx.Config.PermissionService.Target},
 	}
 	RegisterDocRoutes(engine, ctx)
 
@@ -113,6 +113,10 @@ func RegisterDocRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 	title: 'Role-Server', 
 	url: '/docs/role.json'
 	},
+	{
+	title: 'Permission-Server',
+	url: '/docs/permission.json'
+	},
 ]
 })
 	</script>
@@ -140,8 +144,8 @@ func RegisterDocRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 	})
 	engine.AddRoute(rest.Route{
 		Method:  http.MethodGet,
-		Path:    "/docs/product/swagger.json",
-		Handler: proxyTo("http://product-service:8080/docs/swagger.json"),
+		Path:    "/docs/permission.json",
+		Handler: proxyTo(fmt.Sprintf("%s/docs/permission.json", ctx.Config.PermissionService.Target)),
 	})
 }
 

@@ -23,6 +23,14 @@ case "$1" in
     tmux send-keys -t speedster:role-rpc \
       'cd app/role/rpc && air' C-m
 
+    tmux new-window -t speedster -n permission-api
+    tmux send-keys -t speedster:permission-api \
+      'cd app/permission/api && air' C-m
+
+    tmux new-window -t speedster -n permission-rpc
+    tmux send-keys -t speedster:permission-rpc \
+      'cd app/permission/rpc && air' C-m
+
 
 
     tmux attach -t speedster

@@ -7,8 +7,8 @@ UserService:
   Target: http://user-api:8888
 RoleService:
   Target: http://role-api:8889
-ProductService:
-  Target: http://product-service:8080
+PermissionService:
+  Target: http://permission-api:8890
 
 Log:
   ServiceName: user-api

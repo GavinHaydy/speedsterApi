@@ -13,4 +13,7 @@ type Config struct {
 	RoleService struct {
 		Target string
 	}
+	PermissionService struct {
+		Target string
+	}
 }
