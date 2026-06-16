@@ -8,6 +8,10 @@ type Base struct {
 	Msg  string `json:"msg"`
 }
 
+type GetRolePermissionReq struct {
+	RoleId int64 `json:"roleId"`
+}
+
 type PermissionListData struct {
 	List  []PermissionListItem `json:"list"`
 	Total int64                `json:"total"`
@@ -40,4 +44,13 @@ type Response struct {
 	Code int         `json:"code"`
 	Msg  string      `json:"msg"`
 	Data interface{} `json:"data,omitempty"`
+}
+
+type RolePermissionData struct {
+	PermissionIds []int64 `json:"permission_ids"`
+}
+
+type RolePermissionResp struct {
+	Base
+	Data RolePermissionData `json:"data"`
 }

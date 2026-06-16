@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Permission_PermissionTree_FullMethodName = "/permission.Permission/PermissionTree"
+	Permission_PermissionTree_FullMethodName     = "/permission.Permission/PermissionTree"
+	Permission_GetRolePermissions_FullMethodName = "/permission.Permission/GetRolePermissions"
 )
 
 // PermissionClient is the client API for Permission service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PermissionClient interface {
 	PermissionTree(ctx context.Context, in *PermissionTreeReq, opts ...grpc.CallOption) (*PermissionTreeResp, error)
+	GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error)
 }
 
 type permissionClient struct {
@@ -47,11 +49,22 @@ func (c *permissionClient) PermissionTree(ctx context.Context, in *PermissionTre
 	return out, nil
 }
 
+func (c *permissionClient) GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RolePermissionResp)
+	err := c.cc.Invoke(ctx, Permission_GetRolePermissions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PermissionServer is the server API for Permission service.
 // All implementations must embed UnimplementedPermissionServer
 // for forward compatibility.
 type PermissionServer interface {
 	PermissionTree(context.Context, *PermissionTreeReq) (*PermissionTreeResp, error)
+	GetRolePermissions(context.Context, *RoleIdReq) (*RolePermissionResp, error)
 	mustEmbedUnimplementedPermissionServer()
 }
 
@@ -64,6 +77,9 @@ type UnimplementedPermissionServer struct{}
 
 func (UnimplementedPermissionServer) PermissionTree(context.Context, *PermissionTreeReq) (*PermissionTreeResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method PermissionTree not implemented")
+}
+func (UnimplementedPermissionServer) GetRolePermissions(context.Context, *RoleIdReq) (*RolePermissionResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetRolePermissions not implemented")
 }
 func (UnimplementedPermissionServer) mustEmbedUnimplementedPermissionServer() {}
 func (UnimplementedPermissionServer) testEmbeddedByValue()                    {}
@@ -104,6 +120,24 @@ func _Permission_PermissionTree_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Permission_GetRolePermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PermissionServer).GetRolePermissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Permission_GetRolePermissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PermissionServer).GetRolePermissions(ctx, req.(*RoleIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Permission_ServiceDesc is the grpc.ServiceDesc for Permission service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +148,10 @@ var Permission_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PermissionTree",
 			Handler:    _Permission_PermissionTree_Handler,
+		},
+		{
+			MethodName: "GetRolePermissions",
+			Handler:    _Permission_GetRolePermissions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

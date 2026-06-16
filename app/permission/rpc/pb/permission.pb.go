@@ -233,6 +233,94 @@ func (x *PermissionTreeResp) GetList() []*PermissionTreeItem {
 	return nil
 }
 
+type RoleIdReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RoleId        int64                  `protobuf:"varint,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RoleIdReq) Reset() {
+	*x = RoleIdReq{}
+	mi := &file_permission_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RoleIdReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RoleIdReq) ProtoMessage() {}
+
+func (x *RoleIdReq) ProtoReflect() protoreflect.Message {
+	mi := &file_permission_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RoleIdReq.ProtoReflect.Descriptor instead.
+func (*RoleIdReq) Descriptor() ([]byte, []int) {
+	return file_permission_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *RoleIdReq) GetRoleId() int64 {
+	if x != nil {
+		return x.RoleId
+	}
+	return 0
+}
+
+type RolePermissionResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PermissionIds []int64                `protobuf:"varint,1,rep,packed,name=permission_ids,json=permissionIds,proto3" json:"permission_ids,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RolePermissionResp) Reset() {
+	*x = RolePermissionResp{}
+	mi := &file_permission_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RolePermissionResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RolePermissionResp) ProtoMessage() {}
+
+func (x *RolePermissionResp) ProtoReflect() protoreflect.Message {
+	mi := &file_permission_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RolePermissionResp.ProtoReflect.Descriptor instead.
+func (*RolePermissionResp) Descriptor() ([]byte, []int) {
+	return file_permission_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *RolePermissionResp) GetPermissionIds() []int64 {
+	if x != nil {
+		return x.PermissionIds
+	}
+	return nil
+}
+
 var File_permission_proto protoreflect.FileDescriptor
 
 const file_permission_proto_rawDesc = "" +
@@ -255,10 +343,15 @@ const file_permission_proto_rawDesc = "" +
 	" \x01(\x03R\bparentId\x12:\n" +
 	"\bchildren\x18\v \x03(\v2\x1e.permission.PermissionTreeItemR\bchildren\"H\n" +
 	"\x12PermissionTreeResp\x122\n" +
-	"\x04list\x18\x01 \x03(\v2\x1e.permission.PermissionTreeItemR\x04list2]\n" +
+	"\x04list\x18\x01 \x03(\v2\x1e.permission.PermissionTreeItemR\x04list\"$\n" +
+	"\tRoleIdReq\x12\x17\n" +
+	"\arole_id\x18\x01 \x01(\x03R\x06roleId\";\n" +
+	"\x12RolePermissionResp\x12%\n" +
+	"\x0epermission_ids\x18\x01 \x03(\x03R\rpermissionIds2\xaa\x01\n" +
 	"\n" +
 	"Permission\x12O\n" +
-	"\x0ePermissionTree\x12\x1d.permission.PermissionTreeReq\x1a\x1e.permission.PermissionTreeRespB\x06Z\x04./pbb\x06proto3"
+	"\x0ePermissionTree\x12\x1d.permission.PermissionTreeReq\x1a\x1e.permission.PermissionTreeResp\x12K\n" +
+	"\x12GetRolePermissions\x12\x15.permission.RoleIdReq\x1a\x1e.permission.RolePermissionRespB\x06Z\x04./pbb\x06proto3"
 
 var (
 	file_permission_proto_rawDescOnce sync.Once
@@ -272,19 +365,23 @@ func file_permission_proto_rawDescGZIP() []byte {
 	return file_permission_proto_rawDescData
 }
 
-var file_permission_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_permission_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_permission_proto_goTypes = []any{
 	(*PermissionTreeReq)(nil),  // 0: permission.PermissionTreeReq
 	(*PermissionTreeItem)(nil), // 1: permission.PermissionTreeItem
 	(*PermissionTreeResp)(nil), // 2: permission.PermissionTreeResp
+	(*RoleIdReq)(nil),          // 3: permission.RoleIdReq
+	(*RolePermissionResp)(nil), // 4: permission.RolePermissionResp
 }
 var file_permission_proto_depIdxs = []int32{
 	1, // 0: permission.PermissionTreeItem.children:type_name -> permission.PermissionTreeItem
 	1, // 1: permission.PermissionTreeResp.list:type_name -> permission.PermissionTreeItem
 	0, // 2: permission.Permission.PermissionTree:input_type -> permission.PermissionTreeReq
-	2, // 3: permission.Permission.PermissionTree:output_type -> permission.PermissionTreeResp
-	3, // [3:4] is the sub-list for method output_type
-	2, // [2:3] is the sub-list for method input_type
+	3, // 3: permission.Permission.GetRolePermissions:input_type -> permission.RoleIdReq
+	2, // 4: permission.Permission.PermissionTree:output_type -> permission.PermissionTreeResp
+	4, // 5: permission.Permission.GetRolePermissions:output_type -> permission.RolePermissionResp
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name
@@ -301,7 +398,7 @@ func file_permission_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_permission_proto_rawDesc), len(file_permission_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

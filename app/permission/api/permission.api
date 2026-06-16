@@ -16,6 +16,9 @@ type (
 	PermisssionListReq {
 		Name string `json:"name,optional"`
 	}
+	GetRolePermissionReq {
+		RoleId int64 `json:"roleId"`
+	}
 )
 
 type (
@@ -40,6 +43,13 @@ type (
 		Base
 		Data PermissionListData `json:"data"`
 	}
+	RolePermissionData {
+		PermissionIds []int64 `json:"permission_ids"`
+	}
+	RolePermissionResp {
+		Base
+		Data RolePermissionData `json:"data"`
+	}
 )
 
 @server (
@@ -52,5 +62,9 @@ service permission-api {
 	@doc "权限列表"
 	@handler PermissionList
 	post /permissionlist (PermisssionListReq) returns (PermissionListResp)
+
+	@doc "角色权限"
+	@handler GetRolePermissions
+	post /getRolePermissions (GetRolePermissionReq) returns (RolePermissionResp)
 }
 
