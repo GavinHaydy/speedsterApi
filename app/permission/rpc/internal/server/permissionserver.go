@@ -27,3 +27,8 @@ func (s *PermissionServer) PermissionTree(ctx context.Context, in *pb.Permission
 	l := logic.NewPermissionTreeLogic(ctx, s.svcCtx)
 	return l.PermissionTree(in)
 }
+
+func (s *PermissionServer) GetRolePermissions(ctx context.Context, in *pb.RoleIdReq) (*pb.RolePermissionResp, error) {
+	l := logic.NewGetRolePermissionsLogic(ctx, s.svcCtx)
+	return l.GetRolePermissions(in)
+}

@@ -17,9 +17,12 @@ type (
 	PermissionTreeItem = pb.PermissionTreeItem
 	PermissionTreeReq  = pb.PermissionTreeReq
 	PermissionTreeResp = pb.PermissionTreeResp
+	RoleIdReq          = pb.RoleIdReq
+	RolePermissionResp = pb.RolePermissionResp
 
 	Permission interface {
 		PermissionTree(ctx context.Context, in *PermissionTreeReq, opts ...grpc.CallOption) (*PermissionTreeResp, error)
+		GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error)
 	}
 
 	defaultPermission struct {
@@ -36,4 +39,9 @@ func NewPermission(cli zrpc.Client) Permission {
 func (m *defaultPermission) PermissionTree(ctx context.Context, in *PermissionTreeReq, opts ...grpc.CallOption) (*PermissionTreeResp, error) {
 	client := pb.NewPermissionClient(m.cli.Conn())
 	return client.PermissionTree(ctx, in, opts...)
+}
+
+func (m *defaultPermission) GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error) {
+	client := pb.NewPermissionClient(m.cli.Conn())
+	return client.GetRolePermissions(ctx, in, opts...)
 }

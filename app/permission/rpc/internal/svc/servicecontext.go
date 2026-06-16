@@ -8,15 +8,17 @@ import (
 )
 
 type ServiceContext struct {
-	Config        config.Config
-	SysPermission model.SysPermissionModel
+	Config            config.Config
+	SysPermission     model.SysPermissionModel
+	SysRolePermission model.SysRolePermissionModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	conn := postgres.New(c.DB.DSN)
 
 	return &ServiceContext{
-		Config:        c,
-		SysPermission: model.NewSysPermissionModel(conn),
+		Config:            c,
+		SysPermission:     model.NewSysPermissionModel(conn),
+		SysRolePermission: model.NewSysRolePermissionModel(conn),
 	}
 }

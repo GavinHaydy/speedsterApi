@@ -15,6 +15,72 @@
   },
   "basePath": "/",
   "paths": {
+    "/permission/getRolePermissions": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "permission-Server"
+        ],
+        "summary": "角色权限",
+        "operationId": "getRolePermissions",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "roleId"
+              ],
+              "properties": {
+                "roleId": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "permission_ids"
+                  ],
+                  "properties": {
+                    "permission_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                },
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/permission/permissionlist": {
       "post": {
         "consumes": [
@@ -236,7 +302,7 @@
       }
     }
   },
-  "x-date": "2026-06-15 23:47:40",
+  "x-date": "2026-06-16 21:54:45",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",
