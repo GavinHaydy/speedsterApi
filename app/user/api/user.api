@@ -59,8 +59,8 @@ type (
 		Data UserListData `json:"data"`
 	}
 	LoginData {
-		AccessToken  string `json:"access_token"`
-		RefreshToken string `json:"refresh_token"`
+		AccessToken  string `json:"accessToken"`
+		RefreshToken string `json:"refreshToken"`
 		Time         string `json:"time"`
 	}
 	LoginResp {

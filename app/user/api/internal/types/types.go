@@ -9,8 +9,8 @@ type Base struct {
 }
 
 type LoginData struct {
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
+	AccessToken  string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
 	Time         string `json:"time"`
 }
 

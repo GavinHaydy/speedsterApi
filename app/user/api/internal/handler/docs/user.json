@@ -65,15 +65,15 @@
                 "data": {
                   "type": "object",
                   "required": [
-                    "access_token",
-                    "refresh_token",
+                    "accessToken",
+                    "refreshToken",
                     "time"
                   ],
                   "properties": {
-                    "access_token": {
+                    "accessToken": {
                       "type": "string"
                     },
-                    "refresh_token": {
+                    "refreshToken": {
                       "type": "string"
                     },
                     "time": {
@@ -165,15 +165,15 @@
                 "data": {
                   "type": "object",
                   "required": [
-                    "access_token",
-                    "refresh_token",
+                    "accessToken",
+                    "refreshToken",
                     "time"
                   ],
                   "properties": {
-                    "access_token": {
+                    "accessToken": {
                       "type": "string"
                     },
-                    "refresh_token": {
+                    "refreshToken": {
                       "type": "string"
                     },
                     "time": {
@@ -437,7 +437,7 @@
       }
     }
   },
-  "x-date": "2026-06-10 09:13:12",
+  "x-date": "2026-06-18 21:46:42",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

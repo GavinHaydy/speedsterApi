@@ -45,7 +45,11 @@ func (l *AccountLoginLogic) AccountLogin(req *types.LoginReq) (*types.Response, 
 	}
 
 	return &types.Response{
-		Data: resp,
+		Data: map[string]interface{}{
+			"accessToken":  resp.AccessToken,
+			"refreshToken": resp.RefreshToken,
+			"time":         resp.Time,
+		},
 	}, nil
 
 }
