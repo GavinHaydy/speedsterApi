@@ -1,0 +1,14 @@
+FROM ubuntu
+
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+COPY  app/permission/rpc/permission-rpc /app/permission-rpc
+COPY app/permission/rpc/etc /app/etc
+COPY common/casbin /common/casbin
+
+RUN chmod +x /app/permission-rpc
+
+EXPOSE 18888
+
+CMD ["./permission-rpc", "-f", "etc/permission.yaml"]

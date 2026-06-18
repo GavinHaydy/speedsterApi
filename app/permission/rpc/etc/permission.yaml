@@ -4,3 +4,5 @@ Etcd:
   Hosts:
   - etcd:2379
   Key: permission.rpc
+DB:
+  DSN: postgres://speedster:GavinHaydy2779@gavin-db:5432/speedster?sslmode=disable

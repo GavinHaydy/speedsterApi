@@ -41,7 +41,14 @@ jobs:
             -plugin goctl-swagger="swagger -filename role.json" \
             -api app/role/api/role.api \
             -dir app/role/api/docs
-          
+
+      - name: Generate Permission Swagger
+        run: |
+          mkdir -p app/permission/api/docs
+          goctl api plugin \
+            -plugin goctl-swagger="swagger -filename permission.json" \
+            -api app/permission/api/permission.api \
+            -dir app/permission/api/docs
 
       ################################
       # 编译
@@ -86,6 +93,24 @@ jobs:
           -tags no_k8s \
           -o role-rpc .
 
+
+      - name: Build PermissionApi
+        working-directory: app/permission/api
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+          go build -ldflags="-s -w" \
+          -tags no_k8s \
+          -o permission-api .
+
+      - name: Build PermissionRpc
+        working-directory: app/permission/rpc
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+          go build -ldflags="-s -w" \
+          -tags no_k8s \
+          -o permission-rpc .
+          
+
       ################################
       # 上传文件
       ################################
@@ -109,7 +134,9 @@ jobs:
             /data/github/app/user/api \
             /data/github/app/user/rpc \
             /data/github/app/role/api \
-            /data/github/app/role/rpc"
+            /data/github/app/role/rpc \
+            /data/github/app/permission/api \
+            /data/github/app/permission/rpc "
 
       - name: Upload deployFiles
         run: |
@@ -156,6 +183,20 @@ jobs:
             app/role/rpc/role-rpc \
             app/role/rpc/etc \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/role/rpc/
+
+      - name: Upload permissionApi
+        run: |
+          rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
+            app/permission/api/permission-api \
+            app/permission/api/etc \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/permission/api/
+
+      - name: Upload permissionRpc
+        run: |
+          rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SERVER_PORT }}" \
+            app/permission/rpc/permission-rpc \
+            app/permission/rpc/etc \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/data/github/app/permission/rpc/
 
       - name: Upload gateway
         run: |
