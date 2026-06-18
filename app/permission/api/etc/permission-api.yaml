@@ -3,6 +3,10 @@ Host: 0.0.0.0
 Port: 8890
 DB:
   DSN: postgres://speedster:GavinHaydy2779@gavin-db:5432/speedster?sslmode=disable
+Redis:
+  Host: redis-db:6379
+  Pass: "mypassword"
+  Type: node
 Auth:
   AccessSecret: "SpeedsterIsBest!"
   AccessExpire: 600        # Access Token 有效期：1 小时
