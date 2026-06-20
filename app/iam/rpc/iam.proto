@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package iam;
+
+option go_package = "./pb";
+
+message LoginReq {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginRsp {
+  string access_token = 1;
+  string refresh_token = 2;
+  string time = 3;
+}
+
+message RegisterReq {
+  string username = 1;
+  string password = 2;
+  optional string email = 3;
+  optional string phone = 4;
+}
+
+message RegisterRsp{
+  string user_id = 1;
+}
+
+message UserListReq {
+  string username = 1;
+  string email = 2;
+  string phone = 3;
+  string nickname = 4;
+  int64 status = 5;
+  int64 page_no = 6;
+  int64 page_size = 7;
+}
+
+message UserItem {
+  string id = 1;
+  string username = 2;
+  optional string nickname = 3;
+  optional string phone = 4;
+  optional string email = 5;
+  optional string avatar = 6;
+  optional int64 status = 7;
+}
+
+message UserListResp {
+  int64 total = 1;
+  repeated UserItem list = 2;
+}
+
+// RoleMsg
+
+message UserRole {
+  string user_id = 1;
+  int64 role_id = 2 ;
+}
+
+message UserRoleResp {
+  int64 code = 1 ;
+}
+
+message AssignDefaultRoleReq {
+  string user_id = 1 ;
+}
+
+message AssignDefaultRoleResp {
+  int64 code = 1 ;
+}
+
+// PermissionMsg
+
+message PermissionTreeReq {
+  string name = 1;
+}
+
+message PermissionTreeItem {
+  int64 id = 1;
+  string name = 2;
+  string code = 3;
+  string path = 4;
+  string method = 5;
+  int64 type = 6;
+  string icon = 7;
+  int64 sort = 8;
+  int64 status = 9;
+  int64 parent_id = 10;
+
+  repeated PermissionTreeItem children = 11;
+}
+
+message PermissionTreeResp {
+  repeated PermissionTreeItem list = 1;
+}
+
+message RoleIdReq {
+  int64 role_id = 1;
+}
+message RolePermissionResp {
+  repeated int64 permission_ids = 1;
+}
+
+service IAM {
+  rpc Login(LoginReq) returns(LoginRsp);
+  rpc Register(RegisterReq) returns(RegisterRsp);
+  rpc UserList (UserListReq) returns (UserListResp);
+  rpc AddUserRole(UserRole) returns (UserRoleResp);
+  rpc AssignDefaultRole(AssignDefaultRoleReq) returns (AssignDefaultRoleResp);
+  rpc PermissionTree(PermissionTreeReq) returns(PermissionTreeResp);
+  rpc GetRolePermissions(RoleIdReq) returns(RolePermissionResp);
+}
