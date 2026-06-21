@@ -1,42 +1,229 @@
 syntax = "v1"
 
-info(
-    title: "type title here"
-    desc: "type desc here"
-    author: "type author here"
-    email: "type email here"
-    version: "type version here"
+info (
+	title:   "type title here"
+	desc:    "type desc here"
+	author:  "type author here"
+	email:   "type email here"
+	version: "type version here"
+)
+
+import (
+	"../../../common/response/types.api"
 )
 
 type (
-    PingReq{
-    }
-    HelloReq {
-        Name string `path:"name"`
-    }
+	// UserRes
+	LoginReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	RegisterReq {
+		username string  `json:"username"`
+		password string  `json:"password"`
+		email    *string `json:"email,optional"`
+		phone    *string `json:"phone,optional"`
+	}
+	UserListReq {
+		Username string `json:"username,optional"`
+		Email    string `json:"email,optional"`
+		Phone    string `json:"phone,optional"`
+		Nickname string `json:"nickname,optional"`
+		Status   int64  `json:"status,optional"`
+		PageNo   int64  `json:"pageNo,optional"`
+		PageSize int64  `json:"pageSize,optional"`
+	}
+	RefreshReq {
+		RefreshToken string `json:"refreshToken,optional"`
+	}
+	StatusReq {
+		id     string `json:"id,optional"`
+		status int64  `json:"status,options=1|2"`
+	}
+	// RoleReq
+	RoleListReq {
+		Rolename string `json:"rolename,optional"`
+		Code     string `json:"code,optional"`
+		Status   int64  `json:"status,optional"`
+		PageNo   int    `json:"pageNo,optional"`
+		PageSize int    `json:"pageSize,optional"`
+	}
+	NewRoleReq {
+		Name        string `json:"name,optional"`
+		Code        string `json:"code,optional"`
+		Description string `json:"description"`
+	}
+	UpdateRoleReq {
+		Id          int64   `json:"id,optional"`
+		Name        *string `json:"name"`
+		Code        *string `json:"code"`
+		Description *string `json:"description"`
+		Status      *int64  `json:"status,options=1|2"`
+	}
+	DelRoleReq {
+		Id int64 `json:"id,optional"`
+	}
+	// PermissionReq
+	PermisssionListReq {
+		Name string `json:"name,optional"`
+	}
+	GetRolePermissionReq {
+		RoleId int64 `json:"roleId"`
+	}
 )
 
 type (
-    PingResp{
-    }
-    HelloResp {
-        Message string `json:"message"`
-    }
+	UserListRsp {
+		Username string  `json:"username"`
+		Email    *string `json:"email"`
+		Phone    *string `json:"phone"`
+		Nickname *string `json:"nickname"`
+		Status   *int64  `json:"status"`
+		Avatar   *string `json:"avatar"`
+	}
+	UserListData {
+		List  []UserListRsp `json:"list"`
+		Total int64         `json:"total"`
+	}
+	UserListResponse {
+		Base
+		Data UserListData `json:"data"`
+	}
+	LoginData {
+		AccessToken  string `json:"accessToken"`
+		RefreshToken string `json:"refreshToken"`
+		Time         string `json:"time"`
+	}
+	LoginResp {
+		Base
+		Data LoginData `json:"data"`
+	}
+	RegisterData {
+		UserId string `json:"user_id"`
+	}
+	RegisterResp {
+		Base
+		Data RegisterData `json:"data"`
+	}
+	// RoleResp
+	RoleListData {
+		Name        string `json:"name"`
+		Code        string `json:"code"`
+		Desctiption string `json:"desctiption"`
+		Status      int64  `json:"status"`
+		CreateTime  string `json:"create_time"`
+		UpdateTime  string `json:"update_time"`
+	}
+	RoleListResp {
+		Base
+		Data RoleListData `json:"data"`
+	}
+	// PermissionResp
+	PermissionListItem {
+		Id       int64                `json:"id"`
+		Name     string               `json:"name"`
+		Code     string               `json:"code"`
+		Path     string               `json:"path"`
+		Method   string               `json:"method"`
+		Type     int64                `json:"type"`
+		Icon     string               `json:"icon"`
+		Sort     int64                `json:"sort"`
+		Status   int64                `json:"status"`
+		ParentId int64                `json:"parent_id"`
+		Children []PermissionListItem `json:"children"`
+	}
+	PermissionListData {
+		List  []PermissionListItem `json:"list"`
+		Total int64                `json:"total"`
+	}
+	PermissionListResp {
+		Base
+		Data PermissionListData `json:"data"`
+	}
+	RolePermissionData {
+		PermissionIds []int64 `json:"permission_ids"`
+	}
+	RolePermissionResp {
+		Base
+		Data RolePermissionData `json:"data"`
+	}
 )
 
-@server(
-    group: ping
+@server (
+	tags:   "User-Server"
+	prefix: /user
 )
-service Demo {
-    @handler ping
-    get /ping
+service iam-api {
+	@doc "登录"
+	@handler AccountLogin
+	post /login (LoginReq) returns (LoginResp)
+
+	@doc "注册"
+	@handler Register
+	post /register (RegisterReq) returns (RegisterResp)
+
+	@doc "刷新token"
+	@handler Refresh
+	post /refresh (RefreshReq) returns (LoginResp)
 }
 
-@server(
-    group: hello
+@server (
+	tags:       "User-Server"
+	prefix:     /user
+	jwt:        Auth
+	middleware: RedisJwtMiddleware,CasbinMiddleware
 )
-service Demo {
-    @handler hell
-    get /hello/:name (HelloReq) returns (HelloResp)
+service iam-api {
+	@doc "退出登录"
+	@handler AccountLogout
+	delete /logout returns (Response)
+
+	@doc "用户列表"
+	@handler UserList
+	post /userlist (UserListReq) returns (UserListResponse)
+
+	@doc "修改用户状态"
+	@handler Status
+	put /status (StatusReq) returns (Response)
+}
+
+@server (
+	tags:       "Role-Server"
+	prefix:     /role
+	jwt:        Auth
+	middleware: RedisJwtMiddleware,CasbinMiddleware
+)
+service iam-api {
+	@doc "角色列表"
+	@handler RoleList
+	post /rolelist (RoleListReq) returns (RoleListResp)
+
+	@doc "新建角色"
+	@handler CreateRole
+	post /create (NewRoleReq) returns (Response)
+
+	@doc "修改角色"
+	@handler UpdateRole
+	put /update (UpdateRoleReq) returns (Response)
+
+	@doc "删除角色"
+	@handler DelRole
+	delete /delete (DelRoleReq) returns (Response)
+}
+
+@server (
+	tags:       "permission-Server"
+	prefix:     /permission
+	jwt:        Auth
+	middleware: RedisJwtMiddleware,CasbinMiddleware
+)
+service iam-api {
+	@doc "权限列表"
+	@handler PermissionList
+	post /permissionlist (PermisssionListReq) returns (PermissionListResp)
+
+	@doc "角色权限"
+	@handler GetRolePermissions
+	post /getRolePermissions (GetRolePermissionReq) returns (RolePermissionResp)
 }
 

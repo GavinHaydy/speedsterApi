@@ -39,3 +39,4 @@ app/role/role
 /.logs
 /.run
 *main
+app/**/middleware
