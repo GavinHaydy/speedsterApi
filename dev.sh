@@ -1,0 +1,47 @@
+#!/bin/bash
+
+case "$1" in
+  start)
+    tmux new-session -d -s speedster -n gateway
+
+    tmux send-keys -t speedster:gateway \
+      'cd app/gateway && air' C-m
+
+    tmux new-window -t speedster -n iam-api
+    tmux send-keys -t speedster:iam-api \
+      'cd app/iam/api && air' C-m
+
+    tmux new-window -t speedster -n iam-rpc
+    tmux send-keys -t speedster:iam-rpc \
+      'cd app/iam/rpc && air' C-m
+
+#    tmux new-window -t speedster -n role-api
+#    tmux send-keys -t speedster:role-api \
+#      'cd app/role/api && air' C-m
+#
+#    tmux new-window -t speedster -n role-rpc
+#    tmux send-keys -t speedster:role-rpc \
+#      'cd app/role/rpc && air' C-m
+#
+#    tmux new-window -t speedster -n permission-api
+#    tmux send-keys -t speedster:permission-api \
+#      'cd app/permission/api && air' C-m
+#
+#    tmux new-window -t speedster -n permission-rpc
+#    tmux send-keys -t speedster:permission-rpc \
+#      'cd app/permission/rpc && air' C-m
+
+
+
+    tmux attach -t speedster
+    ;;
+
+  stop)
+    tmux kill-session -t speedster
+    ;;
+
+  restart)
+    tmux kill-session -t speedster 2>/dev/null
+    "$0" start
+    ;;
+esac

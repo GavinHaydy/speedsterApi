@@ -21,7 +21,8 @@ func RegisterRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 	// 修改点：将 ctx 传递给 RegisterDocRoutes
 
 	var routes = []RouteConfig{
-		{Path: "/user/", Target: ctx.Config.UserService.Target},
+		{Path: "/iam/", Target: ctx.Config.IamService.Target},
+		{Path: "/user/", Target: ctx.Config.IamService.Target},
 		{Path: "/role/", Target: ctx.Config.RoleService.Target},
 		{Path: "/permission/", Target: ctx.Config.PermissionService.Target},
 	}
@@ -31,6 +32,7 @@ func RegisterRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 	for _, route := range routes {
 		path := route.Path + "/:path"
 		path2 := route.Path + "/:path/:path"
+		path3 := route.Path + "/:path/:path/:path"
 
 		target, _ := url.Parse(route.Target)
 		proxy := httputil.NewSingleHostReverseProxy(target)
@@ -46,6 +48,11 @@ func RegisterRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 				Path:    path2,
 				Handler: proxyHandler(proxy),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    path3,
+				Handler: proxyHandler(proxy),
+			},
 		})
 
 		engine.AddRoutes([]rest.Route{
@@ -57,24 +64,43 @@ func RegisterRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 			{
 				Method:  http.MethodPost,
 				Path:    path2,
-				Handler: proxyHandler(proxy)},
+				Handler: proxyHandler(proxy),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    path3,
+				Handler: proxyHandler(proxy),
+			},
 		})
 		engine.AddRoutes([]rest.Route{
 			{Method: http.MethodPut,
 				Path:    path,
-				Handler: proxyHandler(proxy)}, {
+				Handler: proxyHandler(proxy),
+			},
+			{
 				Method:  http.MethodPut,
 				Path:    path2,
+				Handler: proxyHandler(proxy),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    path3,
 				Handler: proxyHandler(proxy),
 			},
 		})
 		engine.AddRoutes([]rest.Route{
 			{Method: http.MethodDelete,
 				Path:    path,
-				Handler: proxyHandler(proxy)},
+				Handler: proxyHandler(proxy),
+			},
 			{
 				Method:  http.MethodDelete,
 				Path:    path2,
+				Handler: proxyHandler(proxy),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    path3,
 				Handler: proxyHandler(proxy),
 			},
 		})
@@ -106,8 +132,8 @@ func RegisterDocRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 			sources: [
     // API #1
     {
-      title: 'User-Server',
-      url: '/docs/user.json',
+      title: 'Iam-Server',
+      url: '/docs/iam.json',
     },
 	{
 	title: 'Role-Server', 
@@ -132,9 +158,9 @@ func RegisterDocRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
 	// 以后如果你需要从配置文件（ctx.Config）中读取后端服务的真实地址，就可以在这里使用了。
 	engine.AddRoute(rest.Route{
 		Method: http.MethodGet,
-		Path:   "/docs/user.json",
+		Path:   "/docs/iam.json",
 		//Handler: proxyTo("http://localhost:8888/docs/user.json"),
-		Handler: proxyTo(fmt.Sprintf("%s/docs/user.json", ctx.Config.UserService.Target)),
+		Handler: proxyTo(fmt.Sprintf("%s/docs/iam.json", ctx.Config.IamService.Target)),
 	})
 	engine.AddRoute(rest.Route{
 		Method: http.MethodGet,
