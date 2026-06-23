@@ -7,7 +7,7 @@ import "github.com/zeromicro/go-zero/rest"
 
 type Config struct {
 	rest.RestConf
-	UserService struct {
+	IamService struct {
 		Target string
 	}
 	RoleService struct {
