@@ -2,6 +2,9 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/app/iam/model"
+	"speedsterApi/common/errno"
+	"speedsterApi/common/errorx"
 
 	"speedsterApi/app/iam/rpc/internal/svc"
 	"speedsterApi/app/iam/rpc/pb"
@@ -24,7 +27,14 @@ func NewAssignDefaultRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *AssignDefaultRoleLogic) AssignDefaultRole(in *pb.AssignDefaultRoleReq) (*pb.AssignDefaultRoleResp, error) {
-	// todo: add your logic here and delete this line
+	_, err := l.svcCtx.SysUserRoleModel.Insert(l.ctx, &model.SysUserRole{
+		UserId: in.UserId,
+		RoleId: 1,
+	})
 
-	return &pb.AssignDefaultRoleResp{}, nil
+	if err != nil {
+		return nil, errorx.New(errno.ErrInsertFailed)
+	}
+
+	return &pb.AssignDefaultRoleResp{Code: errno.Ok}, nil
 }
