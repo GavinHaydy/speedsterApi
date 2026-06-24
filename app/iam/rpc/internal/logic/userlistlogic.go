@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/common/errno"
+	"speedsterApi/common/errorx"
 
 	"speedsterApi/app/iam/rpc/internal/svc"
 	"speedsterApi/app/iam/rpc/pb"
@@ -24,7 +26,15 @@ func NewUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserList
 }
 
 func (l *UserListLogic) UserList(in *pb.UserListReq) (*pb.UserListResp, error) {
-	// todo: add your logic here and delete this line
+	total, list, err := l.svcCtx.SysUserModel.SelectUserList(l.ctx, in)
+	if err != nil {
+		logx.Errorf("UserList,error:%+v", err)
+		return nil, errorx.New(errno.ErrSelectDbFailed)
+	}
+	logx.Infof("UserList,total:%+v,list:%+v", total, list)
 
-	return &pb.UserListResp{}, nil
+	return &pb.UserListResp{
+		Total: total,
+		List:  list,
+	}, nil
 }
