@@ -26,6 +26,7 @@ const (
 	IAM_AssignDefaultRole_FullMethodName  = "/iam.IAM/AssignDefaultRole"
 	IAM_PermissionTree_FullMethodName     = "/iam.IAM/PermissionTree"
 	IAM_GetRolePermissions_FullMethodName = "/iam.IAM/GetRolePermissions"
+	IAM_UpUserStatus_FullMethodName       = "/iam.IAM/UpUserStatus"
 )
 
 // IAMClient is the client API for IAM service.
@@ -39,6 +40,7 @@ type IAMClient interface {
 	AssignDefaultRole(ctx context.Context, in *AssignDefaultRoleReq, opts ...grpc.CallOption) (*AssignDefaultRoleResp, error)
 	PermissionTree(ctx context.Context, in *PermissionTreeReq, opts ...grpc.CallOption) (*PermissionTreeResp, error)
 	GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error)
+	UpUserStatus(ctx context.Context, in *UpUserStatusReq, opts ...grpc.CallOption) (*UpUserStatusResp, error)
 }
 
 type iAMClient struct {
@@ -119,6 +121,16 @@ func (c *iAMClient) GetRolePermissions(ctx context.Context, in *RoleIdReq, opts 
 	return out, nil
 }
 
+func (c *iAMClient) UpUserStatus(ctx context.Context, in *UpUserStatusReq, opts ...grpc.CallOption) (*UpUserStatusResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpUserStatusResp)
+	err := c.cc.Invoke(ctx, IAM_UpUserStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // IAMServer is the server API for IAM service.
 // All implementations must embed UnimplementedIAMServer
 // for forward compatibility.
@@ -130,6 +142,7 @@ type IAMServer interface {
 	AssignDefaultRole(context.Context, *AssignDefaultRoleReq) (*AssignDefaultRoleResp, error)
 	PermissionTree(context.Context, *PermissionTreeReq) (*PermissionTreeResp, error)
 	GetRolePermissions(context.Context, *RoleIdReq) (*RolePermissionResp, error)
+	UpUserStatus(context.Context, *UpUserStatusReq) (*UpUserStatusResp, error)
 	mustEmbedUnimplementedIAMServer()
 }
 
@@ -160,6 +173,9 @@ func (UnimplementedIAMServer) PermissionTree(context.Context, *PermissionTreeReq
 }
 func (UnimplementedIAMServer) GetRolePermissions(context.Context, *RoleIdReq) (*RolePermissionResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetRolePermissions not implemented")
+}
+func (UnimplementedIAMServer) UpUserStatus(context.Context, *UpUserStatusReq) (*UpUserStatusResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpUserStatus not implemented")
 }
 func (UnimplementedIAMServer) mustEmbedUnimplementedIAMServer() {}
 func (UnimplementedIAMServer) testEmbeddedByValue()             {}
@@ -308,6 +324,24 @@ func _IAM_GetRolePermissions_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IAM_UpUserStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpUserStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServer).UpUserStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAM_UpUserStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServer).UpUserStatus(ctx, req.(*UpUserStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // IAM_ServiceDesc is the grpc.ServiceDesc for IAM service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -342,6 +376,10 @@ var IAM_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetRolePermissions",
 			Handler:    _IAM_GetRolePermissions_Handler,
+		},
+		{
+			MethodName: "UpUserStatus",
+			Handler:    _IAM_UpUserStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

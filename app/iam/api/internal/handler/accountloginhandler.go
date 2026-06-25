@@ -27,9 +27,8 @@ func AccountLoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		resp, err := l.AccountLogin(&req)
 		if err != nil {
 			response.Error(w, r, resp.Code)
-			//httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			response.SuccessWithData(w, r, resp.Data)
 		}
 	}
 }

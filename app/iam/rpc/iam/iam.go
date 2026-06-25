@@ -25,6 +25,8 @@ type (
 	RegisterRsp           = pb.RegisterRsp
 	RoleIdReq             = pb.RoleIdReq
 	RolePermissionResp    = pb.RolePermissionResp
+	UpUserStatusReq       = pb.UpUserStatusReq
+	UpUserStatusResp      = pb.UpUserStatusResp
 	UserItem              = pb.UserItem
 	UserListReq           = pb.UserListReq
 	UserListResp          = pb.UserListResp
@@ -39,6 +41,7 @@ type (
 		AssignDefaultRole(ctx context.Context, in *AssignDefaultRoleReq, opts ...grpc.CallOption) (*AssignDefaultRoleResp, error)
 		PermissionTree(ctx context.Context, in *PermissionTreeReq, opts ...grpc.CallOption) (*PermissionTreeResp, error)
 		GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error)
+		UpUserStatus(ctx context.Context, in *UpUserStatusReq, opts ...grpc.CallOption) (*UpUserStatusResp, error)
 	}
 
 	defaultIAM struct {
@@ -85,4 +88,9 @@ func (m *defaultIAM) PermissionTree(ctx context.Context, in *PermissionTreeReq, 
 func (m *defaultIAM) GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error) {
 	client := pb.NewIAMClient(m.cli.Conn())
 	return client.GetRolePermissions(ctx, in, opts...)
+}
+
+func (m *defaultIAM) UpUserStatus(ctx context.Context, in *UpUserStatusReq, opts ...grpc.CallOption) (*UpUserStatusResp, error) {
+	client := pb.NewIAMClient(m.cli.Conn())
+	return client.UpUserStatus(ctx, in, opts...)
 }
