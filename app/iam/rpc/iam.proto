@@ -102,6 +102,15 @@ message RolePermissionResp {
   repeated int64 permission_ids = 1;
 }
 
+message UpUserStatusReq {
+  string id = 1;
+  int64 status = 2;
+}
+
+message UpUserStatusResp {
+  int64 code = 1;
+}
+
 service IAM {
   rpc Login(LoginReq) returns(LoginRsp);
   rpc Register(RegisterReq) returns(RegisterRsp);
@@ -110,4 +119,5 @@ service IAM {
   rpc AssignDefaultRole(AssignDefaultRoleReq) returns (AssignDefaultRoleResp);
   rpc PermissionTree(PermissionTreeReq) returns(PermissionTreeResp);
   rpc GetRolePermissions(RoleIdReq) returns(RolePermissionResp);
+  rpc UpUserStatus(UpUserStatusReq) returns(UpUserStatusResp);
 }

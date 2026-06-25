@@ -5,6 +5,8 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/app/iam/rpc/pb"
+	"speedsterApi/common/errno"
 
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
@@ -18,7 +20,7 @@ type UserListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 用户列表
+// NewUserListLogic 用户列表
 func NewUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserListLogic {
 	return &UserListLogic{
 		Logger: logx.WithContext(ctx),
@@ -27,8 +29,24 @@ func NewUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserList
 	}
 }
 
-func (l *UserListLogic) UserList(req *types.UserListReq) (resp *types.UserListResponse, err error) {
-	// todo: add your logic here and delete this line
+func (l *UserListLogic) UserList(req *types.UserListReq) (resp *types.Response, err error) {
+	data, err := l.svcCtx.IamRpc.UserList(l.ctx, &pb.UserListReq{
+		Username: req.Username,
+		Email:    req.Email,
+		Phone:    req.Phone,
+		Nickname: req.Nickname,
+		Status:   req.Status,
+		PageNo:   req.PageNo,
+		PageSize: req.PageSize,
+	})
 
-	return
+	if err != nil {
+		logx.Errorf("UserListLogic.userList,err:%v", err)
+		return &types.Response{Code: errno.ErrRPCFailed}, err
+	}
+
+	return &types.Response{Data: map[string]interface{}{
+		"total": data.Total,
+		"list":  data.List,
+	}}, nil
 }

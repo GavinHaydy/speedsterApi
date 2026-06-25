@@ -5,9 +5,10 @@ package logic
 
 import (
 	"context"
-
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
+	"speedsterApi/app/iam/rpc/pb"
+	"speedsterApi/common/errorx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -18,7 +19,7 @@ type StatusLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 修改用户状态
+// NewStatusLogic 修改用户状态
 func NewStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *StatusLogic {
 	return &StatusLogic{
 		Logger: logx.WithContext(ctx),
@@ -28,7 +29,18 @@ func NewStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *StatusLogi
 }
 
 func (l *StatusLogic) Status(req *types.StatusReq) (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
+	_, err = l.svcCtx.IamRpc.UpUserStatus(l.ctx, &pb.UpUserStatusReq{
+		Id:     req.Id,
+		Status: req.Status,
+	})
+	if err != nil {
+		code, msg := errorx.Parse(err)
 
-	return
+		return &types.Response{
+			Code: code,
+			Msg:  msg,
+		}, err
+	}
+
+	return &types.Response{}, nil
 }

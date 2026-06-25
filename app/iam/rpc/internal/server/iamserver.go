@@ -57,3 +57,8 @@ func (s *IAMServer) GetRolePermissions(ctx context.Context, in *pb.RoleIdReq) (*
 	l := logic.NewGetRolePermissionsLogic(ctx, s.svcCtx)
 	return l.GetRolePermissions(in)
 }
+
+func (s *IAMServer) UpUserStatus(ctx context.Context, in *pb.UpUserStatusReq) (*pb.UpUserStatusResp, error) {
+	l := logic.NewUpUserStatusLogic(ctx, s.svcCtx)
+	return l.UpUserStatus(in)
+}

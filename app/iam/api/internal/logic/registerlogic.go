@@ -5,6 +5,9 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/app/iam/rpc/pb"
+	"speedsterApi/common/errorx"
+	"speedsterApi/common/utils"
 
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
@@ -18,7 +21,7 @@ type RegisterLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 注册
+// NewRegisterLogic 注册
 func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RegisterLogic {
 	return &RegisterLogic{
 		Logger: logx.WithContext(ctx),
@@ -27,8 +30,20 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 	}
 }
 
-func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.Response, err error) {
+	register, err := l.svcCtx.IamRpc.Register(l.ctx, &pb.RegisterReq{
+		Username: req.Username,
+		Password: req.Password,
+		Phone:    utils.EmptyToNil(req.Phone),
+		Email:    utils.EmptyToNil(req.Email),
+	})
+	logx.Infof("Register %+v", register)
+	if err != nil {
+		code, msg := errorx.Parse(err)
+		return &types.Response{
+			Code: code,
+			Msg:  msg,
+		}, err
+	}
+	return &types.Response{Data: register}, nil
 }
