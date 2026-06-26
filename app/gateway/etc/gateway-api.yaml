@@ -3,26 +3,17 @@ Host: 0.0.0.0
 Port: 9527
 
 # 各微服务地址
-UserService:
-  Target: http://user-api:8888
-RoleService:
-  Target: http://role-api:8889
-PermissionService:
-  Target: http://permission-api:8890
+Services:
+  - Name: Iam
+    Target: http://localhost:8888
+    Prefix:
+      - user
+      - role
+      - permission
 
 Log:
-  ServiceName: user-api
+  ServiceName: gateway-api
   Mode: console
   Encoding: plain
   TimeFormat: 2006-01-02 15:04:05
   Path: logs
-Upstreams:
-  - Name: userapi
-    Http:
-      Target: localhost:8888
-      Prefix: /api/user
-    Mappings:
-      - Method: GET
-        Path: /user
-      - Method: POST
-        Path: /user
