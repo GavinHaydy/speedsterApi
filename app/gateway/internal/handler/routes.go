@@ -7,7 +7,9 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"strings"
 
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
 )
 
@@ -18,161 +20,117 @@ type RouteConfig struct {
 
 // RegisterRoutes 注册所有的路由（包括文档聚合和业务接口转发）
 func RegisterRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
-	// 修改点：将 ctx 传递给 RegisterDocRoutes
 
-	var routes = []RouteConfig{
-		{Path: "/iam/", Target: ctx.Config.IamService.Target},
-		{Path: "/user/", Target: ctx.Config.IamService.Target},
-		{Path: "/role/", Target: ctx.Config.RoleService.Target},
-		{Path: "/permission/", Target: ctx.Config.PermissionService.Target},
-	}
 	RegisterDocRoutes(engine, ctx)
 
-	//业务路由转发逻辑保持不变...
-	for _, route := range routes {
-		path := route.Path + "/:path"
-		path2 := route.Path + "/:path/:path"
-		path3 := route.Path + "/:path/:path/:path"
+	methods := []string{
+		http.MethodGet,
+		http.MethodPost,
+		http.MethodPut,
+		http.MethodDelete,
+		http.MethodPatch,
+	}
 
-		target, _ := url.Parse(route.Target)
+	for _, service := range ctx.Config.Services {
+
+		target, err := url.Parse(service.Target)
+		if err != nil {
+			panic(err)
+		}
+
 		proxy := httputil.NewSingleHostReverseProxy(target)
 
-		engine.AddRoutes([]rest.Route{
-			{
-				Method:  http.MethodGet,
-				Path:    path,
-				Handler: proxyHandler(proxy),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    path2,
-				Handler: proxyHandler(proxy),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    path3,
-				Handler: proxyHandler(proxy),
-			},
-		})
+		for _, prefix := range service.Prefix {
 
-		engine.AddRoutes([]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    path,
-				Handler: proxyHandler(proxy),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    path2,
-				Handler: proxyHandler(proxy),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    path3,
-				Handler: proxyHandler(proxy),
-			},
-		})
-		engine.AddRoutes([]rest.Route{
-			{Method: http.MethodPut,
-				Path:    path,
-				Handler: proxyHandler(proxy),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    path2,
-				Handler: proxyHandler(proxy),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    path3,
-				Handler: proxyHandler(proxy),
-			},
-		})
-		engine.AddRoutes([]rest.Route{
-			{Method: http.MethodDelete,
-				Path:    path,
-				Handler: proxyHandler(proxy),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    path2,
-				Handler: proxyHandler(proxy),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    path3,
-				Handler: proxyHandler(proxy),
-			},
-		})
+			paths := []string{
+				"/" + prefix,
+				"/" + prefix + "/:path",
+				"/" + prefix + "/:path/:path",
+				"/" + prefix + "/:path/:path/:path",
+			}
+
+			for _, method := range methods {
+
+				var routes []rest.Route
+
+				for _, p := range paths {
+					routes = append(routes, rest.Route{
+						Method:  method,
+						Path:    p,
+						Handler: proxyHandler(proxy),
+					})
+				}
+
+				engine.AddRoutes(routes)
+				logx.Info(engine.Routes())
+			}
+		}
 	}
 }
 
 // RegisterDocRoutes 专门用来注册 Scalar 文档聚合页面的路由
 // 修改点：同样增加 ctx *svc.ServiceContext 参数
 func RegisterDocRoutes(engine *rest.Server, ctx *svc.ServiceContext) {
-	// 提供 Scalar 文档聚合页面
+
 	engine.AddRoute(rest.Route{
 		Method: http.MethodGet,
 		Path:   "/docs",
 		Handler: func(w http.ResponseWriter, r *http.Request) {
+
+			var sources strings.Builder
+
+			for _, service := range ctx.Config.Services {
+
+				sources.WriteString(fmt.Sprintf(`
+{
+	title: "%s",
+	url: "/docs/%s.json",
+},
+`, service.Name, strings.ToLower(service.Name)))
+			}
+
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")
-			w.Write([]byte(`
-<!DOCTYPE html>
+
+			fmt.Fprintf(w, `<!DOCTYPE html>
 <html>
 <head>
-    <title>Speedster API 文档</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8">
+<title>Gateway Docs</title>
+<script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
 </head>
+
 <body>
+
 <div id="app"></div>
-    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
-	<script>
-		Scalar.createApiReference('#app', {
-			sources: [
-    // API #1
-    {
-      title: 'Iam-Server',
-      url: '/docs/iam.json',
-    },
-	{
-	title: 'Role-Server', 
-	url: '/docs/role.json'
-	},
-	{
-	title: 'Permission-Server',
-	url: '/docs/permission.json'
-	},
-]
+
+<script>
+Scalar.createApiReference('#app',{
+	sources:[
+%s
+	]
 })
-	</script>
-    
+</script>
+
 </body>
-</html>
-			`))
+</html>`, sources.String())
 		},
 	})
 
-	// 代理各个微服务的 swagger.json 文件
-	// 注意：这里暂时没用到 ctx，但为了保持函数签名一致先加上。
-	// 以后如果你需要从配置文件（ctx.Config）中读取后端服务的真实地址，就可以在这里使用了。
-	engine.AddRoute(rest.Route{
-		Method: http.MethodGet,
-		Path:   "/docs/iam.json",
-		//Handler: proxyTo("http://localhost:8888/docs/user.json"),
-		Handler: proxyTo(fmt.Sprintf("%s/docs/iam.json", ctx.Config.IamService.Target)),
-	})
-	engine.AddRoute(rest.Route{
-		Method: http.MethodGet,
-		Path:   "/docs/role.json",
-		//Handler: proxyTo("http://order-service:8080/docs/swagger.json"),
-		Handler: proxyTo(fmt.Sprintf("%s/docs/role.json", ctx.Config.RoleService.Target)),
-	})
-	engine.AddRoute(rest.Route{
-		Method:  http.MethodGet,
-		Path:    "/docs/permission.json",
-		Handler: proxyTo(fmt.Sprintf("%s/docs/permission.json", ctx.Config.PermissionService.Target)),
-	})
+	for _, service := range ctx.Config.Services {
+
+		service := service
+
+		engine.AddRoute(rest.Route{
+			Method: http.MethodGet,
+			Path:   "/docs/" + strings.ToLower(service.Name) + ".json",
+			Handler: proxyTo(
+				fmt.Sprintf("%s/docs/%s.json",
+					service.Target,
+					strings.ToLower(service.Name),
+				),
+			),
+		})
+	}
 }
 
 // proxyHandler 处理业务接口的反向代理
