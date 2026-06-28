@@ -28,6 +28,7 @@ func NewRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleList
 func (l *RoleListLogic) RoleList(in *pb.RoleListReq) (*pb.RoleListResp, error) {
 	list, err := l.svcCtx.SysRoleModel.SelectRoleList(l.ctx, in)
 	if err != nil {
+		logx.Errorf("%+v", err)
 		return nil, errorx.New(errno.ErrSelectDbFailed)
 	}
 
