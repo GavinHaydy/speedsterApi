@@ -62,3 +62,23 @@ func (s *IAMServer) UpUserStatus(ctx context.Context, in *pb.UpUserStatusReq) (*
 	l := logic.NewUpUserStatusLogic(ctx, s.svcCtx)
 	return l.UpUserStatus(in)
 }
+
+func (s *IAMServer) RoleList(ctx context.Context, in *pb.RoleListReq) (*pb.RoleListResp, error) {
+	l := logic.NewRoleListLogic(ctx, s.svcCtx)
+	return l.RoleList(in)
+}
+
+func (s *IAMServer) RoleCreate(ctx context.Context, in *pb.CreateRoleReq) (*pb.CreateRoleResp, error) {
+	l := logic.NewRoleCreateLogic(ctx, s.svcCtx)
+	return l.RoleCreate(in)
+}
+
+func (s *IAMServer) RoleUpdate(ctx context.Context, in *pb.UpdateRoleReq) (*pb.Empty, error) {
+	l := logic.NewRoleUpdateLogic(ctx, s.svcCtx)
+	return l.RoleUpdate(in)
+}
+
+func (s *IAMServer) RoleDelete(ctx context.Context, in *pb.DelRoleReq) (*pb.Empty, error) {
+	l := logic.NewRoleDeleteLogic(ctx, s.svcCtx)
+	return l.RoleDelete(in)
+}

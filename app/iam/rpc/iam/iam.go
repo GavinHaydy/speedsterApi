@@ -16,6 +16,10 @@ import (
 type (
 	AssignDefaultRoleReq  = pb.AssignDefaultRoleReq
 	AssignDefaultRoleResp = pb.AssignDefaultRoleResp
+	CreateRoleReq         = pb.CreateRoleReq
+	CreateRoleResp        = pb.CreateRoleResp
+	DelRoleReq            = pb.DelRoleReq
+	Empty                 = pb.Empty
 	LoginReq              = pb.LoginReq
 	LoginRsp              = pb.LoginRsp
 	PermissionTreeItem    = pb.PermissionTreeItem
@@ -24,9 +28,13 @@ type (
 	RegisterReq           = pb.RegisterReq
 	RegisterRsp           = pb.RegisterRsp
 	RoleIdReq             = pb.RoleIdReq
+	RoleListItem          = pb.RoleListItem
+	RoleListReq           = pb.RoleListReq
+	RoleListResp          = pb.RoleListResp
 	RolePermissionResp    = pb.RolePermissionResp
 	UpUserStatusReq       = pb.UpUserStatusReq
 	UpUserStatusResp      = pb.UpUserStatusResp
+	UpdateRoleReq         = pb.UpdateRoleReq
 	UserItem              = pb.UserItem
 	UserListReq           = pb.UserListReq
 	UserListResp          = pb.UserListResp
@@ -42,6 +50,10 @@ type (
 		PermissionTree(ctx context.Context, in *PermissionTreeReq, opts ...grpc.CallOption) (*PermissionTreeResp, error)
 		GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error)
 		UpUserStatus(ctx context.Context, in *UpUserStatusReq, opts ...grpc.CallOption) (*UpUserStatusResp, error)
+		RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error)
+		RoleCreate(ctx context.Context, in *CreateRoleReq, opts ...grpc.CallOption) (*CreateRoleResp, error)
+		RoleUpdate(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*Empty, error)
+		RoleDelete(ctx context.Context, in *DelRoleReq, opts ...grpc.CallOption) (*Empty, error)
 	}
 
 	defaultIAM struct {
@@ -93,4 +105,24 @@ func (m *defaultIAM) GetRolePermissions(ctx context.Context, in *RoleIdReq, opts
 func (m *defaultIAM) UpUserStatus(ctx context.Context, in *UpUserStatusReq, opts ...grpc.CallOption) (*UpUserStatusResp, error) {
 	client := pb.NewIAMClient(m.cli.Conn())
 	return client.UpUserStatus(ctx, in, opts...)
+}
+
+func (m *defaultIAM) RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error) {
+	client := pb.NewIAMClient(m.cli.Conn())
+	return client.RoleList(ctx, in, opts...)
+}
+
+func (m *defaultIAM) RoleCreate(ctx context.Context, in *CreateRoleReq, opts ...grpc.CallOption) (*CreateRoleResp, error) {
+	client := pb.NewIAMClient(m.cli.Conn())
+	return client.RoleCreate(ctx, in, opts...)
+}
+
+func (m *defaultIAM) RoleUpdate(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := pb.NewIAMClient(m.cli.Conn())
+	return client.RoleUpdate(ctx, in, opts...)
+}
+
+func (m *defaultIAM) RoleDelete(ctx context.Context, in *DelRoleReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := pb.NewIAMClient(m.cli.Conn())
+	return client.RoleDelete(ctx, in, opts...)
 }
