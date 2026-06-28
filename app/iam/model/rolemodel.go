@@ -2,6 +2,8 @@ package model
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"fmt"
 	"speedsterApi/app/iam/rpc/pb"
 	"speedsterApi/common/utils/timex"
@@ -62,6 +64,9 @@ func (m *customRoleModel) SelectRoleList(ctx context.Context, req *pb.RoleListRe
 
 	err = m.conn.QueryRowCtx(ctx, &total, countQuery, countValues...)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
 		return nil, err
 	}
 

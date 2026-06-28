@@ -105,8 +105,8 @@ type RoleListReq struct {
 	Rolename string `json:"rolename,optional"`
 	Code     string `json:"code,optional"`
 	Status   int64  `json:"status,optional"`
-	PageNo   int    `json:"pageNo,optional"`
-	PageSize int    `json:"pageSize,optional"`
+	PageNo   int64  `json:"pageNo,optional"`
+	PageSize int64  `json:"pageSize,optional"`
 }
 
 type RoleListResp struct {

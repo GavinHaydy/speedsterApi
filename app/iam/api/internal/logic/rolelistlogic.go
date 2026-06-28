@@ -5,6 +5,8 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/app/iam/rpc/iam"
+	"speedsterApi/common/errorx"
 
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
@@ -18,7 +20,7 @@ type RoleListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 角色列表
+// NewRoleListLogic 角色列表
 func NewRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleListLogic {
 	return &RoleListLogic{
 		Logger: logx.WithContext(ctx),
@@ -27,8 +29,18 @@ func NewRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleList
 	}
 }
 
-func (l *RoleListLogic) RoleList(req *types.RoleListReq) (resp *types.RoleListResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *RoleListLogic) RoleList(req *types.RoleListReq) (resp *types.Response, err error) {
+	list, err := l.svcCtx.IamRpc.RoleList(l.ctx, &iam.RoleListReq{
+		RoleName: req.Rolename,
+		Code:     req.Code,
+		Status:   req.Status,
+		PageNo:   req.PageNo,
+		PageSize: req.PageSize,
+	})
+	if err != nil {
+		code, msg := errorx.Parse(err)
+		return &types.Response{Code: code, Msg: msg}, err
+	}
 
-	return
+	return &types.Response{Data: list}, nil
 }
