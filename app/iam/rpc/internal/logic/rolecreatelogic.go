@@ -2,6 +2,10 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/app/iam/model"
+	"speedsterApi/common/errno"
+	"speedsterApi/common/errorx"
+	"speedsterApi/common/utils"
 
 	"speedsterApi/app/iam/rpc/internal/svc"
 	"speedsterApi/app/iam/rpc/pb"
@@ -24,7 +28,19 @@ func NewRoleCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleCr
 }
 
 func (l *RoleCreateLogic) RoleCreate(in *pb.CreateRoleReq) (*pb.CreateRoleResp, error) {
-	// todo: add your logic here and delete this line
+	result, err := l.svcCtx.SysRoleModel.Insert(l.ctx, &model.Role{
+		Name:        in.Name,
+		Code:        in.Code,
+		Description: utils.ToNullString(&in.Description),
+	})
+	if err != nil {
+		return nil, errorx.New(errno.ErrInsertFailed)
+	}
 
-	return &pb.CreateRoleResp{}, nil
+	roleId, err := result.LastInsertId()
+	if err != nil {
+		return nil, errorx.New(errno.ErrInsertFailed)
+	}
+
+	return &pb.CreateRoleResp{RoleId: roleId}, nil
 }
