@@ -12,14 +12,15 @@ import (
 )
 
 type ServiceContext struct {
-	Config             config.Config
-	SysUserModel       model.SysUserModel
-	SysRoleModel       model.RoleModel
-	SysUserRoleModel   model.SysUserRoleModel
-	Redis              redis.Redis
-	RedisJwtMiddleware rest.Middleware
-	DB                 sqlx.SqlConn
-	CasBinMiddleware   rest.Middleware
+	Config                 config.Config
+	SysUserModel           model.SysUserModel
+	SysRoleModel           model.RoleModel
+	SysUserRoleModel       model.SysUserRoleModel
+	SysRolePermissionModel model.SysRolePermissionModel
+	Redis                  redis.Redis
+	RedisJwtMiddleware     rest.Middleware
+	DB                     sqlx.SqlConn
+	CasBinMiddleware       rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -27,13 +28,14 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	rdb := redis.MustNewRedis(c.CacheRedis)
 
 	return &ServiceContext{
-		Config:             c,
-		SysUserModel:       model.NewSysUserModel(conn),
-		SysRoleModel:       model.NewRoleModel(conn),
-		SysUserRoleModel:   model.NewSysUserRoleModel(conn),
-		Redis:              *rdb,
-		RedisJwtMiddleware: middleware.NewRedisJwtMiddleware(rdb, c.CacheAuth.AccessSecret).Handle,
-		DB:                 conn,
-		CasBinMiddleware:   middleware.NewCasbinMiddleware().Handle,
+		Config:                 c,
+		SysUserModel:           model.NewSysUserModel(conn),
+		SysRoleModel:           model.NewRoleModel(conn),
+		SysUserRoleModel:       model.NewSysUserRoleModel(conn),
+		SysRolePermissionModel: model.NewSysRolePermissionModel(conn),
+		Redis:                  *rdb,
+		RedisJwtMiddleware:     middleware.NewRedisJwtMiddleware(rdb, c.CacheAuth.AccessSecret).Handle,
+		DB:                     conn,
+		CasBinMiddleware:       middleware.NewCasbinMiddleware().Handle,
 	}
 }
