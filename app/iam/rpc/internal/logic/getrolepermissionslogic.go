@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/common/errno"
+	"speedsterApi/common/errorx"
 
 	"speedsterApi/app/iam/rpc/internal/svc"
 	"speedsterApi/app/iam/rpc/pb"
@@ -24,7 +26,13 @@ func NewGetRolePermissionsLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *GetRolePermissionsLogic) GetRolePermissions(in *pb.RoleIdReq) (*pb.RolePermissionResp, error) {
-	// todo: add your logic here and delete this line
+	ids, err := l.svcCtx.SysRolePermissionModel.FindByRoleId(l.ctx, in.RoleId)
+	if err != nil {
+		logx.WithContext(l.ctx).Errorf("GetRolePermissions error:%+v", err)
+		return nil, errorx.New(errno.ErrSelectDbFailed)
+	}
 
-	return &pb.RolePermissionResp{}, nil
+	return &pb.RolePermissionResp{
+		PermissionIds: ids,
+	}, nil
 }

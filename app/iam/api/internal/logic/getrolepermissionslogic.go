@@ -5,6 +5,8 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/app/iam/rpc/pb"
+	"speedsterApi/common/errorx"
 
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
@@ -18,7 +20,7 @@ type GetRolePermissionsLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 角色权限
+// NewGetRolePermissionsLogic 角色权限
 func NewGetRolePermissionsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetRolePermissionsLogic {
 	return &GetRolePermissionsLogic{
 		Logger: logx.WithContext(ctx),
@@ -27,8 +29,17 @@ func NewGetRolePermissionsLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *GetRolePermissionsLogic) GetRolePermissions(req *types.GetRolePermissionReq) (resp *types.RolePermissionResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *GetRolePermissionsLogic) GetRolePermissions(req *types.GetRolePermissionReq) (resp *types.Response, err error) {
+	permissions, err := l.svcCtx.IamRpc.GetRolePermissions(l.ctx, &pb.RoleIdReq{
+		RoleId: req.RoleId,
+	})
+	if err != nil {
+		code, msg := errorx.Parse(err)
+		return &types.Response{
+			Code: code,
+			Msg:  msg,
+		}, err
+	}
 
-	return
+	return &types.Response{Data: permissions}, nil
 }
