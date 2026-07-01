@@ -17,6 +17,7 @@ type ServiceContext struct {
 	SysRoleModel           model.RoleModel
 	SysUserRoleModel       model.SysUserRoleModel
 	SysRolePermissionModel model.SysRolePermissionModel
+	SysPermissionModel     model.SysPermissionModel
 	Redis                  redis.Redis
 	RedisJwtMiddleware     rest.Middleware
 	DB                     sqlx.SqlConn

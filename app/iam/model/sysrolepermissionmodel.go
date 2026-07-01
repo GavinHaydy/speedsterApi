@@ -2,7 +2,10 @@ package model
 
 import (
 	"context"
+	"errors"
+	"fmt"
 
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -14,7 +17,7 @@ type (
 	SysRolePermissionModel interface {
 		sysRolePermissionModel
 		withSession(session sqlx.Session) SysRolePermissionModel
-		FindByRoleId(ctx context.Context, roleId int64) (int, error)
+		FindByRoleId(ctx context.Context, roleId int64) ([]int64, error)
 	}
 
 	customSysRolePermissionModel struct {
@@ -33,20 +36,21 @@ func (m *customSysRolePermissionModel) withSession(session sqlx.Session) SysRole
 	return NewSysRolePermissionModel(sqlx.NewSqlConnFromSession(session))
 }
 
-func (m *customSysRolePermissionModel) FindByRoleId(ctx context.Context, roleId int64) (int, error) {
-	var count int
-
-	//postgresSql
-	query := `
-		SELECT COUNT(*)
-		FROM sys_role_permission
-		WHERE role_id = $1	
-	`
-
-	err := m.conn.QueryRowCtx(ctx, &count, query, roleId)
-	if err != nil {
-		return 0, err
+func (m *customSysRolePermissionModel) FindByRoleId(ctx context.Context, roleId int64) (result []int64, err error) {
+	var temp []*SysRolePermission
+	query := fmt.Sprintf("select %s from %s where role_id = $1", sysRolePermissionRows, m.table)
+	err = m.conn.QueryRowsCtx(ctx, &temp, query, roleId)
+	switch {
+	case err == nil:
+		for _, v := range temp {
+			result = append(result, v.PermissionId)
+		}
+		logx.Infof("=============%+v", result)
+		return result, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, ErrNotFound
+	default:
+		return nil, err
 	}
 
-	return count, nil
 }

@@ -5,6 +5,8 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/app/iam/rpc/pb"
+	"speedsterApi/common/errorx"
 
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
@@ -18,7 +20,7 @@ type PermissionListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 权限列表
+// NewPermissionListLogic 权限列表
 func NewPermissionListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PermissionListLogic {
 	return &PermissionListLogic{
 		Logger: logx.WithContext(ctx),
@@ -27,8 +29,14 @@ func NewPermissionListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Pe
 	}
 }
 
-func (l *PermissionListLogic) PermissionList(req *types.PermisssionListReq) (resp *types.PermissionListResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *PermissionListLogic) PermissionList(req *types.PermisssionListReq) (resp *types.Response, err error) {
+	tree, err := l.svcCtx.IamRpc.PermissionTree(l.ctx, &pb.PermissionTreeReq{
+		Name: req.Name,
+	})
+	if err != nil {
+		code, msg := errorx.Parse(err)
+		return &types.Response{Code: code, Msg: msg}, err
+	}
 
-	return
+	return &types.Response{Data: tree}, nil
 }
