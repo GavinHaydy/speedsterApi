@@ -1,6 +1,9 @@
 package timex
 
-import "time"
+import (
+	"time"
+	_ "time/tzdata"
+)
 
 var shanghai *time.Location
 
