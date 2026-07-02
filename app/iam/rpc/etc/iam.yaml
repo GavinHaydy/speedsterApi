@@ -2,7 +2,7 @@ Name: iam.rpc
 ListenOn: 0.0.0.0:18888
 Etcd:
   Hosts:
-  - 127.0.0.1:2379
+  - etcd:2379
   Key: iam.rpc
 DB:
   DSN: postgres://speedster:GavinHaydy2779@gavin-db:5432/speedster?sslmode=disable
