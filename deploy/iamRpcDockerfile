@@ -1,0 +1,14 @@
+FROM ubuntu
+
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+COPY  app/iam/rpc/iam-rpc /app/iam-rpc
+COPY app/iam/rpc/etc /app/etc
+COPY common/casbin /common/casbin
+
+RUN chmod +x /app/iam-rpc
+
+EXPOSE 18888
+
+CMD ["./iam-rpc", "-f", "etc/iam.yaml"]

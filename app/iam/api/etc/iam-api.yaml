@@ -1,3 +1,29 @@
 Name: iam-api
 Host: 0.0.0.0
 Port: 8888
+AesSecretKey: SpeedsterIsBest!
+DB:
+  DSN: postgres://speedster:GavinHaydy2779@gavin-db:5432/speedster?sslmode=disable
+Redis:
+  Host: redis-db:6380
+  Pass: "mypassword"
+  Type: node
+
+Auth:
+  issuer: SpeedsterApi  # 发行者
+  prefix: user_token_ # token前缀
+  AccessSecret: "SpeedsterIsBest!"
+  AccessExpire: 3600        # Access Token 有效期：1 小时
+  RefreshSecret: "SpeedsterRefresh"
+  RefreshExpire: 604800        # Refresh Token 有效期：一周
+Log:
+  ServiceName: iam-api
+  Mode: console
+  Encoding: plain
+  TimeFormat: 2006-01-02 15:04:05
+  Path: logs
+IAMRpc:
+  Etcd:
+    Hosts:
+      - etcd:2379
+    Key: iam.rpc

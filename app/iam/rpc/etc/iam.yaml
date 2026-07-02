@@ -18,13 +18,8 @@ CacheAuth:
   AccessExpire: 3600        # Access Token 有效期：1 小时
   RefreshSecret: "SpeedsterRefresh"
   RefreshExpire: 604800        # Refresh Token 有效期：一周
-RoleRpc:
-  Etcd:
-    Hosts:
-      - etcd:2379
-    Key: role.rpc
 Log:
-  ServiceName: user.rpc
+  ServiceName: iam.rpc
   Mode: console
   Encoding: plain
   TimeFormat: 2006-01-02 15:04:05
