@@ -5,7 +5,7 @@ Port: 9527
 # 各微服务地址
 Services:
   - Name: Iam
-    Target: iam-api:8888
+    Target: http://iam-api:8888
     Prefix:
       - user
       - role
