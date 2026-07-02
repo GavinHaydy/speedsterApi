@@ -79,10 +79,10 @@ services:
       - "9527:9527"
 
 
-  user-api:
+  iam-api:
     build:
       context: .
-      dockerfile: userApiDockerfile
+      dockerfile: iamApiDockerfile
     restart: always
     networks:
       - speedster-net
@@ -92,10 +92,10 @@ services:
       - redis-db
       - gavin-db
 
-  user-rpc:
+  iam-rpc:
     build:
       context: .
-      dockerfile: userRpcDockerfile
+      dockerfile: iamRpcDockerfile
     restart: always
     networks:
       - speedster-net
@@ -105,58 +105,7 @@ services:
       - redis-db
       - gavin-db
 
-  role-api:
-    build:
-      context: .
-      dockerfile: roleApiDockerfile
-    restart: always
-    networks:
-      - speedster-net
-    ports:
-      - "8889:8889"
-    depends_on:
-      - redis-db
-      - gavin-db
 
-  role-rpc:
-    build:
-      context: .
-      dockerfile: roleRpcDockerfile
-    restart: always
-    networks:
-      - speedster-net
-    ports:
-      - "18889:18889"
-    depends_on:
-      - redis-db
-      - gavin-db
-
-
-  permission-api:
-    build:
-      context: .
-      dockerfile: permissionApiDockerfile
-    restart: always
-    networks:
-      - speedster-net
-    ports:
-      - "8890:8890"
-    depends_on:
-      - redis-db
-      - gavin-db
-
-  permission-rpc:
-    build:
-      context: .
-      dockerfile: permissionRpcDockerfile
-    restart: always
-    networks:
-      - speedster-net
-    ports:
-      - "18890:18890"
-    depends_on:
-      - redis-db
-      - gavin-db
 
 
 networks:
