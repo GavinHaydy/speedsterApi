@@ -33,7 +33,7 @@ func (l *RoleDeleteLogic) RoleDelete(in *pb.DelRoleReq) (*pb.Empty, error) {
 		return nil, errorx.New(errno.ErrSelectDbFailed)
 	}
 
-	if count > 0 {
+	if len(count) > 0 {
 		return nil, errorx.New(errno.ErrRoleNotDel)
 	}
 
