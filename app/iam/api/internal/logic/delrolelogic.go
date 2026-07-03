@@ -5,6 +5,8 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/app/iam/rpc/pb"
+	"speedsterApi/common/errorx"
 
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
@@ -18,7 +20,7 @@ type DelRoleLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 删除角色
+// NewDelRoleLogic 删除角色
 func NewDelRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelRoleLogic {
 	return &DelRoleLogic{
 		Logger: logx.WithContext(ctx),
@@ -28,7 +30,17 @@ func NewDelRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelRoleLo
 }
 
 func (l *DelRoleLogic) DelRole(req *types.DelRoleReq) (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
+	_, err = l.svcCtx.IamRpc.RoleDelete(l.ctx, &pb.DelRoleReq{
+		Id: req.Id,
+	})
+	if err != nil {
+		code, msg := errorx.Parse(err)
 
-	return
+		return &types.Response{
+			Code: code,
+			Msg:  msg,
+		}, err
+	}
+
+	return nil, nil
 }

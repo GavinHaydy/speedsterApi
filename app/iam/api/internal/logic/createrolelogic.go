@@ -5,6 +5,8 @@ package logic
 
 import (
 	"context"
+	"speedsterApi/app/iam/rpc/pb"
+	"speedsterApi/common/errorx"
 
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
@@ -18,7 +20,7 @@ type CreateRoleLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 新建角色
+// NewCreateRoleLogic 新建角色
 func NewCreateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateRoleLogic {
 	return &CreateRoleLogic{
 		Logger: logx.WithContext(ctx),
@@ -28,7 +30,18 @@ func NewCreateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 }
 
 func (l *CreateRoleLogic) CreateRole(req *types.NewRoleReq) (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
+	roleId, err := l.svcCtx.IamRpc.RoleCreate(l.ctx, &pb.CreateRoleReq{
+		Name:        req.Name,
+		Code:        req.Code,
+		Description: req.Description,
+	})
+	if err != nil {
+		code, msg := errorx.Parse(err)
+		return &types.Response{
+			Code: code,
+			Msg:  msg,
+		}, err
+	}
 
-	return
+	return &types.Response{Data: roleId}, nil
 }

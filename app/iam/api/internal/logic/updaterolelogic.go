@@ -5,9 +5,10 @@ package logic
 
 import (
 	"context"
-
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
+	"speedsterApi/app/iam/rpc/pb"
+	"speedsterApi/common/errorx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -18,7 +19,7 @@ type UpdateRoleLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 修改角色
+// NewUpdateRoleLogic 修改角色
 func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateRoleLogic {
 	return &UpdateRoleLogic{
 		Logger: logx.WithContext(ctx),
@@ -28,7 +29,20 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateRoleLogic) UpdateRole(req *types.UpdateRoleReq) (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
+	_, err = l.svcCtx.IamRpc.RoleUpdate(l.ctx, &pb.UpdateRoleReq{
+		Id:          req.Id,
+		Status:      *req.Status,
+		Name:        *req.Name,
+		Description: *req.Description,
+		Code:        *req.Code,
+	})
+	if err != nil {
+		code, msg := errorx.Parse(err)
+		return &types.Response{
+			Code: code,
+			Msg:  msg,
+		}, err
+	}
 
-	return
+	return nil, nil
 }
