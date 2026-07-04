@@ -48,11 +48,12 @@ const (
 	ErrYetUserNotFound     = 20209
 	ErrYetPhoneRegister    = 20210
 
-	ErrRoleNotDel    = 20401
-	ErrRoleNotChange = 20402
-	ErrRoleExists    = 20403
-	ErrRoleNotExists = 20404
-	ErrRoleForbidden = 20405
+	ErrRoleNotDel          = 20401
+	ErrRoleNotChange       = 20402
+	ErrRoleExists          = 20403
+	ErrRoleNotExists       = 20404
+	ErrRoleForbidden       = 20405
+	ErrRolePermissionEmpty = 20406
 
 	ErrFileMaxSize  = 20501
 	ErrFileMaxLimit = 20502
@@ -97,6 +98,7 @@ var CodeAlertMap = map[int]string{
 	ErrYetPhoneRegister:       "手机号已注册",
 	ErrRoleNotExists:          "角色不存在",
 	ErrRoleForbidden:          "不能添加该角色，角色较高",
+	ErrRolePermissionEmpty:    "角色没有权限",
 	ErrAccountNotFound:        "账号不存在",
 	ErrPasswordFailed:         "密码错误",
 	ErrRegisterFailed:         "注册失败",
@@ -147,6 +149,7 @@ var CodeMsgMap = map[int]string{
 	ErrYetPhoneRegister:         "ErrYetPhoneRegister",
 	ErrRoleNotExists:            "ErrRoleNotExists",
 	ErrRoleForbidden:            "ErrRoleForbidden",
+	ErrRolePermissionEmpty:      "ErrRolePermissionEmpty",
 	ErrAccountNotFound:          "ErrAccountNotFound",
 	ErrPasswordFailed:           "ErrPasswordFailed",
 	ErrRegisterFailed:           "ErrRegisterFailed",

@@ -40,6 +40,9 @@ type (
 		id     string `json:"id,optional"`
 		status int64  `json:"status,options=1|2"`
 	}
+	UserPermissionsReq {
+		userId string `json:"userId"`
+	}
 	// RoleReq
 	RoleListReq {
 		Rolename string `json:"rolename,optional"`
@@ -185,6 +188,10 @@ service iam-api {
 	@doc "修改用户状态"
 	@handler Status
 	put /status (StatusReq) returns (Response)
+
+	@doc "用户权限列表"
+	@handler UserPermission
+	get /userpermission (EmptyReq) returns (PermissionListResp)
 }
 
 @server (

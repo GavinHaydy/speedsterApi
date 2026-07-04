@@ -9,6 +9,7 @@ import (
 	"speedsterApi/app/iam/api/internal/types"
 	"speedsterApi/app/iam/rpc/pb"
 	"speedsterApi/common/errorx"
+	"speedsterApi/common/utils/ptr"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,10 +32,10 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 func (l *UpdateRoleLogic) UpdateRole(req *types.UpdateRoleReq) (resp *types.Response, err error) {
 	_, err = l.svcCtx.IamRpc.RoleUpdate(l.ctx, &pb.UpdateRoleReq{
 		Id:          req.Id,
-		Status:      *req.Status,
-		Name:        *req.Name,
-		Description: *req.Description,
-		Code:        *req.Code,
+		Status:      ptr.Value(req.Status),
+		Name:        ptr.Value(req.Name),
+		Description: ptr.Value(req.Description),
+		Code:        ptr.Value(req.Code),
 	})
 	if err != nil {
 		code, msg := errorx.Parse(err)

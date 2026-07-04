@@ -157,6 +157,11 @@ message DelRoleReq {
   int64 id = 1;
 }
 
+message UserPermissionsReq {
+  string user_id = 1;
+}
+
+
 
 
 
@@ -164,6 +169,7 @@ service IAM {
   rpc Login(LoginReq) returns(LoginRsp);
   rpc Register(RegisterReq) returns(RegisterRsp);
   rpc UserList (UserListReq) returns (UserListResp);
+  rpc UserPermissions(UserPermissionsReq) returns(PermissionTreeResp);
   rpc AddUserRole(UserRole) returns (UserRoleResp);
   rpc AssignDefaultRole(AssignDefaultRoleReq) returns (AssignDefaultRoleResp);
   rpc PermissionTree(PermissionTreeReq) returns(PermissionTreeResp);

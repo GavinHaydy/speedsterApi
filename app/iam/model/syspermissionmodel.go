@@ -17,6 +17,7 @@ type (
 		sysPermissionModel
 		withSession(session sqlx.Session) SysPermissionModel
 		SelectTree(ctx context.Context, req *pb.PermissionTreeReq) ([]*SysPermission, error)
+		SelectTreeById(ctx context.Context, req []int64) ([]*SysPermission, error)
 	}
 
 	customSysPermissionModel struct {
@@ -50,6 +51,32 @@ func (m *customSysPermissionModel) SelectTree(ctx context.Context, req *pb.Permi
 			},
 		)
 	}
+
+	query, args, err := builder.ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*SysPermission
+
+	err = m.conn.QueryRowsCtx(
+		ctx,
+		&list,
+		query,
+		args...,
+	)
+
+	return list, err
+}
+
+func (m *customSysPermissionModel) SelectTreeById(ctx context.Context, req []int64) ([]*SysPermission, error) {
+
+	builder := squirrel.
+		Select("*").
+		From(m.table).
+		Where(squirrel.Eq{"id": req}).
+		OrderBy("sort ASC", "id ASC").
+		PlaceholderFormat(squirrel.Dollar)
 
 	query, args, err := builder.ToSql()
 	if err != nil {

@@ -12,6 +12,12 @@ type DelRoleReq struct {
 	Id int64 `json:"id,optional"`
 }
 
+type EmptyReq struct {
+}
+
+type EmptyResp struct {
+}
+
 type GetRolePermissionReq struct {
 	RoleId int64 `json:"roleId"`
 }
@@ -163,4 +169,8 @@ type UserListRsp struct {
 	Nickname *string `json:"nickname"`
 	Status   *int64  `json:"status"`
 	Avatar   *string `json:"avatar"`
+}
+
+type UserPermissionsReq struct {
+	UserId string `json:"userId"`
 }

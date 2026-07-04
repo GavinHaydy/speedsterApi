@@ -58,6 +58,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/userlist",
 					Handler: UserListHandler(serverCtx),
 				},
+				{
+					// 用户权限列表
+					Method:  http.MethodGet,
+					Path:    "/userpermission",
+					Handler: UserPermissionHandler(serverCtx),
+				},
 			}...,
 		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),

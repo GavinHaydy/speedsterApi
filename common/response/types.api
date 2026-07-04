@@ -18,3 +18,6 @@ type Base {
     Code int    `json:"code"`
     Msg  string `json:"msg"`
 }
+
+type EmptyReq {}
+type EmptyResp {}

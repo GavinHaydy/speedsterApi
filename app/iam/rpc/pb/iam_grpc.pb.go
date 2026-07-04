@@ -22,6 +22,7 @@ const (
 	IAM_Login_FullMethodName              = "/iam.IAM/Login"
 	IAM_Register_FullMethodName           = "/iam.IAM/Register"
 	IAM_UserList_FullMethodName           = "/iam.IAM/UserList"
+	IAM_UserPermissions_FullMethodName    = "/iam.IAM/UserPermissions"
 	IAM_AddUserRole_FullMethodName        = "/iam.IAM/AddUserRole"
 	IAM_AssignDefaultRole_FullMethodName  = "/iam.IAM/AssignDefaultRole"
 	IAM_PermissionTree_FullMethodName     = "/iam.IAM/PermissionTree"
@@ -40,6 +41,7 @@ type IAMClient interface {
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRsp, error)
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterRsp, error)
 	UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error)
+	UserPermissions(ctx context.Context, in *UserPermissionsReq, opts ...grpc.CallOption) (*PermissionTreeResp, error)
 	AddUserRole(ctx context.Context, in *UserRole, opts ...grpc.CallOption) (*UserRoleResp, error)
 	AssignDefaultRole(ctx context.Context, in *AssignDefaultRoleReq, opts ...grpc.CallOption) (*AssignDefaultRoleResp, error)
 	PermissionTree(ctx context.Context, in *PermissionTreeReq, opts ...grpc.CallOption) (*PermissionTreeResp, error)
@@ -83,6 +85,16 @@ func (c *iAMClient) UserList(ctx context.Context, in *UserListReq, opts ...grpc.
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UserListResp)
 	err := c.cc.Invoke(ctx, IAM_UserList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMClient) UserPermissions(ctx context.Context, in *UserPermissionsReq, opts ...grpc.CallOption) (*PermissionTreeResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PermissionTreeResp)
+	err := c.cc.Invoke(ctx, IAM_UserPermissions_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -186,6 +198,7 @@ type IAMServer interface {
 	Login(context.Context, *LoginReq) (*LoginRsp, error)
 	Register(context.Context, *RegisterReq) (*RegisterRsp, error)
 	UserList(context.Context, *UserListReq) (*UserListResp, error)
+	UserPermissions(context.Context, *UserPermissionsReq) (*PermissionTreeResp, error)
 	AddUserRole(context.Context, *UserRole) (*UserRoleResp, error)
 	AssignDefaultRole(context.Context, *AssignDefaultRoleReq) (*AssignDefaultRoleResp, error)
 	PermissionTree(context.Context, *PermissionTreeReq) (*PermissionTreeResp, error)
@@ -213,6 +226,9 @@ func (UnimplementedIAMServer) Register(context.Context, *RegisterReq) (*Register
 }
 func (UnimplementedIAMServer) UserList(context.Context, *UserListReq) (*UserListResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method UserList not implemented")
+}
+func (UnimplementedIAMServer) UserPermissions(context.Context, *UserPermissionsReq) (*PermissionTreeResp, error) {
+	return nil, status.Error(codes.Unimplemented, "method UserPermissions not implemented")
 }
 func (UnimplementedIAMServer) AddUserRole(context.Context, *UserRole) (*UserRoleResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method AddUserRole not implemented")
@@ -312,6 +328,24 @@ func _IAM_UserList_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IAMServer).UserList(ctx, req.(*UserListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAM_UserPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserPermissionsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServer).UserPermissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAM_UserPermissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServer).UserPermissions(ctx, req.(*UserPermissionsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -496,6 +530,10 @@ var IAM_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserList",
 			Handler:    _IAM_UserList_Handler,
+		},
+		{
+			MethodName: "UserPermissions",
+			Handler:    _IAM_UserPermissions_Handler,
 		},
 		{
 			MethodName: "AddUserRole",
