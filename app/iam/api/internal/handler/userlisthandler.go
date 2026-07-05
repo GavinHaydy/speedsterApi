@@ -5,14 +5,16 @@ package handler
 
 import (
 	"net/http"
+	"speedsterApi/common/response"
 
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"speedsterApi/app/iam/api/internal/logic"
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-// 用户列表
+// UserListHandler 用户列表
 func UserListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.UserListReq
@@ -24,9 +26,9 @@ func UserListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := logic.NewUserListLogic(r.Context(), svcCtx)
 		resp, err := l.UserList(&req)
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			response.Error(w, r, resp.Code)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			response.SuccessWithData(w, r, resp.Data)
 		}
 	}
 }

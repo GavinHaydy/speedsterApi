@@ -5,14 +5,16 @@ package handler
 
 import (
 	"net/http"
+	"speedsterApi/common/response"
 
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"speedsterApi/app/iam/api/internal/logic"
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-// 角色权限
+// GetRolePermissionsHandler 角色权限
 func GetRolePermissionsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.GetRolePermissionReq
@@ -24,9 +26,9 @@ func GetRolePermissionsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := logic.NewGetRolePermissionsLogic(r.Context(), svcCtx)
 		resp, err := l.GetRolePermissions(&req)
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			response.Error(w, r, resp.Code)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			response.SuccessWithData(w, r, resp.Data)
 		}
 	}
 }

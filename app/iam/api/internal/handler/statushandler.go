@@ -5,14 +5,16 @@ package handler
 
 import (
 	"net/http"
+	"speedsterApi/common/response"
 
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"speedsterApi/app/iam/api/internal/logic"
 	"speedsterApi/app/iam/api/internal/svc"
 	"speedsterApi/app/iam/api/internal/types"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-// 修改用户状态
+// StatusHandler 修改用户状态
 func StatusHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.StatusReq
@@ -24,9 +26,9 @@ func StatusHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := logic.NewStatusLogic(r.Context(), svcCtx)
 		resp, err := l.Status(&req)
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			response.Error(w, r, resp.Code)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			response.Success(w, r)
 		}
 	}
 }

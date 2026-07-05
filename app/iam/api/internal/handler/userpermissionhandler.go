@@ -5,6 +5,7 @@ package handler
 
 import (
 	"net/http"
+	"speedsterApi/common/response"
 
 	"speedsterApi/app/iam/api/internal/logic"
 	"speedsterApi/app/iam/api/internal/svc"
@@ -25,9 +26,9 @@ func UserPermissionHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := logic.NewUserPermissionLogic(r.Context(), svcCtx)
 		resp, err := l.UserPermission()
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			response.Error(w, r, resp.Code)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			response.SuccessWithData(w, r, resp.Data)
 		}
 	}
 }
