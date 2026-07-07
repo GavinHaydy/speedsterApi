@@ -872,6 +872,7 @@ func (x *PermissionTreeItem) GetChildren() []*PermissionTreeItem {
 type PermissionTreeResp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	List          []*PermissionTreeItem  `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"`
+	IsAdmin       bool                   `protobuf:"varint,2,opt,name=is_admin,json=isAdmin,proto3" json:"is_admin,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -911,6 +912,13 @@ func (x *PermissionTreeResp) GetList() []*PermissionTreeItem {
 		return x.List
 	}
 	return nil
+}
+
+func (x *PermissionTreeResp) GetIsAdmin() bool {
+	if x != nil {
+		return x.IsAdmin
+	}
+	return false
 }
 
 type RoleIdReq struct {
@@ -1646,9 +1654,10 @@ const file_iam_proto_rawDesc = "" +
 	"\x06status\x18\t \x01(\x03R\x06status\x12\x1b\n" +
 	"\tparent_id\x18\n" +
 	" \x01(\x03R\bparentId\x123\n" +
-	"\bchildren\x18\v \x03(\v2\x17.iam.PermissionTreeItemR\bchildren\"A\n" +
+	"\bchildren\x18\v \x03(\v2\x17.iam.PermissionTreeItemR\bchildren\"\\\n" +
 	"\x12PermissionTreeResp\x12+\n" +
-	"\x04list\x18\x01 \x03(\v2\x17.iam.PermissionTreeItemR\x04list\"$\n" +
+	"\x04list\x18\x01 \x03(\v2\x17.iam.PermissionTreeItemR\x04list\x12\x19\n" +
+	"\bis_admin\x18\x02 \x01(\bR\aisAdmin\"$\n" +
 	"\tRoleIdReq\x12\x17\n" +
 	"\arole_id\x18\x01 \x01(\x03R\x06roleId\";\n" +
 	"\x12RolePermissionResp\x12%\n" +

@@ -43,7 +43,12 @@ func (l *UserPermissionsLogic) UserPermissions(in *pb.UserPermissionsReq) (*pb.P
 		return nil, errorx.New(errno.ErrSelectDbFailed)
 	}
 
+	userInfo, err := l.svcCtx.SysUserModel.FindOne(l.ctx, in.UserId)
+	if err != nil {
+		return nil, errorx.New(errno.ErrSelectDbFailed)
+	}
 	return &pb.PermissionTreeResp{
-		List: BuildPermissionTree(permissionList),
+		List:    BuildPermissionTree(permissionList),
+		IsAdmin: userInfo.IsSuper,
 	}, nil
 }
