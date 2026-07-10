@@ -136,8 +136,8 @@ type (
 		Children []PermissionListItem `json:"children"`
 	}
 	PermissionListData {
-		List  []PermissionListItem `json:"list"`
-		Total int64                `json:"total"`
+		List    []PermissionListItem `json:"list"`
+		IsAdmin bool                 `json:"isAdmin"`
 	}
 	PermissionListResp {
 		Base
