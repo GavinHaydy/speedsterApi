@@ -137,7 +137,7 @@ type (
 	}
 	PermissionListData {
 		List    []PermissionListItem `json:"list"`
-		IsAdmin bool                 `json:"isAdmin"`
+		IsAdmin bool                 `json:"is_admin"`
 	}
 	PermissionListResp {
 		Base
