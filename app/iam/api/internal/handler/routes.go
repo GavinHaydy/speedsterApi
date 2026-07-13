@@ -53,6 +53,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: StatusHandler(serverCtx),
 				},
 				{
+					// 用户信息
+					Method:  http.MethodGet,
+					Path:    "/userinfo",
+					Handler: UserInfoHandler(serverCtx),
+				},
+				{
 					// 用户列表
 					Method:  http.MethodPost,
 					Path:    "/userlist",

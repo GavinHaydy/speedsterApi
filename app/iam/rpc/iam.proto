@@ -53,6 +53,15 @@ message UserListResp {
   repeated UserItem list = 2;
 }
 
+message UserInfoReq {
+  string user_id = 1;
+}
+
+message UserInfoResp {
+  string id = 1;
+  string nickname = 2;
+}
+
 // RoleMsg
 
 message UserRole {
@@ -171,6 +180,7 @@ service IAM {
   rpc Register(RegisterReq) returns(RegisterRsp);
   rpc UserList (UserListReq) returns (UserListResp);
   rpc UserPermissions(UserPermissionsReq) returns(PermissionTreeResp);
+  rpc UserInfoGet(UserInfoReq) returns(UserInfoResp);
   rpc AddUserRole(UserRole) returns (UserRoleResp);
   rpc AssignDefaultRole(AssignDefaultRoleReq) returns (AssignDefaultRoleResp);
   rpc PermissionTree(PermissionTreeReq) returns(PermissionTreeResp);

@@ -43,6 +43,10 @@ type (
 	UserPermissionsReq {
 		userId string `json:"userId"`
 	}
+	UserInfoResp {
+		id       string `json:"id"`
+		nickname string `json:"nickname"`
+	}
 	// RoleReq
 	RoleListReq {
 		Rolename string `json:"rolename,optional"`
@@ -192,6 +196,10 @@ service iam-api {
 	@doc "用户权限列表"
 	@handler UserPermission
 	get /userpermission (EmptyReq) returns (PermissionListResp)
+
+	@doc "用户信息"
+	@handler UserInfo
+	get /userinfo (EmptyReq) returns (UserInfoResp)
 }
 
 @server (

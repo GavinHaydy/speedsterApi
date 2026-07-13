@@ -517,6 +517,102 @@ func (x *UserListResp) GetList() []*UserItem {
 	return nil
 }
 
+type UserInfoReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserInfoReq) Reset() {
+	*x = UserInfoReq{}
+	mi := &file_iam_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserInfoReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserInfoReq) ProtoMessage() {}
+
+func (x *UserInfoReq) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserInfoReq.ProtoReflect.Descriptor instead.
+func (*UserInfoReq) Descriptor() ([]byte, []int) {
+	return file_iam_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *UserInfoReq) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type UserInfoResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Nickname      string                 `protobuf:"bytes,2,opt,name=nickname,proto3" json:"nickname,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserInfoResp) Reset() {
+	*x = UserInfoResp{}
+	mi := &file_iam_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserInfoResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserInfoResp) ProtoMessage() {}
+
+func (x *UserInfoResp) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserInfoResp.ProtoReflect.Descriptor instead.
+func (*UserInfoResp) Descriptor() ([]byte, []int) {
+	return file_iam_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *UserInfoResp) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UserInfoResp) GetNickname() string {
+	if x != nil {
+		return x.Nickname
+	}
+	return ""
+}
+
 type UserRole struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -527,7 +623,7 @@ type UserRole struct {
 
 func (x *UserRole) Reset() {
 	*x = UserRole{}
-	mi := &file_iam_proto_msgTypes[8]
+	mi := &file_iam_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -539,7 +635,7 @@ func (x *UserRole) String() string {
 func (*UserRole) ProtoMessage() {}
 
 func (x *UserRole) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[8]
+	mi := &file_iam_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -552,7 +648,7 @@ func (x *UserRole) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserRole.ProtoReflect.Descriptor instead.
 func (*UserRole) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{8}
+	return file_iam_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *UserRole) GetUserId() string {
@@ -578,7 +674,7 @@ type UserRoleResp struct {
 
 func (x *UserRoleResp) Reset() {
 	*x = UserRoleResp{}
-	mi := &file_iam_proto_msgTypes[9]
+	mi := &file_iam_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -590,7 +686,7 @@ func (x *UserRoleResp) String() string {
 func (*UserRoleResp) ProtoMessage() {}
 
 func (x *UserRoleResp) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[9]
+	mi := &file_iam_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -603,7 +699,7 @@ func (x *UserRoleResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserRoleResp.ProtoReflect.Descriptor instead.
 func (*UserRoleResp) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{9}
+	return file_iam_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *UserRoleResp) GetCode() int64 {
@@ -622,7 +718,7 @@ type AssignDefaultRoleReq struct {
 
 func (x *AssignDefaultRoleReq) Reset() {
 	*x = AssignDefaultRoleReq{}
-	mi := &file_iam_proto_msgTypes[10]
+	mi := &file_iam_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -634,7 +730,7 @@ func (x *AssignDefaultRoleReq) String() string {
 func (*AssignDefaultRoleReq) ProtoMessage() {}
 
 func (x *AssignDefaultRoleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[10]
+	mi := &file_iam_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -647,7 +743,7 @@ func (x *AssignDefaultRoleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AssignDefaultRoleReq.ProtoReflect.Descriptor instead.
 func (*AssignDefaultRoleReq) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{10}
+	return file_iam_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *AssignDefaultRoleReq) GetUserId() string {
@@ -666,7 +762,7 @@ type AssignDefaultRoleResp struct {
 
 func (x *AssignDefaultRoleResp) Reset() {
 	*x = AssignDefaultRoleResp{}
-	mi := &file_iam_proto_msgTypes[11]
+	mi := &file_iam_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -678,7 +774,7 @@ func (x *AssignDefaultRoleResp) String() string {
 func (*AssignDefaultRoleResp) ProtoMessage() {}
 
 func (x *AssignDefaultRoleResp) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[11]
+	mi := &file_iam_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -691,7 +787,7 @@ func (x *AssignDefaultRoleResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AssignDefaultRoleResp.ProtoReflect.Descriptor instead.
 func (*AssignDefaultRoleResp) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{11}
+	return file_iam_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *AssignDefaultRoleResp) GetCode() int64 {
@@ -710,7 +806,7 @@ type PermissionTreeReq struct {
 
 func (x *PermissionTreeReq) Reset() {
 	*x = PermissionTreeReq{}
-	mi := &file_iam_proto_msgTypes[12]
+	mi := &file_iam_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -722,7 +818,7 @@ func (x *PermissionTreeReq) String() string {
 func (*PermissionTreeReq) ProtoMessage() {}
 
 func (x *PermissionTreeReq) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[12]
+	mi := &file_iam_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -735,7 +831,7 @@ func (x *PermissionTreeReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PermissionTreeReq.ProtoReflect.Descriptor instead.
 func (*PermissionTreeReq) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{12}
+	return file_iam_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *PermissionTreeReq) GetName() string {
@@ -764,7 +860,7 @@ type PermissionTreeItem struct {
 
 func (x *PermissionTreeItem) Reset() {
 	*x = PermissionTreeItem{}
-	mi := &file_iam_proto_msgTypes[13]
+	mi := &file_iam_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -776,7 +872,7 @@ func (x *PermissionTreeItem) String() string {
 func (*PermissionTreeItem) ProtoMessage() {}
 
 func (x *PermissionTreeItem) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[13]
+	mi := &file_iam_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -789,7 +885,7 @@ func (x *PermissionTreeItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PermissionTreeItem.ProtoReflect.Descriptor instead.
 func (*PermissionTreeItem) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{13}
+	return file_iam_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *PermissionTreeItem) GetId() int64 {
@@ -879,7 +975,7 @@ type PermissionTreeResp struct {
 
 func (x *PermissionTreeResp) Reset() {
 	*x = PermissionTreeResp{}
-	mi := &file_iam_proto_msgTypes[14]
+	mi := &file_iam_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -891,7 +987,7 @@ func (x *PermissionTreeResp) String() string {
 func (*PermissionTreeResp) ProtoMessage() {}
 
 func (x *PermissionTreeResp) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[14]
+	mi := &file_iam_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -904,7 +1000,7 @@ func (x *PermissionTreeResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PermissionTreeResp.ProtoReflect.Descriptor instead.
 func (*PermissionTreeResp) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{14}
+	return file_iam_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *PermissionTreeResp) GetList() []*PermissionTreeItem {
@@ -930,7 +1026,7 @@ type RoleIdReq struct {
 
 func (x *RoleIdReq) Reset() {
 	*x = RoleIdReq{}
-	mi := &file_iam_proto_msgTypes[15]
+	mi := &file_iam_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -942,7 +1038,7 @@ func (x *RoleIdReq) String() string {
 func (*RoleIdReq) ProtoMessage() {}
 
 func (x *RoleIdReq) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[15]
+	mi := &file_iam_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -955,7 +1051,7 @@ func (x *RoleIdReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RoleIdReq.ProtoReflect.Descriptor instead.
 func (*RoleIdReq) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{15}
+	return file_iam_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *RoleIdReq) GetRoleId() int64 {
@@ -974,7 +1070,7 @@ type RolePermissionResp struct {
 
 func (x *RolePermissionResp) Reset() {
 	*x = RolePermissionResp{}
-	mi := &file_iam_proto_msgTypes[16]
+	mi := &file_iam_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -986,7 +1082,7 @@ func (x *RolePermissionResp) String() string {
 func (*RolePermissionResp) ProtoMessage() {}
 
 func (x *RolePermissionResp) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[16]
+	mi := &file_iam_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -999,7 +1095,7 @@ func (x *RolePermissionResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RolePermissionResp.ProtoReflect.Descriptor instead.
 func (*RolePermissionResp) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{16}
+	return file_iam_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *RolePermissionResp) GetPermissionIds() []int64 {
@@ -1019,7 +1115,7 @@ type UpUserStatusReq struct {
 
 func (x *UpUserStatusReq) Reset() {
 	*x = UpUserStatusReq{}
-	mi := &file_iam_proto_msgTypes[17]
+	mi := &file_iam_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1031,7 +1127,7 @@ func (x *UpUserStatusReq) String() string {
 func (*UpUserStatusReq) ProtoMessage() {}
 
 func (x *UpUserStatusReq) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[17]
+	mi := &file_iam_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1044,7 +1140,7 @@ func (x *UpUserStatusReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpUserStatusReq.ProtoReflect.Descriptor instead.
 func (*UpUserStatusReq) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{17}
+	return file_iam_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *UpUserStatusReq) GetId() string {
@@ -1070,7 +1166,7 @@ type UpUserStatusResp struct {
 
 func (x *UpUserStatusResp) Reset() {
 	*x = UpUserStatusResp{}
-	mi := &file_iam_proto_msgTypes[18]
+	mi := &file_iam_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1082,7 +1178,7 @@ func (x *UpUserStatusResp) String() string {
 func (*UpUserStatusResp) ProtoMessage() {}
 
 func (x *UpUserStatusResp) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[18]
+	mi := &file_iam_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1095,7 +1191,7 @@ func (x *UpUserStatusResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpUserStatusResp.ProtoReflect.Descriptor instead.
 func (*UpUserStatusResp) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{18}
+	return file_iam_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *UpUserStatusResp) GetCode() int64 {
@@ -1118,7 +1214,7 @@ type RoleListReq struct {
 
 func (x *RoleListReq) Reset() {
 	*x = RoleListReq{}
-	mi := &file_iam_proto_msgTypes[19]
+	mi := &file_iam_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1130,7 +1226,7 @@ func (x *RoleListReq) String() string {
 func (*RoleListReq) ProtoMessage() {}
 
 func (x *RoleListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[19]
+	mi := &file_iam_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1143,7 +1239,7 @@ func (x *RoleListReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RoleListReq.ProtoReflect.Descriptor instead.
 func (*RoleListReq) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{19}
+	return file_iam_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *RoleListReq) GetRoleName() string {
@@ -1195,7 +1291,7 @@ type RoleListItem struct {
 
 func (x *RoleListItem) Reset() {
 	*x = RoleListItem{}
-	mi := &file_iam_proto_msgTypes[20]
+	mi := &file_iam_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1207,7 +1303,7 @@ func (x *RoleListItem) String() string {
 func (*RoleListItem) ProtoMessage() {}
 
 func (x *RoleListItem) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[20]
+	mi := &file_iam_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1220,7 +1316,7 @@ func (x *RoleListItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RoleListItem.ProtoReflect.Descriptor instead.
 func (*RoleListItem) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{20}
+	return file_iam_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *RoleListItem) GetName() string {
@@ -1275,7 +1371,7 @@ type RoleListResp struct {
 
 func (x *RoleListResp) Reset() {
 	*x = RoleListResp{}
-	mi := &file_iam_proto_msgTypes[21]
+	mi := &file_iam_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1287,7 +1383,7 @@ func (x *RoleListResp) String() string {
 func (*RoleListResp) ProtoMessage() {}
 
 func (x *RoleListResp) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[21]
+	mi := &file_iam_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1300,7 +1396,7 @@ func (x *RoleListResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RoleListResp.ProtoReflect.Descriptor instead.
 func (*RoleListResp) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{21}
+	return file_iam_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *RoleListResp) GetTotal() int64 {
@@ -1328,7 +1424,7 @@ type CreateRoleReq struct {
 
 func (x *CreateRoleReq) Reset() {
 	*x = CreateRoleReq{}
-	mi := &file_iam_proto_msgTypes[22]
+	mi := &file_iam_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1340,7 +1436,7 @@ func (x *CreateRoleReq) String() string {
 func (*CreateRoleReq) ProtoMessage() {}
 
 func (x *CreateRoleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[22]
+	mi := &file_iam_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1353,7 +1449,7 @@ func (x *CreateRoleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRoleReq.ProtoReflect.Descriptor instead.
 func (*CreateRoleReq) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{22}
+	return file_iam_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *CreateRoleReq) GetName() string {
@@ -1386,7 +1482,7 @@ type CreateRoleResp struct {
 
 func (x *CreateRoleResp) Reset() {
 	*x = CreateRoleResp{}
-	mi := &file_iam_proto_msgTypes[23]
+	mi := &file_iam_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1398,7 +1494,7 @@ func (x *CreateRoleResp) String() string {
 func (*CreateRoleResp) ProtoMessage() {}
 
 func (x *CreateRoleResp) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[23]
+	mi := &file_iam_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1411,7 +1507,7 @@ func (x *CreateRoleResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRoleResp.ProtoReflect.Descriptor instead.
 func (*CreateRoleResp) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{23}
+	return file_iam_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *CreateRoleResp) GetRoleId() int64 {
@@ -1434,7 +1530,7 @@ type UpdateRoleReq struct {
 
 func (x *UpdateRoleReq) Reset() {
 	*x = UpdateRoleReq{}
-	mi := &file_iam_proto_msgTypes[24]
+	mi := &file_iam_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1446,7 +1542,7 @@ func (x *UpdateRoleReq) String() string {
 func (*UpdateRoleReq) ProtoMessage() {}
 
 func (x *UpdateRoleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[24]
+	mi := &file_iam_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1459,7 +1555,7 @@ func (x *UpdateRoleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRoleReq.ProtoReflect.Descriptor instead.
 func (*UpdateRoleReq) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{24}
+	return file_iam_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *UpdateRoleReq) GetId() int64 {
@@ -1506,7 +1602,7 @@ type DelRoleReq struct {
 
 func (x *DelRoleReq) Reset() {
 	*x = DelRoleReq{}
-	mi := &file_iam_proto_msgTypes[25]
+	mi := &file_iam_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1518,7 +1614,7 @@ func (x *DelRoleReq) String() string {
 func (*DelRoleReq) ProtoMessage() {}
 
 func (x *DelRoleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[25]
+	mi := &file_iam_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1531,7 +1627,7 @@ func (x *DelRoleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DelRoleReq.ProtoReflect.Descriptor instead.
 func (*DelRoleReq) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{25}
+	return file_iam_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *DelRoleReq) GetId() int64 {
@@ -1550,7 +1646,7 @@ type UserPermissionsReq struct {
 
 func (x *UserPermissionsReq) Reset() {
 	*x = UserPermissionsReq{}
-	mi := &file_iam_proto_msgTypes[26]
+	mi := &file_iam_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1562,7 +1658,7 @@ func (x *UserPermissionsReq) String() string {
 func (*UserPermissionsReq) ProtoMessage() {}
 
 func (x *UserPermissionsReq) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_proto_msgTypes[26]
+	mi := &file_iam_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1575,7 +1671,7 @@ func (x *UserPermissionsReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserPermissionsReq.ProtoReflect.Descriptor instead.
 func (*UserPermissionsReq) Descriptor() ([]byte, []int) {
-	return file_iam_proto_rawDescGZIP(), []int{26}
+	return file_iam_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *UserPermissionsReq) GetUserId() string {
@@ -1630,7 +1726,12 @@ const file_iam_proto_rawDesc = "" +
 	"\a_status\"G\n" +
 	"\fUserListResp\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x03R\x05total\x12!\n" +
-	"\x04list\x18\x02 \x03(\v2\r.iam.UserItemR\x04list\"<\n" +
+	"\x04list\x18\x02 \x03(\v2\r.iam.UserItemR\x04list\"&\n" +
+	"\vUserInfoReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\":\n" +
+	"\fUserInfoResp\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
+	"\bnickname\x18\x02 \x01(\tR\bnickname\"<\n" +
 	"\bUserRole\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x17\n" +
 	"\arole_id\x18\x02 \x01(\x03R\x06roleId\"\"\n" +
@@ -1702,12 +1803,13 @@ const file_iam_proto_rawDesc = "" +
 	"DelRoleReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"-\n" +
 	"\x12UserPermissionsReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId2\xcf\x05\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId2\x83\x06\n" +
 	"\x03IAM\x12%\n" +
 	"\x05Login\x12\r.iam.LoginReq\x1a\r.iam.LoginRsp\x12.\n" +
 	"\bRegister\x12\x10.iam.RegisterReq\x1a\x10.iam.RegisterRsp\x12/\n" +
 	"\bUserList\x12\x10.iam.UserListReq\x1a\x11.iam.UserListResp\x12C\n" +
-	"\x0fUserPermissions\x12\x17.iam.UserPermissionsReq\x1a\x17.iam.PermissionTreeResp\x12/\n" +
+	"\x0fUserPermissions\x12\x17.iam.UserPermissionsReq\x1a\x17.iam.PermissionTreeResp\x122\n" +
+	"\vUserInfoGet\x12\x10.iam.UserInfoReq\x1a\x11.iam.UserInfoResp\x12/\n" +
 	"\vAddUserRole\x12\r.iam.UserRole\x1a\x11.iam.UserRoleResp\x12J\n" +
 	"\x11AssignDefaultRole\x12\x19.iam.AssignDefaultRoleReq\x1a\x1a.iam.AssignDefaultRoleResp\x12A\n" +
 	"\x0ePermissionTree\x12\x16.iam.PermissionTreeReq\x1a\x17.iam.PermissionTreeResp\x12=\n" +
@@ -1735,7 +1837,7 @@ func file_iam_proto_rawDescGZIP() []byte {
 	return file_iam_proto_rawDescData
 }
 
-var file_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
+var file_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_iam_proto_goTypes = []any{
 	(*Empty)(nil),                 // 0: iam.Empty
 	(*LoginReq)(nil),              // 1: iam.LoginReq
@@ -1745,59 +1847,63 @@ var file_iam_proto_goTypes = []any{
 	(*UserListReq)(nil),           // 5: iam.UserListReq
 	(*UserItem)(nil),              // 6: iam.UserItem
 	(*UserListResp)(nil),          // 7: iam.UserListResp
-	(*UserRole)(nil),              // 8: iam.UserRole
-	(*UserRoleResp)(nil),          // 9: iam.UserRoleResp
-	(*AssignDefaultRoleReq)(nil),  // 10: iam.AssignDefaultRoleReq
-	(*AssignDefaultRoleResp)(nil), // 11: iam.AssignDefaultRoleResp
-	(*PermissionTreeReq)(nil),     // 12: iam.PermissionTreeReq
-	(*PermissionTreeItem)(nil),    // 13: iam.PermissionTreeItem
-	(*PermissionTreeResp)(nil),    // 14: iam.PermissionTreeResp
-	(*RoleIdReq)(nil),             // 15: iam.RoleIdReq
-	(*RolePermissionResp)(nil),    // 16: iam.RolePermissionResp
-	(*UpUserStatusReq)(nil),       // 17: iam.UpUserStatusReq
-	(*UpUserStatusResp)(nil),      // 18: iam.UpUserStatusResp
-	(*RoleListReq)(nil),           // 19: iam.RoleListReq
-	(*RoleListItem)(nil),          // 20: iam.RoleListItem
-	(*RoleListResp)(nil),          // 21: iam.RoleListResp
-	(*CreateRoleReq)(nil),         // 22: iam.CreateRoleReq
-	(*CreateRoleResp)(nil),        // 23: iam.CreateRoleResp
-	(*UpdateRoleReq)(nil),         // 24: iam.UpdateRoleReq
-	(*DelRoleReq)(nil),            // 25: iam.DelRoleReq
-	(*UserPermissionsReq)(nil),    // 26: iam.UserPermissionsReq
+	(*UserInfoReq)(nil),           // 8: iam.UserInfoReq
+	(*UserInfoResp)(nil),          // 9: iam.UserInfoResp
+	(*UserRole)(nil),              // 10: iam.UserRole
+	(*UserRoleResp)(nil),          // 11: iam.UserRoleResp
+	(*AssignDefaultRoleReq)(nil),  // 12: iam.AssignDefaultRoleReq
+	(*AssignDefaultRoleResp)(nil), // 13: iam.AssignDefaultRoleResp
+	(*PermissionTreeReq)(nil),     // 14: iam.PermissionTreeReq
+	(*PermissionTreeItem)(nil),    // 15: iam.PermissionTreeItem
+	(*PermissionTreeResp)(nil),    // 16: iam.PermissionTreeResp
+	(*RoleIdReq)(nil),             // 17: iam.RoleIdReq
+	(*RolePermissionResp)(nil),    // 18: iam.RolePermissionResp
+	(*UpUserStatusReq)(nil),       // 19: iam.UpUserStatusReq
+	(*UpUserStatusResp)(nil),      // 20: iam.UpUserStatusResp
+	(*RoleListReq)(nil),           // 21: iam.RoleListReq
+	(*RoleListItem)(nil),          // 22: iam.RoleListItem
+	(*RoleListResp)(nil),          // 23: iam.RoleListResp
+	(*CreateRoleReq)(nil),         // 24: iam.CreateRoleReq
+	(*CreateRoleResp)(nil),        // 25: iam.CreateRoleResp
+	(*UpdateRoleReq)(nil),         // 26: iam.UpdateRoleReq
+	(*DelRoleReq)(nil),            // 27: iam.DelRoleReq
+	(*UserPermissionsReq)(nil),    // 28: iam.UserPermissionsReq
 }
 var file_iam_proto_depIdxs = []int32{
 	6,  // 0: iam.UserListResp.list:type_name -> iam.UserItem
-	13, // 1: iam.PermissionTreeItem.children:type_name -> iam.PermissionTreeItem
-	13, // 2: iam.PermissionTreeResp.list:type_name -> iam.PermissionTreeItem
-	20, // 3: iam.RoleListResp.list:type_name -> iam.RoleListItem
+	15, // 1: iam.PermissionTreeItem.children:type_name -> iam.PermissionTreeItem
+	15, // 2: iam.PermissionTreeResp.list:type_name -> iam.PermissionTreeItem
+	22, // 3: iam.RoleListResp.list:type_name -> iam.RoleListItem
 	1,  // 4: iam.IAM.Login:input_type -> iam.LoginReq
 	3,  // 5: iam.IAM.Register:input_type -> iam.RegisterReq
 	5,  // 6: iam.IAM.UserList:input_type -> iam.UserListReq
-	26, // 7: iam.IAM.UserPermissions:input_type -> iam.UserPermissionsReq
-	8,  // 8: iam.IAM.AddUserRole:input_type -> iam.UserRole
-	10, // 9: iam.IAM.AssignDefaultRole:input_type -> iam.AssignDefaultRoleReq
-	12, // 10: iam.IAM.PermissionTree:input_type -> iam.PermissionTreeReq
-	15, // 11: iam.IAM.GetRolePermissions:input_type -> iam.RoleIdReq
-	17, // 12: iam.IAM.UpUserStatus:input_type -> iam.UpUserStatusReq
-	19, // 13: iam.IAM.RoleList:input_type -> iam.RoleListReq
-	22, // 14: iam.IAM.RoleCreate:input_type -> iam.CreateRoleReq
-	24, // 15: iam.IAM.RoleUpdate:input_type -> iam.UpdateRoleReq
-	25, // 16: iam.IAM.RoleDelete:input_type -> iam.DelRoleReq
-	2,  // 17: iam.IAM.Login:output_type -> iam.LoginRsp
-	4,  // 18: iam.IAM.Register:output_type -> iam.RegisterRsp
-	7,  // 19: iam.IAM.UserList:output_type -> iam.UserListResp
-	14, // 20: iam.IAM.UserPermissions:output_type -> iam.PermissionTreeResp
-	9,  // 21: iam.IAM.AddUserRole:output_type -> iam.UserRoleResp
-	11, // 22: iam.IAM.AssignDefaultRole:output_type -> iam.AssignDefaultRoleResp
-	14, // 23: iam.IAM.PermissionTree:output_type -> iam.PermissionTreeResp
-	16, // 24: iam.IAM.GetRolePermissions:output_type -> iam.RolePermissionResp
-	18, // 25: iam.IAM.UpUserStatus:output_type -> iam.UpUserStatusResp
-	21, // 26: iam.IAM.RoleList:output_type -> iam.RoleListResp
-	23, // 27: iam.IAM.RoleCreate:output_type -> iam.CreateRoleResp
-	0,  // 28: iam.IAM.RoleUpdate:output_type -> iam.Empty
-	0,  // 29: iam.IAM.RoleDelete:output_type -> iam.Empty
-	17, // [17:30] is the sub-list for method output_type
-	4,  // [4:17] is the sub-list for method input_type
+	28, // 7: iam.IAM.UserPermissions:input_type -> iam.UserPermissionsReq
+	8,  // 8: iam.IAM.UserInfoGet:input_type -> iam.UserInfoReq
+	10, // 9: iam.IAM.AddUserRole:input_type -> iam.UserRole
+	12, // 10: iam.IAM.AssignDefaultRole:input_type -> iam.AssignDefaultRoleReq
+	14, // 11: iam.IAM.PermissionTree:input_type -> iam.PermissionTreeReq
+	17, // 12: iam.IAM.GetRolePermissions:input_type -> iam.RoleIdReq
+	19, // 13: iam.IAM.UpUserStatus:input_type -> iam.UpUserStatusReq
+	21, // 14: iam.IAM.RoleList:input_type -> iam.RoleListReq
+	24, // 15: iam.IAM.RoleCreate:input_type -> iam.CreateRoleReq
+	26, // 16: iam.IAM.RoleUpdate:input_type -> iam.UpdateRoleReq
+	27, // 17: iam.IAM.RoleDelete:input_type -> iam.DelRoleReq
+	2,  // 18: iam.IAM.Login:output_type -> iam.LoginRsp
+	4,  // 19: iam.IAM.Register:output_type -> iam.RegisterRsp
+	7,  // 20: iam.IAM.UserList:output_type -> iam.UserListResp
+	16, // 21: iam.IAM.UserPermissions:output_type -> iam.PermissionTreeResp
+	9,  // 22: iam.IAM.UserInfoGet:output_type -> iam.UserInfoResp
+	11, // 23: iam.IAM.AddUserRole:output_type -> iam.UserRoleResp
+	13, // 24: iam.IAM.AssignDefaultRole:output_type -> iam.AssignDefaultRoleResp
+	16, // 25: iam.IAM.PermissionTree:output_type -> iam.PermissionTreeResp
+	18, // 26: iam.IAM.GetRolePermissions:output_type -> iam.RolePermissionResp
+	20, // 27: iam.IAM.UpUserStatus:output_type -> iam.UpUserStatusResp
+	23, // 28: iam.IAM.RoleList:output_type -> iam.RoleListResp
+	25, // 29: iam.IAM.RoleCreate:output_type -> iam.CreateRoleResp
+	0,  // 30: iam.IAM.RoleUpdate:output_type -> iam.Empty
+	0,  // 31: iam.IAM.RoleDelete:output_type -> iam.Empty
+	18, // [18:32] is the sub-list for method output_type
+	4,  // [4:18] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
 	4,  // [4:4] is the sub-list for extension extendee
 	0,  // [0:4] is the sub-list for field type_name
@@ -1810,14 +1916,14 @@ func file_iam_proto_init() {
 	}
 	file_iam_proto_msgTypes[3].OneofWrappers = []any{}
 	file_iam_proto_msgTypes[6].OneofWrappers = []any{}
-	file_iam_proto_msgTypes[20].OneofWrappers = []any{}
+	file_iam_proto_msgTypes[22].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_iam_proto_rawDesc), len(file_iam_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   27,
+			NumMessages:   29,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -882,6 +882,37 @@
         }
       }
     },
+    "/user/userinfo": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "User-Server"
+        ],
+        "summary": "用户信息",
+        "operationId": "userInfo",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "nickname": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user/userlist": {
       "post": {
         "consumes": [
@@ -1198,7 +1229,7 @@
       }
     }
   },
-  "x-date": "2026-07-11 21:21:01",
+  "x-date": "2026-07-13 21:09:22",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

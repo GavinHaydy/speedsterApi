@@ -43,6 +43,11 @@ func (s *IAMServer) UserPermissions(ctx context.Context, in *pb.UserPermissionsR
 	return l.UserPermissions(in)
 }
 
+func (s *IAMServer) UserInfoGet(ctx context.Context, in *pb.UserInfoReq) (*pb.UserInfoResp, error) {
+	l := logic.NewUserInfoGetLogic(ctx, s.svcCtx)
+	return l.UserInfoGet(in)
+}
+
 func (s *IAMServer) AddUserRole(ctx context.Context, in *pb.UserRole) (*pb.UserRoleResp, error) {
 	l := logic.NewAddUserRoleLogic(ctx, s.svcCtx)
 	return l.AddUserRole(in)

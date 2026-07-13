@@ -35,6 +35,8 @@ type (
 	UpUserStatusReq       = pb.UpUserStatusReq
 	UpUserStatusResp      = pb.UpUserStatusResp
 	UpdateRoleReq         = pb.UpdateRoleReq
+	UserInfoReq           = pb.UserInfoReq
+	UserInfoResp          = pb.UserInfoResp
 	UserItem              = pb.UserItem
 	UserListReq           = pb.UserListReq
 	UserListResp          = pb.UserListResp
@@ -47,6 +49,7 @@ type (
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterRsp, error)
 		UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error)
 		UserPermissions(ctx context.Context, in *UserPermissionsReq, opts ...grpc.CallOption) (*PermissionTreeResp, error)
+		UserInfoGet(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 		AddUserRole(ctx context.Context, in *UserRole, opts ...grpc.CallOption) (*UserRoleResp, error)
 		AssignDefaultRole(ctx context.Context, in *AssignDefaultRoleReq, opts ...grpc.CallOption) (*AssignDefaultRoleResp, error)
 		PermissionTree(ctx context.Context, in *PermissionTreeReq, opts ...grpc.CallOption) (*PermissionTreeResp, error)
@@ -87,6 +90,11 @@ func (m *defaultIAM) UserList(ctx context.Context, in *UserListReq, opts ...grpc
 func (m *defaultIAM) UserPermissions(ctx context.Context, in *UserPermissionsReq, opts ...grpc.CallOption) (*PermissionTreeResp, error) {
 	client := pb.NewIAMClient(m.cli.Conn())
 	return client.UserPermissions(ctx, in, opts...)
+}
+
+func (m *defaultIAM) UserInfoGet(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+	client := pb.NewIAMClient(m.cli.Conn())
+	return client.UserInfoGet(ctx, in, opts...)
 }
 
 func (m *defaultIAM) AddUserRole(ctx context.Context, in *UserRole, opts ...grpc.CallOption) (*UserRoleResp, error) {

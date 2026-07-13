@@ -142,6 +142,11 @@ type UpdateRoleReq struct {
 	Status      *int64  `json:"status,options=1|2"`
 }
 
+type UserInfoResp struct {
+	Id       string `json:"id"`
+	Nickname string `json:"nickname"`
+}
+
 type UserListData struct {
 	List  []UserListRsp `json:"list"`
 	Total int64         `json:"total"`
