@@ -92,11 +92,11 @@ func (m *customSysUserModel) SelectUserList(ctx context.Context, req *pb.UserLis
 	if err != nil {
 		return 0, nil, errorx.New(errno.ErrPgsqlFailed)
 	}
-	logx.Infof("========count sql:%s======%s===", countQuery, countValues)
+	logx.Infow("query", logx.Field("count", countBuilder), logx.Field("values", countValues))
 
 	err = m.conn.QueryRowCtx(ctx, &total, countQuery, countValues...)
 	if err != nil {
-		logx.Errorf("err:%v", err)
+		logx.Errorw("query", logx.Field("count", countBuilder), logx.Field("values", countValues), logx.Field("error", err.Error()))
 		return 0, nil, errorx.New(errno.ErrPgsqlFailed)
 	}
 
@@ -113,20 +113,20 @@ func (m *customSysUserModel) SelectUserList(ctx context.Context, req *pb.UserLis
 		Offset(uint64(offset)).
 		ToSql()
 	if err != nil {
-		logx.Errorf("err:%v", err)
+		logx.Errorw("query", logx.Field("builderErr", err.Error()))
 		return 0, nil, errorx.New(errno.ErrPgsqlFailed)
 	}
 
 	// 将 squirrel 生成的 SQL 和参数交给 go-zero 的 sqlx 执行
-	logx.Infof("========sql:%s=========", query)
+	logx.Infow("query", logx.Field("sql", query))
 	err = m.conn.QueryRows(&temp, query, values...)
 	if err != nil {
-		logx.Errorf("------------err:%v", err)
+		logx.Errorw("query", logx.Field("queryErr", err.Error()))
 		return 0, nil, errorx.New(errno.ErrPgsqlFailed)
 	}
 
 	rspList := make([]*pb.UserItem, 0, len(userList))
-	logx.Infof("userListRsp:%v", userList)
+	logx.Infow("userListModel", logx.Field("userList", userList))
 	for _, user := range temp {
 		// 将 SysUser 转换为 UserListRsp
 		var tempPhone, tempNickname, tempEmail, tempAvatar string

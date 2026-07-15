@@ -58,7 +58,5 @@ func (l *RoleUpdateLogic) RoleUpdate(in *pb.UpdateRoleReq) (*pb.Empty, error) {
 		return nil, errorx.New(errno.ErrUpdateDataFailed)
 	}
 
-	//return &types.Response{Code: errno.Ok}, nil
-
 	return &pb.Empty{}, nil
 }

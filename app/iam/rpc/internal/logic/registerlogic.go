@@ -83,7 +83,7 @@ func (l *RegisterLogic) Register(in *pb.RegisterReq) (*pb.RegisterRsp, error) {
 		return nil, errorx.New(errno.ErrRegisterFailed)
 	}
 
-	logx.Infof("Register user: %+v", userInfo.Id)
+	logx.Infow("register success", logx.Field("userId", userInfo.Id))
 
 	_, err = roleLogic.AssignDefaultRole(&pb.AssignDefaultRoleReq{UserId: userInfo.Id})
 	if err != nil {

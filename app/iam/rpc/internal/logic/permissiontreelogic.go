@@ -79,7 +79,7 @@ func (l *PermissionTreeLogic) PermissionTree(in *pb.PermissionTreeReq) (*pb.Perm
 	)
 
 	if err != nil {
-		logx.Errorf("l.svcCtx.SysPermission.SelectTree err:%v", err)
+		logx.Errorw("Permission", logx.Field("TreeDataSelectError", err.Error()))
 		return nil, errorx.New(errno.ErrSelectDbFailed)
 	}
 

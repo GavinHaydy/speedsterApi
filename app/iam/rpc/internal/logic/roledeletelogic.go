@@ -29,7 +29,7 @@ func (l *RoleDeleteLogic) RoleDelete(in *pb.DelRoleReq) (*pb.Empty, error) {
 	count, err := l.svcCtx.SysRolePermissionModel.FindByRoleId(l.ctx, in.Id)
 
 	if err != nil {
-		logx.WithContext(l.ctx).Errorf("del role error, %v", err)
+		logx.Errorw("delRole", logx.Field("error", err.Error()))
 		return nil, errorx.New(errno.ErrSelectDbFailed)
 	}
 

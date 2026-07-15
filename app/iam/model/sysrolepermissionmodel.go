@@ -45,7 +45,8 @@ func (m *customSysRolePermissionModel) FindByRoleId(ctx context.Context, roleId 
 		for _, v := range temp {
 			result = append(result, v.PermissionId)
 		}
-		logx.Infof("=============%+v", result)
+
+		logx.Infow("rolePermissionModel", logx.Field("data", result))
 		return result, nil
 	case errors.Is(err, sqlx.ErrNotFound):
 		return nil, ErrNotFound

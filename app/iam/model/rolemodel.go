@@ -60,7 +60,7 @@ func (m *customRoleModel) SelectRoleList(ctx context.Context, req *pb.RoleListRe
 	if err != nil {
 		return nil, err
 	}
-	logx.Infof("========count sql:%s=========", countQuery)
+	logx.Infow("roleList", logx.Field("query", countQuery))
 
 	err = m.conn.QueryRowCtx(ctx, &total, countQuery, countValues...)
 	if err != nil {
@@ -88,6 +88,7 @@ func (m *customRoleModel) SelectRoleList(ctx context.Context, req *pb.RoleListRe
 	err = m.conn.QueryRows(&temp, query, values...)
 	if err != nil {
 		logx.Infof("------------err:%v", err)
+		logx.Errorw("roleList", logx.Field("queryErr", err.Error()))
 		return nil, err
 	}
 

@@ -61,7 +61,7 @@ func (l *LoginLogic) Login(in *pb.LoginReq) (*pb.LoginRsp, error) {
 	var refreshToken string
 	var resultTime time.Time
 
-	logx.Info("开始生成token")
+	logx.Infow("GenToken", logx.Field("userInfo", userInfo.Nickname))
 	var role string
 
 	// language=PostgresSQL
@@ -85,7 +85,7 @@ func (l *LoginLogic) Login(in *pb.LoginReq) (*pb.LoginRsp, error) {
 
 	token, t, err := utils.GenAccessToken(userInfo.Id, role, l.svcCtx.Config.CacheAuth.Issuer, l.svcCtx.Config.CacheAuth.AccessSecret, l.svcCtx.Config.CacheAuth.AccessExpire)
 	if err != nil {
-		logx.Errorf("GenAccessToken: %v", err)
+		logx.Errorw("GenToken", logx.Field("AccountTokenErr", err.Error()))
 		return nil, errorx.New(errno.ErrGenTokenFailed)
 	}
 	accessToken = token
@@ -93,7 +93,8 @@ func (l *LoginLogic) Login(in *pb.LoginReq) (*pb.LoginRsp, error) {
 
 	longToken, _, err := utils.GenRefreshToken(userInfo.Id, role, l.svcCtx.Config.CacheAuth.Issuer, l.svcCtx.Config.CacheAuth.RefreshSecret, l.svcCtx.Config.CacheAuth.RefreshExpire)
 	if err != nil {
-		logx.Errorf("GenRefreshToken:%v", err)
+		logx.Errorw("GenToken", logx.Field("GenRefreshTokenErr", err.Error()))
+
 		return nil, errorx.New(errno.ErrGenTokenFailed)
 	}
 	refreshToken = longToken
@@ -104,7 +105,7 @@ func (l *LoginLogic) Login(in *pb.LoginReq) (*pb.LoginRsp, error) {
 
 	err = rdb.Setex(fmt.Sprintf("%s%v", l.svcCtx.Config.CacheAuth.Prefix, userInfo.Id), refreshToken, l.svcCtx.Config.CacheAuth.RefreshExpire)
 	if err != nil {
-		logx.Errorf("Setex: %v", err)
+		logx.Errorw("login", logx.Field("RedisSetErr", err.Error()))
 		return nil, errorx.New(errno.ErrRedisFailed)
 	}
 
