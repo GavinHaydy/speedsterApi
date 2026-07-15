@@ -87,7 +87,6 @@ func (m *customRoleModel) SelectRoleList(ctx context.Context, req *pb.RoleListRe
 
 	err = m.conn.QueryRows(&temp, query, values...)
 	if err != nil {
-		logx.Infof("------------err:%v", err)
 		logx.Errorw("roleList", logx.Field("queryErr", err.Error()))
 		return nil, err
 	}
