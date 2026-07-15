@@ -144,6 +144,7 @@ func (m *customSysUserModel) SelectUserList(ctx context.Context, req *pb.UserLis
 		}
 
 		rspList = append(rspList, &pb.UserItem{
+			Id:       user.Id,
 			Username: user.Username,
 			Nickname: &tempNickname,
 			Phone:    &tempPhone,

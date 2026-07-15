@@ -983,6 +983,7 @@
                       "items": {
                         "type": "object",
                         "required": [
+                          "id",
                           "username",
                           "email",
                           "phone",
@@ -995,6 +996,9 @@
                             "type": "string"
                           },
                           "email": {
+                            "type": "string"
+                          },
+                          "id": {
                             "type": "string"
                           },
                           "nickname": {
@@ -1229,7 +1233,7 @@
       }
     }
   },
-  "x-date": "2026-07-13 21:09:22",
+  "x-date": "2026-07-15 19:46:51",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",
