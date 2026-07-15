@@ -28,7 +28,7 @@ func NewGetRolePermissionsLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 func (l *GetRolePermissionsLogic) GetRolePermissions(in *pb.RoleIdReq) (*pb.RolePermissionResp, error) {
 	ids, err := l.svcCtx.SysRolePermissionModel.FindByRoleId(l.ctx, in.RoleId)
 	if err != nil {
-		logx.WithContext(l.ctx).Errorf("GetRolePermissions error:%+v", err)
+		logx.Errorw("RolePermissions", logx.Field("SelectErr", err))
 		return nil, errorx.New(errno.ErrSelectDbFailed)
 	}
 

@@ -26,7 +26,7 @@ func NewUserPermissionsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 }
 
 func (l *UserPermissionsLogic) UserPermissions(in *pb.UserPermissionsReq) (*pb.PermissionTreeResp, error) {
-	logx.Infof("UserPermissions - %+v", in.UserId)
+	logx.Infow("UserPermissions", logx.Field("uid", in.UserId))
 	roleId, err := l.svcCtx.SysUserRoleModel.FindRoleByUserId(l.ctx, in.UserId)
 	if err != nil {
 		return nil, errorx.New(errno.ErrUserNotRole)
@@ -37,7 +37,6 @@ func (l *UserPermissionsLogic) UserPermissions(in *pb.UserPermissionsReq) (*pb.P
 		return nil, errorx.New(errno.ErrRolePermissionEmpty)
 	}
 
-	logx.Infof("SysPermissionModel=%#v", l.svcCtx.SysPermissionModel)
 	permissionList, err := l.svcCtx.SysPermissionModel.SelectTreeById(l.ctx, permissionIds)
 	if err != nil {
 		return nil, errorx.New(errno.ErrSelectDbFailed)

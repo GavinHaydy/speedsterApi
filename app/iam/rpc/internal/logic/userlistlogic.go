@@ -28,10 +28,10 @@ func NewUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserList
 func (l *UserListLogic) UserList(in *pb.UserListReq) (*pb.UserListResp, error) {
 	total, list, err := l.svcCtx.SysUserModel.SelectUserList(l.ctx, in)
 	if err != nil {
-		logx.Errorf("UserList,error:%+v", err)
+		logx.Errorw("UserList", logx.Field("error", err.Error()))
 		return nil, errorx.New(errno.ErrSelectDbFailed)
 	}
-	logx.Infof("UserList,total:%+v,list:%+v", total, list)
+	logx.Infow("UserList", logx.Field("list", list), logx.Field("total", total))
 
 	return &pb.UserListResp{
 		Total: total,
