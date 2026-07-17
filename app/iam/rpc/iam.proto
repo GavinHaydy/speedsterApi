@@ -105,6 +105,7 @@ message PermissionTreeItem {
 message PermissionTreeResp {
   repeated PermissionTreeItem list = 1;
   bool is_admin = 2;
+  repeated string codes = 3;
 }
 
 message RoleIdReq {

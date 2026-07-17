@@ -125,9 +125,16 @@
                   "type": "object",
                   "required": [
                     "list",
-                    "is_admin"
+                    "is_admin",
+                    "codes"
                   ],
                   "properties": {
+                    "codes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
                     "is_admin": {
                       "type": "boolean"
                     },
@@ -1056,9 +1063,16 @@
                   "type": "object",
                   "required": [
                     "list",
-                    "is_admin"
+                    "is_admin",
+                    "codes"
                   ],
                   "properties": {
+                    "codes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
                     "is_admin": {
                       "type": "boolean"
                     },
@@ -1233,7 +1247,7 @@
       }
     }
   },
-  "x-date": "2026-07-15 19:46:51",
+  "x-date": "2026-07-17 11:00:49",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

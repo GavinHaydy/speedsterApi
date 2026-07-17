@@ -47,6 +47,7 @@ type NewRoleReq struct {
 type PermissionListData struct {
 	List    []PermissionListItem `json:"list"`
 	IsAdmin bool                 `json:"is_admin"`
+	Codes   []string             `json:"codes"`
 }
 
 type PermissionListItem struct {
