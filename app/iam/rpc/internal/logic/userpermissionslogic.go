@@ -46,8 +46,15 @@ func (l *UserPermissionsLogic) UserPermissions(in *pb.UserPermissionsReq) (*pb.P
 	if err != nil {
 		return nil, errorx.New(errno.ErrSelectDbFailed)
 	}
+
+	var permissionCodes []string
+	for _, p := range permissionList {
+		permissionCodes = append(permissionCodes, p.Code)
+	}
+
 	return &pb.PermissionTreeResp{
 		List:    BuildPermissionTree(permissionList),
 		IsAdmin: userInfo.IsSuper,
+		Codes:   permissionCodes,
 	}, nil
 }
