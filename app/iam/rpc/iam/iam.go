@@ -16,6 +16,7 @@ import (
 type (
 	AssignDefaultRoleReq  = pb.AssignDefaultRoleReq
 	AssignDefaultRoleResp = pb.AssignDefaultRoleResp
+	CreatePermissionReq   = pb.CreatePermissionReq
 	CreateRoleReq         = pb.CreateRoleReq
 	CreateRoleResp        = pb.CreateRoleResp
 	DelRoleReq            = pb.DelRoleReq
@@ -53,6 +54,7 @@ type (
 		AddUserRole(ctx context.Context, in *UserRole, opts ...grpc.CallOption) (*UserRoleResp, error)
 		AssignDefaultRole(ctx context.Context, in *AssignDefaultRoleReq, opts ...grpc.CallOption) (*AssignDefaultRoleResp, error)
 		PermissionTree(ctx context.Context, in *PermissionTreeReq, opts ...grpc.CallOption) (*PermissionTreeResp, error)
+		PermissionCreate(ctx context.Context, in *CreatePermissionReq, opts ...grpc.CallOption) (*Empty, error)
 		GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error)
 		UpUserStatus(ctx context.Context, in *UpUserStatusReq, opts ...grpc.CallOption) (*UpUserStatusResp, error)
 		RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error)
@@ -110,6 +112,11 @@ func (m *defaultIAM) AssignDefaultRole(ctx context.Context, in *AssignDefaultRol
 func (m *defaultIAM) PermissionTree(ctx context.Context, in *PermissionTreeReq, opts ...grpc.CallOption) (*PermissionTreeResp, error) {
 	client := pb.NewIAMClient(m.cli.Conn())
 	return client.PermissionTree(ctx, in, opts...)
+}
+
+func (m *defaultIAM) PermissionCreate(ctx context.Context, in *CreatePermissionReq, opts ...grpc.CallOption) (*Empty, error) {
+	client := pb.NewIAMClient(m.cli.Conn())
+	return client.PermissionCreate(ctx, in, opts...)
 }
 
 func (m *defaultIAM) GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error) {

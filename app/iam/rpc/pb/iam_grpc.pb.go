@@ -27,6 +27,7 @@ const (
 	IAM_AddUserRole_FullMethodName        = "/iam.IAM/AddUserRole"
 	IAM_AssignDefaultRole_FullMethodName  = "/iam.IAM/AssignDefaultRole"
 	IAM_PermissionTree_FullMethodName     = "/iam.IAM/PermissionTree"
+	IAM_PermissionCreate_FullMethodName   = "/iam.IAM/PermissionCreate"
 	IAM_GetRolePermissions_FullMethodName = "/iam.IAM/GetRolePermissions"
 	IAM_UpUserStatus_FullMethodName       = "/iam.IAM/UpUserStatus"
 	IAM_RoleList_FullMethodName           = "/iam.IAM/RoleList"
@@ -47,6 +48,7 @@ type IAMClient interface {
 	AddUserRole(ctx context.Context, in *UserRole, opts ...grpc.CallOption) (*UserRoleResp, error)
 	AssignDefaultRole(ctx context.Context, in *AssignDefaultRoleReq, opts ...grpc.CallOption) (*AssignDefaultRoleResp, error)
 	PermissionTree(ctx context.Context, in *PermissionTreeReq, opts ...grpc.CallOption) (*PermissionTreeResp, error)
+	PermissionCreate(ctx context.Context, in *CreatePermissionReq, opts ...grpc.CallOption) (*Empty, error)
 	GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error)
 	UpUserStatus(ctx context.Context, in *UpUserStatusReq, opts ...grpc.CallOption) (*UpUserStatusResp, error)
 	RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error)
@@ -143,6 +145,16 @@ func (c *iAMClient) PermissionTree(ctx context.Context, in *PermissionTreeReq, o
 	return out, nil
 }
 
+func (c *iAMClient) PermissionCreate(ctx context.Context, in *CreatePermissionReq, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, IAM_PermissionCreate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *iAMClient) GetRolePermissions(ctx context.Context, in *RoleIdReq, opts ...grpc.CallOption) (*RolePermissionResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RolePermissionResp)
@@ -215,6 +227,7 @@ type IAMServer interface {
 	AddUserRole(context.Context, *UserRole) (*UserRoleResp, error)
 	AssignDefaultRole(context.Context, *AssignDefaultRoleReq) (*AssignDefaultRoleResp, error)
 	PermissionTree(context.Context, *PermissionTreeReq) (*PermissionTreeResp, error)
+	PermissionCreate(context.Context, *CreatePermissionReq) (*Empty, error)
 	GetRolePermissions(context.Context, *RoleIdReq) (*RolePermissionResp, error)
 	UpUserStatus(context.Context, *UpUserStatusReq) (*UpUserStatusResp, error)
 	RoleList(context.Context, *RoleListReq) (*RoleListResp, error)
@@ -254,6 +267,9 @@ func (UnimplementedIAMServer) AssignDefaultRole(context.Context, *AssignDefaultR
 }
 func (UnimplementedIAMServer) PermissionTree(context.Context, *PermissionTreeReq) (*PermissionTreeResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method PermissionTree not implemented")
+}
+func (UnimplementedIAMServer) PermissionCreate(context.Context, *CreatePermissionReq) (*Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method PermissionCreate not implemented")
 }
 func (UnimplementedIAMServer) GetRolePermissions(context.Context, *RoleIdReq) (*RolePermissionResp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetRolePermissions not implemented")
@@ -438,6 +454,24 @@ func _IAM_PermissionTree_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IAM_PermissionCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePermissionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServer).PermissionCreate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAM_PermissionCreate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServer).PermissionCreate(ctx, req.(*CreatePermissionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _IAM_GetRolePermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RoleIdReq)
 	if err := dec(in); err != nil {
@@ -584,6 +618,10 @@ var IAM_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PermissionTree",
 			Handler:    _IAM_PermissionTree_Handler,
+		},
+		{
+			MethodName: "PermissionCreate",
+			Handler:    _IAM_PermissionCreate_Handler,
 		},
 		{
 			MethodName: "GetRolePermissions",
