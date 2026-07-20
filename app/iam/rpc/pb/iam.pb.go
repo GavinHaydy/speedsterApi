@@ -1689,6 +1689,114 @@ func (x *UserPermissionsReq) GetUserId() string {
 	return ""
 }
 
+type CreatePermissionReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ParentId      int64                  `protobuf:"varint,1,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Code          string                 `protobuf:"bytes,3,opt,name=code,proto3" json:"code,omitempty"`
+	Path          *string                `protobuf:"bytes,4,opt,name=path,proto3,oneof" json:"path,omitempty"`
+	Method        *string                `protobuf:"bytes,5,opt,name=method,proto3,oneof" json:"method,omitempty"`
+	Type          int64                  `protobuf:"varint,6,opt,name=type,proto3" json:"type,omitempty"`
+	Icon          *string                `protobuf:"bytes,7,opt,name=icon,proto3,oneof" json:"icon,omitempty"`
+	Sort          int64                  `protobuf:"varint,8,opt,name=sort,proto3" json:"sort,omitempty"`
+	Status        *int64                 `protobuf:"varint,9,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreatePermissionReq) Reset() {
+	*x = CreatePermissionReq{}
+	mi := &file_iam_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreatePermissionReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreatePermissionReq) ProtoMessage() {}
+
+func (x *CreatePermissionReq) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreatePermissionReq.ProtoReflect.Descriptor instead.
+func (*CreatePermissionReq) Descriptor() ([]byte, []int) {
+	return file_iam_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *CreatePermissionReq) GetParentId() int64 {
+	if x != nil {
+		return x.ParentId
+	}
+	return 0
+}
+
+func (x *CreatePermissionReq) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreatePermissionReq) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *CreatePermissionReq) GetPath() string {
+	if x != nil && x.Path != nil {
+		return *x.Path
+	}
+	return ""
+}
+
+func (x *CreatePermissionReq) GetMethod() string {
+	if x != nil && x.Method != nil {
+		return *x.Method
+	}
+	return ""
+}
+
+func (x *CreatePermissionReq) GetType() int64 {
+	if x != nil {
+		return x.Type
+	}
+	return 0
+}
+
+func (x *CreatePermissionReq) GetIcon() string {
+	if x != nil && x.Icon != nil {
+		return *x.Icon
+	}
+	return ""
+}
+
+func (x *CreatePermissionReq) GetSort() int64 {
+	if x != nil {
+		return x.Sort
+	}
+	return 0
+}
+
+func (x *CreatePermissionReq) GetStatus() int64 {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return 0
+}
+
 var File_iam_proto protoreflect.FileDescriptor
 
 const file_iam_proto_rawDesc = "" +
@@ -1812,7 +1920,21 @@ const file_iam_proto_rawDesc = "" +
 	"DelRoleReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"-\n" +
 	"\x12UserPermissionsReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId2\x83\x06\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"\x96\x02\n" +
+	"\x13CreatePermissionReq\x12\x1b\n" +
+	"\tparent_id\x18\x01 \x01(\x03R\bparentId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
+	"\x04code\x18\x03 \x01(\tR\x04code\x12\x17\n" +
+	"\x04path\x18\x04 \x01(\tH\x00R\x04path\x88\x01\x01\x12\x1b\n" +
+	"\x06method\x18\x05 \x01(\tH\x01R\x06method\x88\x01\x01\x12\x12\n" +
+	"\x04type\x18\x06 \x01(\x03R\x04type\x12\x17\n" +
+	"\x04icon\x18\a \x01(\tH\x02R\x04icon\x88\x01\x01\x12\x12\n" +
+	"\x04sort\x18\b \x01(\x03R\x04sort\x12\x1b\n" +
+	"\x06status\x18\t \x01(\x03H\x03R\x06status\x88\x01\x01B\a\n" +
+	"\x05_pathB\t\n" +
+	"\a_methodB\a\n" +
+	"\x05_iconB\t\n" +
+	"\a_status2\xbd\x06\n" +
 	"\x03IAM\x12%\n" +
 	"\x05Login\x12\r.iam.LoginReq\x1a\r.iam.LoginRsp\x12.\n" +
 	"\bRegister\x12\x10.iam.RegisterReq\x1a\x10.iam.RegisterRsp\x12/\n" +
@@ -1821,7 +1943,9 @@ const file_iam_proto_rawDesc = "" +
 	"\vUserInfoGet\x12\x10.iam.UserInfoReq\x1a\x11.iam.UserInfoResp\x12/\n" +
 	"\vAddUserRole\x12\r.iam.UserRole\x1a\x11.iam.UserRoleResp\x12J\n" +
 	"\x11AssignDefaultRole\x12\x19.iam.AssignDefaultRoleReq\x1a\x1a.iam.AssignDefaultRoleResp\x12A\n" +
-	"\x0ePermissionTree\x12\x16.iam.PermissionTreeReq\x1a\x17.iam.PermissionTreeResp\x12=\n" +
+	"\x0ePermissionTree\x12\x16.iam.PermissionTreeReq\x1a\x17.iam.PermissionTreeResp\x128\n" +
+	"\x10PermissionCreate\x12\x18.iam.CreatePermissionReq\x1a\n" +
+	".iam.Empty\x12=\n" +
 	"\x12GetRolePermissions\x12\x0e.iam.RoleIdReq\x1a\x17.iam.RolePermissionResp\x12;\n" +
 	"\fUpUserStatus\x12\x14.iam.UpUserStatusReq\x1a\x15.iam.UpUserStatusResp\x12/\n" +
 	"\bRoleList\x12\x10.iam.RoleListReq\x1a\x11.iam.RoleListResp\x125\n" +
@@ -1846,7 +1970,7 @@ func file_iam_proto_rawDescGZIP() []byte {
 	return file_iam_proto_rawDescData
 }
 
-var file_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
+var file_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
 var file_iam_proto_goTypes = []any{
 	(*Empty)(nil),                 // 0: iam.Empty
 	(*LoginReq)(nil),              // 1: iam.LoginReq
@@ -1877,6 +2001,7 @@ var file_iam_proto_goTypes = []any{
 	(*UpdateRoleReq)(nil),         // 26: iam.UpdateRoleReq
 	(*DelRoleReq)(nil),            // 27: iam.DelRoleReq
 	(*UserPermissionsReq)(nil),    // 28: iam.UserPermissionsReq
+	(*CreatePermissionReq)(nil),   // 29: iam.CreatePermissionReq
 }
 var file_iam_proto_depIdxs = []int32{
 	6,  // 0: iam.UserListResp.list:type_name -> iam.UserItem
@@ -1891,28 +2016,30 @@ var file_iam_proto_depIdxs = []int32{
 	10, // 9: iam.IAM.AddUserRole:input_type -> iam.UserRole
 	12, // 10: iam.IAM.AssignDefaultRole:input_type -> iam.AssignDefaultRoleReq
 	14, // 11: iam.IAM.PermissionTree:input_type -> iam.PermissionTreeReq
-	17, // 12: iam.IAM.GetRolePermissions:input_type -> iam.RoleIdReq
-	19, // 13: iam.IAM.UpUserStatus:input_type -> iam.UpUserStatusReq
-	21, // 14: iam.IAM.RoleList:input_type -> iam.RoleListReq
-	24, // 15: iam.IAM.RoleCreate:input_type -> iam.CreateRoleReq
-	26, // 16: iam.IAM.RoleUpdate:input_type -> iam.UpdateRoleReq
-	27, // 17: iam.IAM.RoleDelete:input_type -> iam.DelRoleReq
-	2,  // 18: iam.IAM.Login:output_type -> iam.LoginRsp
-	4,  // 19: iam.IAM.Register:output_type -> iam.RegisterRsp
-	7,  // 20: iam.IAM.UserList:output_type -> iam.UserListResp
-	16, // 21: iam.IAM.UserPermissions:output_type -> iam.PermissionTreeResp
-	9,  // 22: iam.IAM.UserInfoGet:output_type -> iam.UserInfoResp
-	11, // 23: iam.IAM.AddUserRole:output_type -> iam.UserRoleResp
-	13, // 24: iam.IAM.AssignDefaultRole:output_type -> iam.AssignDefaultRoleResp
-	16, // 25: iam.IAM.PermissionTree:output_type -> iam.PermissionTreeResp
-	18, // 26: iam.IAM.GetRolePermissions:output_type -> iam.RolePermissionResp
-	20, // 27: iam.IAM.UpUserStatus:output_type -> iam.UpUserStatusResp
-	23, // 28: iam.IAM.RoleList:output_type -> iam.RoleListResp
-	25, // 29: iam.IAM.RoleCreate:output_type -> iam.CreateRoleResp
-	0,  // 30: iam.IAM.RoleUpdate:output_type -> iam.Empty
-	0,  // 31: iam.IAM.RoleDelete:output_type -> iam.Empty
-	18, // [18:32] is the sub-list for method output_type
-	4,  // [4:18] is the sub-list for method input_type
+	29, // 12: iam.IAM.PermissionCreate:input_type -> iam.CreatePermissionReq
+	17, // 13: iam.IAM.GetRolePermissions:input_type -> iam.RoleIdReq
+	19, // 14: iam.IAM.UpUserStatus:input_type -> iam.UpUserStatusReq
+	21, // 15: iam.IAM.RoleList:input_type -> iam.RoleListReq
+	24, // 16: iam.IAM.RoleCreate:input_type -> iam.CreateRoleReq
+	26, // 17: iam.IAM.RoleUpdate:input_type -> iam.UpdateRoleReq
+	27, // 18: iam.IAM.RoleDelete:input_type -> iam.DelRoleReq
+	2,  // 19: iam.IAM.Login:output_type -> iam.LoginRsp
+	4,  // 20: iam.IAM.Register:output_type -> iam.RegisterRsp
+	7,  // 21: iam.IAM.UserList:output_type -> iam.UserListResp
+	16, // 22: iam.IAM.UserPermissions:output_type -> iam.PermissionTreeResp
+	9,  // 23: iam.IAM.UserInfoGet:output_type -> iam.UserInfoResp
+	11, // 24: iam.IAM.AddUserRole:output_type -> iam.UserRoleResp
+	13, // 25: iam.IAM.AssignDefaultRole:output_type -> iam.AssignDefaultRoleResp
+	16, // 26: iam.IAM.PermissionTree:output_type -> iam.PermissionTreeResp
+	0,  // 27: iam.IAM.PermissionCreate:output_type -> iam.Empty
+	18, // 28: iam.IAM.GetRolePermissions:output_type -> iam.RolePermissionResp
+	20, // 29: iam.IAM.UpUserStatus:output_type -> iam.UpUserStatusResp
+	23, // 30: iam.IAM.RoleList:output_type -> iam.RoleListResp
+	25, // 31: iam.IAM.RoleCreate:output_type -> iam.CreateRoleResp
+	0,  // 32: iam.IAM.RoleUpdate:output_type -> iam.Empty
+	0,  // 33: iam.IAM.RoleDelete:output_type -> iam.Empty
+	19, // [19:34] is the sub-list for method output_type
+	4,  // [4:19] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
 	4,  // [4:4] is the sub-list for extension extendee
 	0,  // [0:4] is the sub-list for field type_name
@@ -1926,13 +2053,14 @@ func file_iam_proto_init() {
 	file_iam_proto_msgTypes[3].OneofWrappers = []any{}
 	file_iam_proto_msgTypes[6].OneofWrappers = []any{}
 	file_iam_proto_msgTypes[22].OneofWrappers = []any{}
+	file_iam_proto_msgTypes[29].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_iam_proto_rawDesc), len(file_iam_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   29,
+			NumMessages:   30,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

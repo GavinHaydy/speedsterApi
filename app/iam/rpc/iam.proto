@@ -172,7 +172,17 @@ message UserPermissionsReq {
   string user_id = 1;
 }
 
-
+message CreatePermissionReq {
+  int64 parent_id = 1;
+  string name = 2 ;
+  string code = 3;
+  optional string path = 4 ;
+  optional string method = 5;
+  int64 type = 6;
+  optional string icon = 7;
+  int64 sort = 8;
+  optional int64 status = 9;
+}
 
 
 
@@ -185,6 +195,7 @@ service IAM {
   rpc AddUserRole(UserRole) returns (UserRoleResp);
   rpc AssignDefaultRole(AssignDefaultRoleReq) returns (AssignDefaultRoleResp);
   rpc PermissionTree(PermissionTreeReq) returns(PermissionTreeResp);
+  rpc PermissionCreate(CreatePermissionReq) returns (Empty);
   rpc GetRolePermissions(RoleIdReq) returns(RolePermissionResp);
   rpc UpUserStatus(UpUserStatusReq) returns(UpUserStatusResp);
   rpc RoleList(RoleListReq) returns (RoleListResp);

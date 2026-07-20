@@ -63,6 +63,11 @@ func (s *IAMServer) PermissionTree(ctx context.Context, in *pb.PermissionTreeReq
 	return l.PermissionTree(in)
 }
 
+func (s *IAMServer) PermissionCreate(ctx context.Context, in *pb.CreatePermissionReq) (*pb.Empty, error) {
+	l := logic.NewPermissionCreateLogic(ctx, s.svcCtx)
+	return l.PermissionCreate(in)
+}
+
 func (s *IAMServer) GetRolePermissions(ctx context.Context, in *pb.RoleIdReq) (*pb.RolePermissionResp, error) {
 	l := logic.NewGetRolePermissionsLogic(ctx, s.svcCtx)
 	return l.GetRolePermissions(in)

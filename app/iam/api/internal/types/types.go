@@ -8,6 +8,18 @@ type Base struct {
 	Msg  string `json:"msg"`
 }
 
+type CreatePermissionReq struct {
+	ParentId int64   `json:"parentId"`
+	Name     string  `json:"name"`
+	Code     string  `json:"code"`
+	Path     *string `json:"path,optional"`
+	Method   *string `json:"method,optional"`
+	Type     int64   `json:"type,options=1|2|3"`
+	Icon     *string `json:"icon,optional"`
+	Sort     int64   `json:"sort,default=0"`
+	Status   *int64  `json:"status,optional,default=1"`
+}
+
 type DelRoleReq struct {
 	Id int64 `json:"id,optional"`
 }
