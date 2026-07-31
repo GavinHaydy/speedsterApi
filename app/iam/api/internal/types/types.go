@@ -14,7 +14,7 @@ type CreatePermissionReq struct {
 	Code     string  `json:"code"`
 	Path     *string `json:"path,optional"`
 	Method   *string `json:"method,optional"`
-	Type     int64   `json:"type,options=1|2|3"`
+	Type     int64   `json:"type,range[1:4]"`
 	Icon     *string `json:"icon,optional"`
 	Sort     int64   `json:"sort,default=0"`
 	Status   *int64  `json:"status,optional,default=1"`

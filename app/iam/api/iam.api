@@ -172,6 +172,7 @@ type (
 @server (
 	tags:   "User-Server"
 	prefix: /user
+	group:  user
 )
 service iam-api {
 	@doc "登录"
@@ -191,6 +192,7 @@ service iam-api {
 	tags:       "User-Server"
 	prefix:     /user
 	jwt:        Auth
+	group:      user
 	middleware: RedisJwtMiddleware,CasbinMiddleware
 )
 service iam-api {
@@ -219,6 +221,7 @@ service iam-api {
 	tags:       "Role-Server"
 	prefix:     /role
 	jwt:        Auth
+	group:      role
 	middleware: RedisJwtMiddleware,CasbinMiddleware
 )
 service iam-api {
@@ -243,6 +246,7 @@ service iam-api {
 	tags:       "permission-Server"
 	prefix:     /permission
 	jwt:        Auth
+	group:      permission
 	middleware: RedisJwtMiddleware,CasbinMiddleware
 )
 service iam-api {

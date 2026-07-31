@@ -6,6 +6,9 @@ package handler
 import (
 	"net/http"
 
+	permission "speedsterApi/app/iam/api/internal/handler/permission"
+	role "speedsterApi/app/iam/api/internal/handler/role"
+	user "speedsterApi/app/iam/api/internal/handler/user"
 	"speedsterApi/app/iam/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -13,24 +16,86 @@ import (
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.RedisJwtMiddleware, serverCtx.CasbinMiddleware},
+			[]rest.Route{
+				{
+					// 新增权限
+					Method:  http.MethodPost,
+					Path:    "/createPermission",
+					Handler: permission.CreatePermissionHandler(serverCtx),
+				},
+				{
+					// 角色权限
+					Method:  http.MethodPost,
+					Path:    "/getRolePermissions",
+					Handler: permission.GetRolePermissionsHandler(serverCtx),
+				},
+				{
+					// 权限列表
+					Method:  http.MethodPost,
+					Path:    "/permissionlist",
+					Handler: permission.PermissionListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/permission"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.RedisJwtMiddleware, serverCtx.CasbinMiddleware},
+			[]rest.Route{
+				{
+					// 新建角色
+					Method:  http.MethodPost,
+					Path:    "/create",
+					Handler: role.CreateRoleHandler(serverCtx),
+				},
+				{
+					// 删除角色
+					Method:  http.MethodDelete,
+					Path:    "/delete",
+					Handler: role.DelRoleHandler(serverCtx),
+				},
+				{
+					// 角色列表
+					Method:  http.MethodPost,
+					Path:    "/rolelist",
+					Handler: role.RoleListHandler(serverCtx),
+				},
+				{
+					// 修改角色
+					Method:  http.MethodPut,
+					Path:    "/update",
+					Handler: role.UpdateRoleHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/role"),
+	)
+
+	server.AddRoutes(
 		[]rest.Route{
 			{
 				// 登录
 				Method:  http.MethodPost,
 				Path:    "/login",
-				Handler: AccountLoginHandler(serverCtx),
+				Handler: user.AccountLoginHandler(serverCtx),
 			},
 			{
 				// 刷新token
 				Method:  http.MethodPost,
 				Path:    "/refresh",
-				Handler: RefreshHandler(serverCtx),
+				Handler: user.RefreshHandler(serverCtx),
 			},
 			{
 				// 注册
 				Method:  http.MethodPost,
 				Path:    "/register",
-				Handler: RegisterHandler(serverCtx),
+				Handler: user.RegisterHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/user"),
@@ -44,97 +109,35 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					// 退出登录
 					Method:  http.MethodDelete,
 					Path:    "/logout",
-					Handler: AccountLogoutHandler(serverCtx),
+					Handler: user.AccountLogoutHandler(serverCtx),
 				},
 				{
 					// 修改用户状态
 					Method:  http.MethodPut,
 					Path:    "/status",
-					Handler: StatusHandler(serverCtx),
+					Handler: user.StatusHandler(serverCtx),
 				},
 				{
 					// 用户信息
 					Method:  http.MethodGet,
 					Path:    "/userinfo",
-					Handler: UserInfoHandler(serverCtx),
+					Handler: user.UserInfoHandler(serverCtx),
 				},
 				{
 					// 用户列表
 					Method:  http.MethodPost,
 					Path:    "/userlist",
-					Handler: UserListHandler(serverCtx),
+					Handler: user.UserListHandler(serverCtx),
 				},
 				{
 					// 用户权限列表
 					Method:  http.MethodGet,
 					Path:    "/userpermission",
-					Handler: UserPermissionHandler(serverCtx),
+					Handler: user.UserPermissionHandler(serverCtx),
 				},
 			}...,
 		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/user"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.RedisJwtMiddleware, serverCtx.CasbinMiddleware},
-			[]rest.Route{
-				{
-					// 新建角色
-					Method:  http.MethodPost,
-					Path:    "/create",
-					Handler: CreateRoleHandler(serverCtx),
-				},
-				{
-					// 删除角色
-					Method:  http.MethodDelete,
-					Path:    "/delete",
-					Handler: DelRoleHandler(serverCtx),
-				},
-				{
-					// 角色列表
-					Method:  http.MethodPost,
-					Path:    "/rolelist",
-					Handler: RoleListHandler(serverCtx),
-				},
-				{
-					// 修改角色
-					Method:  http.MethodPut,
-					Path:    "/update",
-					Handler: UpdateRoleHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
-		rest.WithPrefix("/role"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.RedisJwtMiddleware, serverCtx.CasbinMiddleware},
-			[]rest.Route{
-				{
-					// 新增权限
-					Method:  http.MethodPost,
-					Path:    "/createPermission",
-					Handler: CreatePermissionHandler(serverCtx),
-				},
-				{
-					// 角色权限
-					Method:  http.MethodPost,
-					Path:    "/getRolePermissions",
-					Handler: GetRolePermissionsHandler(serverCtx),
-				},
-				{
-					// 权限列表
-					Method:  http.MethodPost,
-					Path:    "/permissionlist",
-					Handler: PermissionListHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
-		rest.WithPrefix("/permission"),
 	)
 }
