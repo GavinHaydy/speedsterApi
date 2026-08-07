@@ -1,4 +1,6 @@
 merchant.api
+```text
+
 
 Merchant                  // 商家管理
 ├── CreateMerchant        // 创建商家
@@ -59,3 +61,4 @@ merchant_apply(status=0)
 ├── 创建 merchant_store
 ├── 创建 merchant_settlement
 └── merchant_apply.status=1
+```

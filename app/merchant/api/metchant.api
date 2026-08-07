@@ -1,0 +1,42 @@
+syntax = "v1"
+
+info(
+    title: "Merchant"
+    desc: ""
+    author: "GavinHaydy"
+    email: ""
+    version: "0.0.1"
+)
+
+type (
+    PingReq{
+    }
+    HelloReq {
+        Name string `path:"name"`
+    }
+)
+
+type (
+    PingResp{
+    }
+    HelloResp {
+        Message string `json:"message"`
+    }
+)
+
+@server(
+    group: manager
+)
+service merchant {
+    @handler ping
+    get /ping
+}
+
+@server(
+    group: store
+)
+service Demo {
+    @handler hell
+    get /hello/:name (HelloReq) returns (HelloResp)
+}
+
