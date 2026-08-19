@@ -28,19 +28,17 @@ func NewRoleCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RoleCr
 }
 
 func (l *RoleCreateLogic) RoleCreate(in *pb.CreateRoleReq) (*pb.CreateRoleResp, error) {
-	result, err := l.svcCtx.SysRoleModel.Insert(l.ctx, &model.Role{
+	roleId, err := l.svcCtx.SysRoleModel.InsertAndGetID(l.ctx, &model.Role{
 		Name:        in.Name,
 		Code:        in.Code,
 		Description: utils.ToNullString(&in.Description),
 	})
 	if err != nil {
+		logx.Errorf("insert role failed: %s", err.Error())
 		return nil, errorx.New(errno.ErrInsertFailed)
 	}
 
-	roleId, err := result.LastInsertId()
-	if err != nil {
-		return nil, errorx.New(errno.ErrInsertFailed)
-	}
-
-	return &pb.CreateRoleResp{RoleId: roleId}, nil
+	return &pb.CreateRoleResp{
+		RoleId: roleId,
+	}, nil
 }

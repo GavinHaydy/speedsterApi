@@ -22,6 +22,7 @@ type (
 		roleModel
 		withSession(session sqlx.Session) RoleModel
 		SelectRoleList(ctx context.Context, req *pb.RoleListReq) (roleList *pb.RoleListResp, err error)
+		InsertAndGetID(ctx context.Context, data *Role) (id int64, err error)
 	}
 
 	customRoleModel struct {
@@ -107,4 +108,32 @@ func (m *customRoleModel) SelectRoleList(ctx context.Context, req *pb.RoleListRe
 		})
 	}
 	return &pb.RoleListResp{List: rspList, Total: total}, nil
+}
+
+func (m *customRoleModel) InsertAndGetID(ctx context.Context, data *Role) (int64, error) {
+	query := `
+        INSERT INTO role (
+            name,
+            code,
+            description
+        )
+        VALUES ($1, $2, $3)
+        RETURNING id
+    `
+
+	var id int64
+
+	err := m.conn.QueryRowCtx(
+		ctx,
+		&id,
+		query,
+		data.Name,
+		data.Code,
+		data.Description,
+	)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
 }
