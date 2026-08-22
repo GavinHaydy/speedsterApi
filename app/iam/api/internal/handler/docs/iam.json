@@ -30,7 +30,7 @@
           "permission-Server"
         ],
         "summary": "新增权限",
-        "operationId": "createPermission",
+        "operationId": "permissionCreatePermission",
         "parameters": [
           {
             "name": "body",
@@ -115,7 +115,7 @@
           "permission-Server"
         ],
         "summary": "角色权限",
-        "operationId": "getRolePermissions",
+        "operationId": "permissionGetRolePermissions",
         "parameters": [
           {
             "name": "body",
@@ -181,7 +181,7 @@
           "permission-Server"
         ],
         "summary": "权限列表",
-        "operationId": "permissionList",
+        "operationId": "permissionPermissionList",
         "parameters": [
           {
             "name": "body",
@@ -408,7 +408,7 @@
           "Role-Server"
         ],
         "summary": "新建角色",
-        "operationId": "createRole",
+        "operationId": "roleCreateRole",
         "parameters": [
           {
             "name": "body",
@@ -467,7 +467,7 @@
           "Role-Server"
         ],
         "summary": "删除角色",
-        "operationId": "delRole",
+        "operationId": "roleDelRole",
         "parameters": [
           {
             "name": "body",
@@ -517,7 +517,7 @@
           "Role-Server"
         ],
         "summary": "角色列表",
-        "operationId": "roleList",
+        "operationId": "roleRoleList",
         "parameters": [
           {
             "name": "body",
@@ -609,7 +609,7 @@
           "Role-Server"
         ],
         "summary": "修改角色",
-        "operationId": "updateRole",
+        "operationId": "roleUpdateRole",
         "parameters": [
           {
             "name": "body",
@@ -681,7 +681,7 @@
           "User-Server"
         ],
         "summary": "登录",
-        "operationId": "accountLogin",
+        "operationId": "userAccountLogin",
         "parameters": [
           {
             "name": "body",
@@ -753,7 +753,7 @@
           "User-Server"
         ],
         "summary": "退出登录",
-        "operationId": "accountLogout",
+        "operationId": "userAccountLogout",
         "responses": {
           "200": {
             "description": "",
@@ -788,7 +788,7 @@
           "User-Server"
         ],
         "summary": "刷新token",
-        "operationId": "refresh",
+        "operationId": "userRefresh",
         "parameters": [
           {
             "name": "body",
@@ -856,7 +856,7 @@
           "User-Server"
         ],
         "summary": "注册",
-        "operationId": "register",
+        "operationId": "userRegister",
         "parameters": [
           {
             "name": "body",
@@ -929,7 +929,7 @@
           "User-Server"
         ],
         "summary": "修改用户状态",
-        "operationId": "status",
+        "operationId": "userStatus",
         "parameters": [
           {
             "name": "body",
@@ -986,7 +986,7 @@
           "User-Server"
         ],
         "summary": "用户信息",
-        "operationId": "userInfo",
+        "operationId": "userUserInfo",
         "responses": {
           "200": {
             "description": "",
@@ -1020,7 +1020,7 @@
           "User-Server"
         ],
         "summary": "用户列表",
-        "operationId": "userList",
+        "operationId": "userUserList",
         "parameters": [
           {
             "name": "body",
@@ -1134,7 +1134,7 @@
           "User-Server"
         ],
         "summary": "用户权限列表",
-        "operationId": "userPermission",
+        "operationId": "userUserPermission",
         "responses": {
           "200": {
             "description": "",
@@ -1330,9 +1330,41 @@
           }
         }
       }
+    },
+    "/user/verify": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "User-Server"
+        ],
+        "summary": "临时验证",
+        "operationId": "userVerify",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer"
+                },
+                "data": {},
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
-  "x-date": "2026-07-22 20:41:18",
+  "x-date": "2026-08-22 21:32:30",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

@@ -135,6 +135,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/userpermission",
 					Handler: user.UserPermissionHandler(serverCtx),
 				},
+				{
+					// 临时验证
+					Method:  http.MethodGet,
+					Path:    "/verify",
+					Handler: user.VerifyHandler(serverCtx),
+				},
 			}...,
 		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),

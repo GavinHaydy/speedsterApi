@@ -9,14 +9,14 @@ COMPOSE := $(RUNTIME) compose -f $(COMPOSE_FILE)
 help:
 	@echo "make up            Start containers"
 	@echo "make down          Stop containers"
-	@echo "make restart       Restart containers"
+	@echo "make reload       Restart containers"
 	@echo "make logs          View container logs"
 	@echo "make ps            View container status"
 	@echo "make build         Build images"
 	@echo "make clean         Remove containers and volumes"
 	@echo "make start         Start local services"
 	@echo "make stop          Stop local services"
-	@echo "make local-restart Restart local services"
+	@echo "make restart Restart local services"
 
 check:
 	@if [ -z "$(RUNTIME)" ]; then \
@@ -30,7 +30,7 @@ up: check
 down: check
 	$(COMPOSE) down
 
-restart: check
+reload: check
 	$(COMPOSE) restart
 
 logs: check
@@ -52,5 +52,5 @@ start:
 stop:
 	./dev.sh stop
 
-local-restart:
+restart:
 	./dev.sh restart

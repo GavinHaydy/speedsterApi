@@ -196,6 +196,10 @@ service iam-api {
 	middleware: RedisJwtMiddleware,CasbinMiddleware
 )
 service iam-api {
+	@doc "临时验证"
+	@handler Verify
+	get /verify returns (Response)
+
 	@doc "退出登录"
 	@handler AccountLogout
 	delete /logout returns (Response)
