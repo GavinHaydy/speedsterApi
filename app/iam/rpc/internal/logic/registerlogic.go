@@ -33,8 +33,13 @@ func (l *RegisterLogic) Register(in *pb.RegisterReq) (*pb.RegisterRsp, error) {
 	roleLogic := NewAssignDefaultRoleLogic(l.ctx, l.svcCtx)
 
 	_, err := l.svcCtx.SysUserModel.FindOneByUsername(l.ctx, in.Username)
-	if err != nil {
+	if err == nil {
 		return nil, errorx.New(errno.ErrYetAccountRegister)
+	}
+
+	if !errors.Is(err, sql.ErrNoRows) {
+		logx.Errorf("find user by username failed: %v", err)
+		return nil, err
 	}
 
 	pw := utils.AesEncrypt(in.Password, l.svcCtx.Config.CacheAuth.AccessSecret)
