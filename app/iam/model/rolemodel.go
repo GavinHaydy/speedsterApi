@@ -56,7 +56,7 @@ func (m *customRoleModel) SelectRoleList(ctx context.Context, req *pb.RoleListRe
 		builder = builder.Where(squirrel.Like{"code": fmt.Sprintf("%%%s%%", req.Code)})
 	}
 
-	countBuilder := builder.Columns("COUNT(*)").GroupBy("id")
+	countBuilder := builder.Columns("COUNT(*)")
 	countQuery, countValues, err := countBuilder.ToSql()
 	if err != nil {
 		return nil, err

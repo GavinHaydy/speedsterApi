@@ -125,13 +125,17 @@ type (
 		Data RegisterData `json:"data"`
 	}
 	// RoleResp
-	RoleListData {
+	RoleListItem {
 		Name        string `json:"name"`
 		Code        string `json:"code"`
 		Desctiption string `json:"desctiption"`
 		Status      int64  `json:"status"`
 		CreateTime  string `json:"create_time"`
 		UpdateTime  string `json:"update_time"`
+	}
+	RoleListData {
+		List  []RoleListItem `json:"list"`
+		Total int64          `json:"total"`
 	}
 	RoleListResp {
 		Base

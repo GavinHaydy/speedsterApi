@@ -557,31 +557,46 @@
                 "data": {
                   "type": "object",
                   "required": [
-                    "name",
-                    "code",
-                    "desctiption",
-                    "status",
-                    "create_time",
-                    "update_time"
+                    "list",
+                    "total"
                   ],
                   "properties": {
-                    "code": {
-                      "type": "string"
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "code",
+                          "desctiption",
+                          "status",
+                          "create_time",
+                          "update_time"
+                        ],
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "create_time": {
+                            "type": "string"
+                          },
+                          "desctiption": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "integer"
+                          },
+                          "update_time": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     },
-                    "create_time": {
-                      "type": "string"
-                    },
-                    "desctiption": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "status": {
+                    "total": {
                       "type": "integer"
-                    },
-                    "update_time": {
-                      "type": "string"
                     }
                   }
                 },
@@ -1364,7 +1379,7 @@
       }
     }
   },
-  "x-date": "2026-08-22 21:32:30",
+  "x-date": "2026-08-27 21:21:23",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",

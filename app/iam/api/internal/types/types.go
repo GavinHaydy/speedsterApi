@@ -112,6 +112,11 @@ type Response struct {
 }
 
 type RoleListData struct {
+	List  []RoleListItem `json:"list"`
+	Total int64          `json:"total"`
+}
+
+type RoleListItem struct {
 	Name        string `json:"name"`
 	Code        string `json:"code"`
 	Desctiption string `json:"desctiption"`
