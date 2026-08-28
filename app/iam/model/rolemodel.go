@@ -103,8 +103,8 @@ func (m *customRoleModel) SelectRoleList(ctx context.Context, req *pb.RoleListRe
 			Code:        role.Code,
 			Description: &tempDes,
 			Status:      role.Status,
-			CreateTime:  timex.Format(role.CreatedAt),
-			UpdateTime:  timex.Format(role.UpdatedAt),
+			CreateTime:  timex.FormatNoTimeZone(role.CreatedAt),
+			UpdateTime:  timex.FormatNoTimeZone(role.UpdatedAt),
 		})
 	}
 	return &pb.RoleListResp{List: rspList, Total: total}, nil

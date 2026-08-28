@@ -23,6 +23,10 @@ func Format(t time.Time) string {
 	return t.In(shanghai).Format(TimeFormat)
 }
 
+func FormatNoTimeZone(t time.Time) string {
+	return t.Format(TimeFormat)
+}
+
 // FormatPtr 格式化 *time.Time
 func FormatPtr(t *time.Time) string {
 	if t == nil {
