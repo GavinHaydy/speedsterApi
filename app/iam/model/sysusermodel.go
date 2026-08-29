@@ -111,6 +111,7 @@ func (m *customSysUserModel) SelectUserList(ctx context.Context, req *pb.UserLis
 		Columns(sysUserRows).
 		Limit(uint64(req.PageSize)).
 		Offset(uint64(offset)).
+		OrderBy("created_at DESC").
 		ToSql()
 	if err != nil {
 		logx.Errorw("query", logx.Field("builderErr", err.Error()))
