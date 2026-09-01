@@ -43,10 +43,6 @@ type (
 	UserPermissionsReq {
 		userId string `json:"userId"`
 	}
-	UserInfoResp {
-		id       string `json:"id"`
-		nickname string `json:"nickname"`
-	}
 	// RoleReq
 	RoleListReq {
 		Rolename string `json:"rolename,optional"`
@@ -124,6 +120,15 @@ type (
 		Base
 		Data RegisterData `json:"data"`
 	}
+    UserInfoData {
+        id       string `json:"id"`
+        nickname string `json:"nickname"`
+    }
+    UserInfoResp {
+        Base
+        Data UserInfoData `json:"data"`
+    }
+    
 	// RoleResp
 	RoleListItem {
 		Name        string `json:"name"`

@@ -1008,10 +1008,25 @@
             "schema": {
               "type": "object",
               "properties": {
-                "id": {
-                  "type": "string"
+                "code": {
+                  "type": "integer"
                 },
-                "nickname": {
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "nickname"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "nickname": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "msg": {
                   "type": "string"
                 }
               }
@@ -1379,7 +1394,7 @@
       }
     }
   },
-  "x-date": "2026-08-27 21:21:23",
+  "x-date": "2026-09-01 22:41:07",
   "x-description": "This is a goctl generated swagger file.",
   "x-github": "https://github.com/zeromicro/go-zero",
   "x-go-zero-doc": "https://go-zero.dev/",
